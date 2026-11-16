@@ -6,8 +6,7 @@ import {
   Orientation,
   Operation,
   Event,
-  Gesture,
-  Appearance
+  Gesture
 } from "@scalable.software/taskbar";
 
 // Tag
@@ -254,84 +253,8 @@ metadata(Metadata.GESTURE, () => {
       });
 
       when("Gesture is an object", () => {
-        then("`Gesture.SLOTCHANGE` exists", () => {
-          expect(Gesture.SLOTCHANGE).toBeDefined();
-        });
-
-        then("`Gesture.SLOTCHANGE` is `slotchange`", () => {
-          expect(Gesture.SLOTCHANGE).toBe("slotchange");
-        });
-
-        then("`Gesture.ON_PIN` exists", () => {
-          expect(Gesture.ON_PIN).toBeDefined();
-        });
-
-        then("`Gesture.ON_PIN` is `onpin`", () => {
-          expect(Gesture.ON_PIN).toBe("onpin");
-        });
-
-        then("`Gesture.ON_UNPIN` exists", () => {
-          expect(Gesture.ON_UNPIN).toBeDefined();
-        });
-
-        then("`Gesture.ON_UNPIN` is `onunpin`", () => {
-          expect(Gesture.ON_UNPIN).toBe("onunpin");
-        });
-
-        then("`Gesture.ON_MINIMIZE` exists", () => {
-          expect(Gesture.ON_MINIMIZE).toBeDefined();
-        });
-
-        then("`Gesture.ON_MINIMIZE` is `onminimize`", () => {
-          expect(Gesture.ON_MINIMIZE).toBe("onminimize");
-        });
-
-        then("`Gesture.ON_MAXIMIZE` exists", () => {
-          expect(Gesture.ON_MAXIMIZE).toBeDefined();
-        });
-
-        then("`Gesture.ON_MAXIMIZE` is `onmaximize`", () => {
-          expect(Gesture.ON_MAXIMIZE).toBe("onmaximize");
-        });
-
-        then("`Gesture.ON_RESTORE` exists", () => {
-          expect(Gesture.ON_RESTORE).toBeDefined();
-        });
-
-        then("`Gesture.ON_RESTORE` is `onrestore`", () => {
-          expect(Gesture.ON_RESTORE).toBe("onrestore");
-        });
-
-        then("`Gesture.ON_CLOSE` exists", () => {
-          expect(Gesture.ON_CLOSE).toBeDefined();
-        });
-
-        then("`Gesture.ON_CLOSE` is `onclose`", () => {
-          expect(Gesture.ON_CLOSE).toBe("onclose");
-        });
-      });
-    });
-  });
-});
-
-metadata(Metadata.APPEARANCE, () => {
-  and("Appearance imported", () => {
-    then("Appearance is defined", () => {
-      expect(Appearance).toBeDefined();
-    });
-
-    and("Appearance is defined", () => {
-      then("Appearance is an object", () => {
-        expect(typeof Appearance).toBe("object");
-      });
-
-      when("Appearance is an object", () => {
-        then("`Appearance.FLAT` exists", () => {
-          expect(Appearance.FLAT).toBeDefined();
-        });
-
-        then("`Appearance.FLAT` is `flat`", () => {
-          expect(Appearance.FLAT).toBe("flat");
+        then("`Gesture` holds no gesture", () => {
+          expect(Object.values(Gesture)).toEqual([]);
         });
       });
     });

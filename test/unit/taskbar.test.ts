@@ -9,8 +9,7 @@ import {
   Visibility,
   Orientation,
   Operation,
-  Event,
-  Gesture
+  Event
 } from "@scalable.software/taskbar";
 import { Pin, Status, Appearance } from "@scalable.software/pin";
 import { Minimize } from "@scalable.software/minimize";
@@ -951,5 +950,3 @@ events(Event.ON_SHOW, () => {
     });
   });
 });
-
-// Gesture
