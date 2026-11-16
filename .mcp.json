@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "wallaby": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "node",
+        "%USERPROFILE%\\.wallaby\\mcp"
+      ]
+    },
+    "chrome-devtools": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "chrome-devtools-mcp@latest"
+      ]
+    }
+  }
+}
