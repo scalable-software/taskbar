@@ -357,6 +357,14 @@ composition(Composition.ELEMENT, () => {
             expect(taskbar["elements"].end.restore).toBe(part);
           }
         );
+
+        then(
+          "`taskbar.elements.end.close` is a cached reference to the `close-button`",
+          () => {
+            const part = taskbar.root.querySelector(Close.Tag) as Close;
+            expect(taskbar["elements"].end.close).toBe(part);
+          }
+        );
       });
     });
   });
