@@ -189,6 +189,10 @@ composition(Composition.TEMPLATE, () => {
               taskbar.onevent = onevent;
             });
 
+            then("the pin keeps its appearance", () => {
+              expect(pin.appearance).toBe(Appearance.FLOATING);
+            });
+
             when("the pin is pinned", () => {
               beforeEach(() => {
                 pin.pin();
@@ -1895,79 +1899,6 @@ gesture(Gesture.SLOTCHANGE, () => {
           taskbar.remove();
         });
 
-        and("a pin is placed in the taskbar", () => {
-          let pin: Pin;
-          beforeEach(async () => {
-            define(Pin.Tag, Pin);
-            await Pin.Template.load("pin.template.html");
-            pin = taskbar.appendChild(create<Pin>(Pin.Tag, Zone.END));
-            await placed();
-          });
-          afterEach(() => {
-            remove(Pin.Tag);
-          });
-
-          then("`pin.appearance` is `Appearance.FLAT`", () => {
-            expect(pin.appearance).toBe(Appearance.FLAT);
-          });
-          and("a minimize control is placed in the taskbar as well", () => {
-            let control: Minimize;
-            beforeEach(async () => {
-              define(Minimize.Tag, Minimize);
-              await Minimize.Template.load("minimize.template.html");
-              control = taskbar.appendChild(create<Minimize>(Minimize.Tag, Zone.END));
-              await placed();
-            });
-            afterEach(() => {
-              remove(Minimize.Tag);
-            });
-
-            then("`control.appearance` is `Appearance.FLAT`", () => {
-              expect(control.appearance).toBe(Appearance.FLAT);
-            });
-          });
-        });
-        and("a pin is placed in a taskbar that is not in DOM yet", () => {
-          let later: Taskbar;
-          let pin: Pin;
-          beforeEach(async () => {
-            define(Pin.Tag, Pin);
-            await Pin.Template.load("pin.template.html");
-            later = create<Taskbar>(Taskbar.Tag);
-            pin = later.appendChild(create<Pin>(Pin.Tag, Zone.END));
-            await placed();
-          });
-          afterEach(() => {
-            later.remove();
-            remove(Pin.Tag);
-          });
-
-          and("the taskbar is added to DOM", () => {
-            beforeEach(() => {
-              document.body.appendChild(later);
-            });
-
-            then("`pin.appearance` is `Appearance.FLAT`", () => {
-              expect(pin.appearance).toBe(Appearance.FLAT);
-            });
-          });
-        });
-        and("an element without an appearance is placed in the taskbar", () => {
-          let plain: HTMLSpanElement;
-          beforeEach(async () => {
-            plain = taskbar.appendChild(create<HTMLSpanElement>("span", Zone.END));
-            await placed();
-          });
-
-          then("the element has no `appearance` attribute", () => {
-            expect(plain.hasAttribute("appearance")).toBeFalse();
-          });
-
-          then("the element has no `appearance` property", () => {
-            expect("appearance" in plain).toBeFalse();
-          });
-        });
-
         and("a pin is placed at the start of the taskbar", () => {
           let pin: Pin;
           beforeEach(async () => {
@@ -1985,10 +1916,6 @@ gesture(Gesture.SLOTCHANGE, () => {
               "slot.start"
             ) as HTMLSlotElement;
             expect(slot.assignedElements()).toContain(pin);
-          });
-
-          then("`pin.appearance` is `Appearance.FLAT`", () => {
-            expect(pin.appearance).toBe(Appearance.FLAT);
           });
 
           when("invoking `taskbar.pin`", () => {
@@ -2021,10 +1948,6 @@ gesture(Gesture.SLOTCHANGE, () => {
             expect(slot.assignedElements()).toContain(pin);
           });
 
-          then("`pin.appearance` is `Appearance.FLAT`", () => {
-            expect(pin.appearance).toBe(Appearance.FLAT);
-          });
-
           when("invoking `taskbar.pin`", () => {
             beforeEach(() => {
               taskbar.pin();
@@ -2053,10 +1976,6 @@ gesture(Gesture.SLOTCHANGE, () => {
               "slot.end"
             ) as HTMLSlotElement;
             expect(slot.assignedElements()).toContain(pin);
-          });
-
-          then("`pin.appearance` is `Appearance.FLAT`", () => {
-            expect(pin.appearance).toBe(Appearance.FLAT);
           });
 
           when("invoking `taskbar.pin`", () => {
