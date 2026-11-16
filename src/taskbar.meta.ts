@@ -77,7 +77,8 @@ export type Orientation = (typeof Orientation)[keyof typeof Orientation];
  * @enum
  */
 export const Operation = {
-  HIDE: "hide"
+  HIDE: "hide",
+  SHOW: "show"
 } as const;
 
 /**
