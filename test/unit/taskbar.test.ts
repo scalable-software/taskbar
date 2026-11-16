@@ -1658,6 +1658,27 @@ gesture(Gesture.ON_PIN, () => {
                 }
               );
             });
+
+            when("the pin is hidden and shown", () => {
+              let onhide: jasmine.Spy;
+              let onshow: jasmine.Spy;
+              beforeEach(() => {
+                onhide = jasmine.createSpy("onhide");
+                onshow = jasmine.createSpy("onshow");
+                taskbar.onhide = onhide;
+                taskbar.onshow = onshow;
+                pin.hide();
+                pin.show();
+              });
+
+              then("`taskbar.onhide` is not called", () => {
+                expect(onhide).not.toHaveBeenCalled();
+              });
+
+              then("`taskbar.onshow` is not called", () => {
+                expect(onshow).not.toHaveBeenCalled();
+              });
+            });
           });
         });
       });
