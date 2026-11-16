@@ -271,6 +271,20 @@ composition(Composition.ELEMENT, () => {
             }
           );
         });
+
+        then("`taskbar.elements.center` is defined", () => {
+          expect(taskbar["elements"].center).toBeDefined();
+        });
+
+        when("`taskbar.elements.center` is defined", () => {
+          then(
+            "`taskbar.elements.center` is a cached reference to the `slot` with class `center`",
+            () => {
+              const center = taskbar.root.querySelector(".center") as HTMLSlotElement;
+              expect(taskbar["elements"].center).toBe(center);
+            }
+          );
+        });
       });
     });
   });
