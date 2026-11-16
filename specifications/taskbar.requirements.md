@@ -15,10 +15,12 @@ own code needs a control to act, without laying them out and wiring each of them
 
 **In scope**
 
-- Holding the controls the host application places in the bar, in the order they were placed.
+- Holding the controls the host application places in the bar, each at the start, in the
+  centre or at the end of the bar, in the order they were placed.
 - Reporting every pin, unpin and request of a control as an event of the bar itself.
 - Passing a request of the host application on to the control that carries it out.
-- Showing the controls as one surface, without their own borders and shadows.
+- Showing the controls as one surface, as high as the controls, without their own borders
+  and shadows and without space between them.
 - Showing or hiding the bar depending on context.
 - Laying the controls out in landscape or in portrait.
 - Consistency with the device colour theme.
@@ -46,8 +48,9 @@ own code needs a control to act, without laying them out and wiring each of them
 As an **end user**, when I work in a window, I want its controls together in one bar, so that
 I always find them in the same place.
 
-As a **host application**, I want to decide which controls the bar holds and in which order,
-so that the bar shows only the controls my window offers.
+As a **host application**, I want to decide which controls the bar holds, in which order, and
+whether each sits at the start, in the centre or at the end of the bar, so that the bar shows
+only the controls my window offers, where the end user expects them.
 
 ### STORY: One Place to Listen
 
