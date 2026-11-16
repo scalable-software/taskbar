@@ -2201,6 +2201,9 @@ gesture(Gesture.SLOTCHANGE, () => {
                 expect(onpin).toHaveBeenCalledTimes(1);
               });
             });
+            then("`pin.appearance` is `Appearance.FLAT`", () => {
+              expect(pin.appearance).toBe(Appearance.FLAT);
+            });
           });
         });
       });
