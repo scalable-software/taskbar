@@ -723,6 +723,19 @@ operation(Operation.PIN, () => {
               });
             });
           });
+
+          and("no control is placed in the taskbar", () => {
+            when("invoking `taskbar.pin`", () => {
+              let result: unknown;
+              beforeEach(() => {
+                result = taskbar.pin();
+              });
+
+              then("`taskbar.pin` returns nothing", () => {
+                expect(result).toBeUndefined();
+              });
+            });
+          });
         });
       });
     });
