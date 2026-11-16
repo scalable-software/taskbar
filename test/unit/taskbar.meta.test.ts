@@ -388,6 +388,14 @@ metadata(Metadata.GESTURE, () => {
         then("`Gesture.ON_RESTORE` is `onrestore`", () => {
           expect(Gesture.ON_RESTORE).toBe("onrestore");
         });
+
+        then("`Gesture.ON_CLOSE` exists", () => {
+          expect(Gesture.ON_CLOSE).toBeDefined();
+        });
+
+        then("`Gesture.ON_CLOSE` is `onclose`", () => {
+          expect(Gesture.ON_CLOSE).toBe("onclose");
+        });
       });
     });
   });
