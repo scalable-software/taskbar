@@ -194,9 +194,12 @@ composition(Composition.TEMPLATE, () => {
 
         and("a pin is placed inside the taskbar", () => {
           let pin: Pin;
+          let onevent: jasmine.Spy;
           beforeEach(async () => {
             pin = taskbar.appendChild(create<Pin>(Pin.Tag));
             await placed();
+            onevent = jasmine.createSpy("onevent");
+            taskbar.onevent = onevent;
           });
 
           then("the pin is shown in the `slot` of `div.center`", () => {
@@ -204,6 +207,20 @@ composition(Composition.TEMPLATE, () => {
               "div.center > slot"
             ) as HTMLSlotElement;
             expect(slot.assignedElements()).toContain(pin);
+          });
+
+          then("the pin keeps its appearance", () => {
+            expect(pin.appearance).toBe(Appearance.FLOATING);
+          });
+
+          when("the pin is pinned", () => {
+            beforeEach(() => {
+              pin.pin();
+            });
+
+            then("the taskbar dispatches no event", () => {
+              expect(onevent).not.toHaveBeenCalled();
+            });
           });
         });
       });
