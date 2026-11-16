@@ -23,9 +23,14 @@ export class Validate {
 
   /**
    * Validates that the value is a member of the `Orientation` enum.
+   * Throws if the value is not a recognized orientation state.
    * @category Validation
    */
   public static orientation = (value: unknown) => {
+    const valid = Object.values(Orientation).includes(value as Orientation);
+    if (!valid) {
+      throw new Error(`Invalid orientation value: ${value}`);
+    }
     return value as Orientation;
   };
 }
