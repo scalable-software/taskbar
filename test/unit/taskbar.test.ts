@@ -2075,6 +2075,71 @@ events(Event.ON_CLOSE, () => {
 
 // Gesture
 
+gesture(Gesture.SLOTCHANGE, () => {
+  and("Taskbar is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Taskbar.Tag, Taskbar);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Taskbar.Template.load("taskbar.template.html");
+      });
+      afterEach(() => {
+        remove(Taskbar.Tag);
+      });
+
+      and("a new taskbar is added to DOM", () => {
+        let taskbar: Taskbar;
+        beforeEach(() => {
+          taskbar = add<Taskbar>(Taskbar.Tag);
+        });
+        afterEach(() => {
+          taskbar.remove();
+        });
+
+        and("a pin is placed in the taskbar", () => {
+          let pin: Pin;
+          beforeEach(async () => {
+            define(Pin.Tag, Pin);
+            await Pin.Template.load("pin.template.html");
+            pin = taskbar.appendChild(create<Pin>(Pin.Tag));
+            await placed();
+          });
+          afterEach(() => {
+            remove(Pin.Tag);
+          });
+
+          and("`taskbar.onpin` is set to a listener", () => {
+            let onpin: jasmine.Spy;
+            beforeEach(() => {
+              onpin = jasmine.createSpy("onpin");
+              taskbar.onpin = onpin;
+            });
+
+            and("the pin is taken out of the taskbar", () => {
+              beforeEach(async () => {
+                pin.remove();
+                await placed();
+              });
+
+              when("the pin is pinned", () => {
+                beforeEach(() => {
+                  pin.pin();
+                });
+
+                then("`onpin` is not called", () => {
+                  expect(onpin).not.toHaveBeenCalled();
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+});
+
 gesture(Gesture.ON_PIN, () => {
   and("Taskbar is defined in custom element registry", () => {
     beforeEach(() => {
