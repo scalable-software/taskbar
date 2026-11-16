@@ -167,11 +167,15 @@
   },
   "Gestures": {
     "slotchange": {
-      "description": "The host places a control in the taskbar, or takes one out: the taskbar listens to every control it now holds, and no longer to one that was taken out.",
+      "description": "The host places a control in the taskbar, or takes one out: the taskbar listens to every control it now holds, and no longer to one that was taken out, and makes every control it holds that has an 'appearance' flat. The triggers act in the order listed.",
       "triggers": [
         {
           "target": "slot.controls",
           "operation": "_listen"
+        },
+        {
+          "target": "slot.controls",
+          "operation": "_flatten"
         }
       ]
     },
