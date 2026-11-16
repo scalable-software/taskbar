@@ -222,6 +222,12 @@ export class Taskbar extends Component implements Meta {
   public minimize = () => {};
 
   /**
+   * Ask each control placed in the taskbar that offers `maximize` to request maximizing
+   * @category Operations
+   */
+  public maximize = () => {};
+
+  /**
    * List operations to perform for selected attributes being observed in the DOM.
    * @category Configuration
    * @hidden

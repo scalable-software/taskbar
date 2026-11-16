@@ -81,7 +81,8 @@ export const Operation = {
   SHOW: "show",
   PIN: "pin",
   UNPIN: "unpin",
-  MINIMIZE: "minimize"
+  MINIMIZE: "minimize",
+  MAXIMIZE: "maximize"
 } as const;
 
 /**
