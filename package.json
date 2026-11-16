@@ -1,7 +1,7 @@
 {
-  "name": "@scalable.software/component.template",
-  "version": "0.4.0",
-  "description": "A template for creating web components using Scalable.Software standards and practices.",
+  "name": "@scalable.software/taskbar",
+  "version": "0.0.1",
+  "description": "A theme-aware web component that holds the controls of a window in one bar, and reports what the end user asks of them as its own events.",
   "keywords": [
     "web component"
   ],
@@ -26,14 +26,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/scalable-software/component.template.git"
+    "url": "git+https://github.com/scalable-software/taskbar.git"
   },
   "author": "Scalable.Software",
   "license": "CC-BY-NC-SA-4.0",
   "bugs": {
-    "url": "https://github.com/scalable-software/component.template/issues"
+    "url": "https://github.com/scalable-software/taskbar/issues"
   },
-  "homepage": "https://github.com/scalable-software/component.template#readme",
+  "homepage": "https://github.com/scalable-software/taskbar#readme",
   "devDependencies": {
     "@types/jasmine": "^5.1.4",
     "@web/dev-server": "^0.4.6",

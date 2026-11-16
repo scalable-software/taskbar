@@ -1,5 +1,5 @@
-import { component } from "@scalable.software/component.template";
+import { Taskbar } from "@scalable.software/taskbar";
 
-await component.Template.load("component.template.html");
+await Taskbar.Template.load("taskbar.template.html");
 
-customElements.define(component.Tag, component);
+customElements.define(Taskbar.Tag, Taskbar);

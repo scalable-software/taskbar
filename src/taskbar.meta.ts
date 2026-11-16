@@ -1,16 +1,16 @@
 /**
- * @module Component
+ * @module Taskbar
  */
 
 /**
  * @category Configuration
  */
-export const Tag = "component-template" as const;
+export const Tag = "task-bar" as const;
 
 /**
  * @category Configuration
  */
-export const CSS = "component.style.css" as const;
+export const CSS = "taskbar.style.css" as const;
 
 /**
  * HTML Attributes available to set

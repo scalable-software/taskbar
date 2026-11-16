@@ -1,0 +1,145 @@
+import { Template } from "@scalable.software/component";
+
+import {
+  Taskbar,
+  Tag,
+  CSS,
+  Attributes
+} from "@scalable.software/taskbar";
+
+// Configuration
+configuration(Configuration.TAG, () => {
+  and("Taskbar imported", () => {
+    then("Taskbar is defined", () => {
+      expect(Taskbar).toBeDefined();
+    });
+
+    and("Taskbar is defined", () => {
+      then("Taskbar.Tag static getter is defined", () => {
+        expect(Taskbar.Tag).toBeDefined();
+      });
+
+      and("Taskbar.Tag static getter is defined", () => {
+        then("Taskbar.Tag is Tag", () => {
+          expect(Taskbar.Tag).toBe(Tag);
+        });
+      });
+    });
+  });
+});
+
+configuration(Configuration.ATTRIBUTES, () => {
+  and("Taskbar imported", () => {
+    then("Taskbar is defined", () => {
+      expect(Taskbar).toBeDefined();
+    });
+
+    and("Taskbar is defined", () => {
+      then("Taskbar.Attributes static getter is defined", () => {
+        expect(Taskbar.Attributes).toBeDefined();
+      });
+
+      and("Taskbar.Attributes static getter is defined", () => {
+        then("Taskbar.Attributes is Attributes", () => {
+          expect(Taskbar.Attributes).toBe(Attributes);
+        });
+      });
+    });
+  });
+});
+
+// Utilities
+utility(Utilities.TEMPLATE, () => {
+  then("Taskbar.Template static property is defined", () => {
+    expect(Taskbar.Template).toBeDefined();
+  });
+
+  and("Taskbar.Template static property is defined", () => {
+    then("Taskbar.Template is a Template", () => {
+      expect(Taskbar.Template).toBeInstanceOf(Template);
+    });
+  });
+});
+
+// Compositions
+composition(Composition.TEMPLATE, () => {
+  given("Taskbar is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Taskbar.Tag, Taskbar);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      let template: HTMLTemplateElement;
+      beforeEach(async () => {
+        template = (await Taskbar.Template.load(
+          "taskbar.template.html"
+        )) as HTMLTemplateElement;
+      });
+      afterEach(() => {
+        remove(Taskbar.Tag);
+      });
+
+      then("template is defined", () => {
+        expect(template).toBeDefined();
+      });
+
+      and("a new taskbar is added to DOM", () => {
+        let taskbar: Taskbar;
+        beforeEach(() => {
+          taskbar = add<Taskbar>(Taskbar.Tag);
+        });
+        afterEach(() => {
+          taskbar.remove();
+        });
+
+        then("taskbar.root contents contains template contents", () => {
+          expect(taskbar.root.innerHTML).toContain(template.innerHTML);
+        });
+      });
+    });
+  });
+});
+
+composition(Composition.CSS, () => {
+  given("Taskbar is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Taskbar.Tag, Taskbar);
+    });
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Taskbar.Template.load("taskbar.template.html");
+      });
+      afterEach(() => {
+        remove(Taskbar.Tag);
+      });
+
+      and("a new taskbar is added to DOM", () => {
+        let taskbar: Taskbar;
+        beforeEach(() => {
+          taskbar = add<Taskbar>(Taskbar.Tag);
+        });
+        afterEach(() => {
+          taskbar.remove();
+        });
+
+        then("taskbar.root contents contains a link to stylesheet", () => {
+          expect(taskbar.root.innerHTML).toContain("stylesheet");
+        });
+
+        and("taskbar.root contents contains a link to stylesheet", () => {
+          then("the stylesheet file's name is correct", () => {
+            expect(taskbar.root.innerHTML).toContain(CSS);
+          });
+        });
+      });
+    });
+  });
+});
+
+// State
+
+// Operation
+
+// Event
+
+// Gesture

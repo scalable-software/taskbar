@@ -6,6 +6,6 @@ export {
   Operation,
   Event,
   Gesture
-} from "./component.meta.js";
+} from "./taskbar.meta.js";
 
-export { component } from "./component.js";
+export { Taskbar } from "./taskbar.js";
