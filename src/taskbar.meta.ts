@@ -116,7 +116,8 @@ export type Event = (typeof Event)[keyof typeof Event];
  * @enum
  */
 export const Gesture = {
-  SLOTCHANGE: "slotchange"
+  SLOTCHANGE: "slotchange",
+  ON_PIN: "onpin"
 } as const;
 /**
  * @category Metadata
