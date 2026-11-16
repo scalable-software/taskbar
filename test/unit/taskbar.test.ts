@@ -812,6 +812,14 @@ control(Control.MINIMIZE, () => {
           expect(taskbar.minimize).toBeDefined();
         });
 
+        then(
+          "`taskbar.minimize` is the `minimize-button` of the taskbar",
+          () => {
+            const part = taskbar.root.querySelector(Minimize.Tag) as Minimize;
+            expect(taskbar.minimize).toBe(part);
+          }
+        );
+
         and("a taskbar that is not in DOM", () => {
           let detached: Taskbar;
           beforeEach(() => {
