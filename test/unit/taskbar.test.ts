@@ -1909,6 +1909,10 @@ gesture(Gesture.ON_RESTORE, () => {
               then("`onrestore` is called once", () => {
                 expect(onrestore).toHaveBeenCalledTimes(1);
               });
+
+              then("`onrestore` is called with no detail", () => {
+                expect(onrestore.calls.mostRecent().args[0].detail).toBeNull();
+              });
             });
           });
         });
