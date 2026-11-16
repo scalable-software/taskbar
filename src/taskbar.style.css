@@ -3,4 +3,9 @@
 ======================= */
 :host {
   display: inline-block;
+
+  --bar-background-color: #ffffff;
+  --bar-border-color: #d1d1d1;
+  --bar-radius: 8px;
+  --bar-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
