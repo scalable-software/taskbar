@@ -50,6 +50,10 @@ slot {
   align-items: center;
 }
 
+.center {
+  flex: 1;
+}
+
 /* =======================
   State Visibility
 ======================= */
