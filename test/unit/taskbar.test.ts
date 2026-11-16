@@ -4,7 +4,9 @@ import {
   Taskbar,
   Tag,
   CSS,
-  Attributes
+  Attributes,
+  State,
+  Visibility
 } from "@scalable.software/taskbar";
 
 // Configuration
@@ -199,6 +201,46 @@ composition(Composition.ELEMENT, () => {
 });
 
 // State
+state(State.VISIBILITY, () => {
+  given("Taskbar is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Taskbar.Tag, Taskbar);
+    });
+
+    and("a HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Taskbar.Template.load("taskbar.template.html");
+      });
+      afterEach(() => {
+        remove(Taskbar.Tag);
+      });
+
+      and("a new taskbar is added to DOM", () => {
+        let taskbar: Taskbar;
+        beforeEach(() => {
+          taskbar = add<Taskbar>(Taskbar.Tag);
+        });
+        afterEach(() => {
+          taskbar.remove();
+        });
+
+        then("`taskbar.visibility` getter exists", () => {
+          expect(taskbar.visibility).toBeDefined();
+        });
+
+        when("`taskbar.visibility` getter exists", () => {
+          then("`taskbar.visibility` is `Visibility.VISIBLE`", () => {
+            expect(taskbar.visibility).toBe(Visibility.VISIBLE);
+          });
+        });
+
+        then("`visibility` attribute does not exist", () => {
+          expect(taskbar.hasAttribute(Attributes.VISIBILITY)).toBeFalse();
+        });
+      });
+    });
+  });
+});
 
 // Operation
 
