@@ -159,9 +159,19 @@ metadata(Metadata.OPERATION, () => {
       expect(Operation).toBeDefined();
     });
 
-    when("Operation is defined", () => {
+    and("Operation is defined", () => {
       then("Operation is an object", () => {
         expect(typeof Operation).toBe("object");
+      });
+
+      when("Operation is an object", () => {
+        then("`Operation.HIDE` exists", () => {
+          expect(Operation.HIDE).toBeDefined();
+        });
+
+        then("`Operation.HIDE` is `hide`", () => {
+          expect(Operation.HIDE).toBe("hide");
+        });
       });
     });
   });
