@@ -152,6 +152,16 @@ composition(Composition.TEMPLATE, () => {
               const slot = div.querySelector("slot.center");
               expect(slot?.getAttribute("name")).toBe(Zone.CENTER);
             });
+
+            then("`div.bar` contains `slot.end`", () => {
+              const slot = div.querySelector("slot.end");
+              expect(slot).not.toBeNull();
+            });
+
+            then("`slot.end` has `name` `Zone.END`", () => {
+              const slot = div.querySelector("slot.end");
+              expect(slot?.getAttribute("name")).toBe(Zone.END);
+            });
           });
         });
       });
