@@ -812,6 +812,18 @@ control(Control.MINIMIZE, () => {
           expect(taskbar.minimize).toBeDefined();
         });
 
+        then("`taskbar.minimize` has no setter", () => {
+          expect(hasSetter(taskbar, Control.MINIMIZE)).toBeFalse();
+        });
+
+        then("assigning `taskbar.minimize` does not compile", () => {
+          const assign = () => {
+            // @ts-expect-error: `minimize` is read-only
+            taskbar.minimize = null;
+          };
+          expect(assign).toEqual(jasmine.any(Function));
+        });
+
         then(
           "`taskbar.minimize` is the `minimize-button` of the taskbar",
           () => {
