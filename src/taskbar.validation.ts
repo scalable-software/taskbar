@@ -2,7 +2,7 @@
  * @module Taskbar
  */
 
-import { Visibility } from "./taskbar.meta.js";
+import { Visibility, Orientation } from "./taskbar.meta.js";
 
 /**
  * @category Validation
@@ -19,5 +19,13 @@ export class Validate {
       throw new Error(`Invalid visibility value: ${value}`);
     }
     return value as Visibility;
+  };
+
+  /**
+   * Validates that the value is a member of the `Orientation` enum.
+   * @category Validation
+   */
+  public static orientation = (value: unknown) => {
+    return value as Orientation;
   };
 }
