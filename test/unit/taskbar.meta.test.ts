@@ -14,6 +14,10 @@ metadata(Metadata.TAG, () => {
     then("Tag is defined", () => {
       expect(Tag).toBeDefined();
     });
+
+    then("Tag is `task-bar`", () => {
+      expect(Tag).toBe("task-bar");
+    });
   });
 });
 
