@@ -268,6 +268,16 @@ state(State.VISIBILITY, () => {
             });
           });
 
+          when("`visibility` attribute is set to `Visibility.HIDDEN`", () => {
+            beforeEach(() => {
+              taskbar.setAttribute(Attributes.VISIBILITY, Visibility.HIDDEN);
+            });
+
+            then("`taskbar.visibility` is `Visibility.HIDDEN`", () => {
+              expect(taskbar.visibility).toBe(Visibility.HIDDEN);
+            });
+          });
+
           when("`taskbar.visibility` is set to `invalid`", () => {
             let error: Error;
             beforeEach(() => {
