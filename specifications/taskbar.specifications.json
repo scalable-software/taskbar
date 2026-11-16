@@ -1,0 +1,219 @@
+{
+  "Component": "Taskbar",
+  "Package": "taskbar",
+  "Description": "A theme-aware web component that groups the pin, minimize, maximize, restore and close controls of a window in one bar, and emits its own event for each event of a control.",
+  "Tag": "task-bar",
+  "Composition": {
+    "template": {
+      "description": "The HTML template for the taskbar component.",
+      "type": "template",
+      "id": "task-bar",
+      "contains": ["div.bar"]
+    },
+    "div.bar": {
+      "description": "The surface that lays out the controls in a row or in a column.",
+      "type": "div",
+      "class": "bar",
+      "contains": [
+        "pin-button",
+        "minimize-button",
+        "maximize-button",
+        "restore-button",
+        "close-button"
+      ]
+    },
+    "pin-button": {
+      "description": "The control that pins and unpins.",
+      "type": "pin-button",
+      "cached": true
+    },
+    "minimize-button": {
+      "description": "The control that requests minimizing.",
+      "type": "minimize-button",
+      "cached": true
+    },
+    "maximize-button": {
+      "description": "The control that requests maximizing.",
+      "type": "maximize-button",
+      "cached": true
+    },
+    "restore-button": {
+      "description": "The control that requests restoring.",
+      "type": "restore-button",
+      "cached": true
+    },
+    "close-button": {
+      "description": "The control that requests closing.",
+      "type": "close-button",
+      "cached": true
+    }
+  },
+  "States": {
+    "visibility": {
+      "type": "Visibility",
+      "description": "Indicates whether the component is visible or hidden.",
+      "values": ["visible", "hidden"],
+      "default": "visible",
+      "readonly": false,
+      "attribute": {
+        "optional": true
+      }
+    },
+    "orientation": {
+      "type": "Orientation",
+      "description": "Indicates whether the controls are laid out side by side, in landscape, or one above the other, in portrait.",
+      "values": ["landscape", "portrait"],
+      "default": "landscape",
+      "readonly": false,
+      "attribute": {
+        "optional": true
+      }
+    }
+  },
+  "Operations": {
+    "hide": {
+      "description": "Sets 'visibility' state to 'hidden' and hides the taskbar.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "show": {
+      "description": "Sets 'visibility' state to 'visible' and shows the taskbar.",
+      "parameters": [],
+      "returns": "void"
+    }
+  },
+  "Events": {
+    "onhide": {
+      "description": "Dispatched when taskbar 'visibility' state changes from 'visible' to 'hidden'.",
+      "parameters": [
+        {
+          "name": "detail",
+          "type": "object",
+          "description": "Contains the new visibility state of the component.",
+          "properties": {
+            "visibility": {
+              "type": "Visibility",
+              "values": ["hidden"]
+            }
+          }
+        }
+      ]
+    },
+    "onshow": {
+      "description": "Dispatched when taskbar 'visibility' state changes from 'hidden' to 'visible'.",
+      "parameters": [
+        {
+          "name": "detail",
+          "type": "object",
+          "description": "Contains the new visibility state of the component.",
+          "properties": {
+            "visibility": {
+              "type": "Visibility",
+              "values": ["visible"]
+            }
+          }
+        }
+      ]
+    },
+    "onpin": {
+      "description": "Dispatched each time the pin control reports that its status changed to 'pinned'.",
+      "parameters": [
+        {
+          "name": "detail",
+          "type": "object",
+          "description": "Contains the new status of the pin control.",
+          "properties": {
+            "status": {
+              "type": "Status",
+              "values": ["pinned"]
+            }
+          }
+        }
+      ]
+    },
+    "onunpin": {
+      "description": "Dispatched each time the pin control reports that its status changed to 'unpinned'.",
+      "parameters": [
+        {
+          "name": "detail",
+          "type": "object",
+          "description": "Contains the new status of the pin control.",
+          "properties": {
+            "status": {
+              "type": "Status",
+              "values": ["unpinned"]
+            }
+          }
+        }
+      ]
+    },
+    "onminimize": {
+      "description": "Dispatched each time the minimize control reports that minimizing is requested."
+    },
+    "onmaximize": {
+      "description": "Dispatched each time the maximize control reports that maximizing is requested."
+    },
+    "onrestore": {
+      "description": "Dispatched each time the restore control reports that restoring is requested."
+    },
+    "onclose": {
+      "description": "Dispatched each time the close control reports that closing is requested."
+    }
+  },
+  "Gestures": {
+    "onpin": {
+      "description": "The pin control reports that it was pinned.",
+      "triggers": [
+        {
+          "target": "pin-button",
+          "operation": "_pin"
+        }
+      ]
+    },
+    "onunpin": {
+      "description": "The pin control reports that it was unpinned.",
+      "triggers": [
+        {
+          "target": "pin-button",
+          "operation": "_unpin"
+        }
+      ]
+    },
+    "onminimize": {
+      "description": "The minimize control reports that minimizing is requested.",
+      "triggers": [
+        {
+          "target": "minimize-button",
+          "operation": "_minimize"
+        }
+      ]
+    },
+    "onmaximize": {
+      "description": "The maximize control reports that maximizing is requested.",
+      "triggers": [
+        {
+          "target": "maximize-button",
+          "operation": "_maximize"
+        }
+      ]
+    },
+    "onrestore": {
+      "description": "The restore control reports that restoring is requested.",
+      "triggers": [
+        {
+          "target": "restore-button",
+          "operation": "_restore"
+        }
+      ]
+    },
+    "onclose": {
+      "description": "The close control reports that closing is requested.",
+      "triggers": [
+        {
+          "target": "close-button",
+          "operation": "_close"
+        }
+      ]
+    }
+  }
+}
