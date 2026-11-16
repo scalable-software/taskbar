@@ -793,6 +793,19 @@ operation(Operation.UNPIN, () => {
               });
             });
           });
+
+          and("no control is placed in the taskbar", () => {
+            when("invoking `taskbar.unpin`", () => {
+              let result: unknown;
+              beforeEach(() => {
+                result = taskbar.unpin();
+              });
+
+              then("`taskbar.unpin` returns nothing", () => {
+                expect(result).toBeUndefined();
+              });
+            });
+          });
         });
       });
     });
