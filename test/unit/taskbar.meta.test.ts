@@ -6,7 +6,8 @@ import {
   Orientation,
   Operation,
   Event,
-  Gesture
+  Gesture,
+  Appearance
 } from "@scalable.software/taskbar";
 
 // Tag
@@ -395,6 +396,30 @@ metadata(Metadata.GESTURE, () => {
 
         then("`Gesture.ON_CLOSE` is `onclose`", () => {
           expect(Gesture.ON_CLOSE).toBe("onclose");
+        });
+      });
+    });
+  });
+});
+
+metadata(Metadata.APPEARANCE, () => {
+  and("Appearance imported", () => {
+    then("Appearance is defined", () => {
+      expect(Appearance).toBeDefined();
+    });
+
+    and("Appearance is defined", () => {
+      then("Appearance is an object", () => {
+        expect(typeof Appearance).toBe("object");
+      });
+
+      when("Appearance is an object", () => {
+        then("`Appearance.FLAT` exists", () => {
+          expect(Appearance.FLAT).toBeDefined();
+        });
+
+        then("`Appearance.FLAT` is `flat`", () => {
+          expect(Appearance.FLAT).toBe("flat");
         });
       });
     });
