@@ -14,6 +14,7 @@ import {
 import { Pin, Status } from "@scalable.software/pin";
 import { Minimize } from "@scalable.software/minimize";
 import { Maximize } from "@scalable.software/maximize";
+import { Restore } from "@scalable.software/restore";
 
 // Creates an element that is not in DOM yet
 const create = <T extends Element>(tag: string) =>
@@ -943,6 +944,39 @@ operation(Operation.RESTORE, () => {
 
         then("`taskbar.restore` method exists", () => {
           expect(taskbar.restore).toBeDefined();
+        });
+
+        and("`taskbar.restore` method exists", () => {
+          and("a restore control is placed in the taskbar", () => {
+            let control: Restore;
+            beforeEach(async () => {
+              define(Restore.Tag, Restore);
+              await Restore.Template.load("restore.template.html");
+              control = taskbar.appendChild(create<Restore>(Restore.Tag));
+              await placed();
+            });
+            afterEach(() => {
+              remove(Restore.Tag);
+            });
+
+            and("the restore control has a listener for `onrestore`", () => {
+              let onrestore: jasmine.Spy;
+              beforeEach(() => {
+                onrestore = jasmine.createSpy("onrestore");
+                control.onrestore = onrestore;
+              });
+
+              when("invoking `taskbar.restore`", () => {
+                beforeEach(() => {
+                  taskbar.restore();
+                });
+
+                then("the restore control's `onrestore` is called once", () => {
+                  expect(onrestore).toHaveBeenCalledTimes(1);
+                });
+              });
+            });
+          });
         });
       });
     });
