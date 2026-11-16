@@ -953,6 +953,19 @@ operation(Operation.MAXIMIZE, () => {
               });
             });
           });
+
+          and("no control is placed in the taskbar", () => {
+            when("invoking `taskbar.maximize`", () => {
+              let result: unknown;
+              beforeEach(() => {
+                result = taskbar.maximize();
+              });
+
+              then("`taskbar.maximize` returns nothing", () => {
+                expect(result).toBeUndefined();
+              });
+            });
+          });
         });
       });
     });
