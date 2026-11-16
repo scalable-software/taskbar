@@ -220,6 +220,14 @@ metadata(Metadata.OPERATION, () => {
         then("`Operation.RESTORE` is `restore`", () => {
           expect(Operation.RESTORE).toBe("restore");
         });
+
+        then("`Operation.CLOSE` exists", () => {
+          expect(Operation.CLOSE).toBeDefined();
+        });
+
+        then("`Operation.CLOSE` is `close`", () => {
+          expect(Operation.CLOSE).toBe("close");
+        });
       });
     });
   });
