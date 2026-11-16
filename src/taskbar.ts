@@ -76,11 +76,15 @@ export class Taskbar extends Component implements Meta {
   }
 
   /**
-   * Get the visibility of the taskbar
+   * Get and set the visibility of the taskbar
    * @category State
    */
   public get visibility(): Visibility {
     return this._visibility;
+  }
+  public set visibility(visibility: Visibility) {
+    // Mutate
+    this._visibility = visibility;
   }
 
   /**
