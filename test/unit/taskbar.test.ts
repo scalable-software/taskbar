@@ -755,6 +755,39 @@ events(Event.ON_HIDE, () => {
                 });
               });
             });
+
+            when("`taskbar.onhide` is set to `invalid`", () => {
+              let error: Error;
+              beforeEach(() => {
+                try {
+                  // @ts-expect-error
+                  taskbar.onhide = "invalid";
+                } catch (err) {
+                  error = err as Error;
+                }
+              });
+
+              then("an error is thrown", () => {
+                expect(error).toBeDefined();
+              });
+
+              then(
+                "error message contains 'Invalid onhide value: invalid'",
+                () => {
+                  expect(error.message).toBe("Invalid onhide value: invalid");
+                }
+              );
+
+              when("`taskbar.visibility` is set to `Visibility.HIDDEN`", () => {
+                beforeEach(() => {
+                  taskbar.visibility = Visibility.HIDDEN;
+                });
+
+                then("`taskbar.onhide` is still called", () => {
+                  expect(onhide).toHaveBeenCalled();
+                });
+              });
+            });
           });
         });
       });
