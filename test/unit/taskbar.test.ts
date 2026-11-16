@@ -917,6 +917,27 @@ control(Control.MINIMIZE, () => {
             });
           });
         });
+
+        when("invoking `taskbar.minimize.hide`", () => {
+          let onhide: jasmine.Spy;
+          beforeEach(() => {
+            onhide = jasmine.createSpy("onhide");
+            taskbar.onhide = onhide;
+            taskbar.minimize?.hide();
+          });
+
+          then("the minimize control is hidden", () => {
+            expect(taskbar.minimize?.visibility).toBe(Visibility.HIDDEN);
+          });
+
+          then("the taskbar is still visible", () => {
+            expect(taskbar.visibility).toBe(Visibility.VISIBLE);
+          });
+
+          then("`taskbar.onhide` is not called", () => {
+            expect(onhide).not.toHaveBeenCalled();
+          });
+        });
       });
     });
   });
