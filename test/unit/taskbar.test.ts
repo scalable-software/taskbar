@@ -10,8 +10,7 @@ import {
   Orientation,
   Operation,
   Event,
-  Gesture,
-  Zone
+  Gesture
 } from "@scalable.software/taskbar";
 import { Pin, Status, Appearance } from "@scalable.software/pin";
 import { Minimize } from "@scalable.software/minimize";
@@ -138,43 +137,6 @@ composition(Composition.TEMPLATE, () => {
             const div = taskbar.root.querySelector("div.bar");
             expect(div).not.toBeNull();
           });
-
-          when("`taskbar.root` contains `div.bar`", () => {
-            let div: HTMLDivElement;
-            beforeEach(() => {
-              div = taskbar.root.querySelector("div.bar") as HTMLDivElement;
-            });
-
-            then("`div.bar` contains `slot.start`", () => {
-              const slot = div.querySelector("slot.start");
-              expect(slot).not.toBeNull();
-            });
-
-            then("`slot.start` has `name` `Zone.START`", () => {
-              const slot = div.querySelector("slot.start");
-              expect(slot?.getAttribute("name")).toBe(Zone.START);
-            });
-
-            then("`div.bar` contains `slot.center`", () => {
-              const slot = div.querySelector("slot.center");
-              expect(slot).not.toBeNull();
-            });
-
-            then("`slot.center` has `name` `Zone.CENTER`", () => {
-              const slot = div.querySelector("slot.center");
-              expect(slot?.getAttribute("name")).toBe(Zone.CENTER);
-            });
-
-            then("`div.bar` contains `slot.end`", () => {
-              const slot = div.querySelector("slot.end");
-              expect(slot).not.toBeNull();
-            });
-
-            then("`slot.end` has `name` `Zone.END`", () => {
-              const slot = div.querySelector("slot.end");
-              expect(slot?.getAttribute("name")).toBe(Zone.END);
-            });
-          });
         });
 
         and(
@@ -187,6 +149,12 @@ composition(Composition.TEMPLATE, () => {
               await placed();
               onevent = jasmine.createSpy("onevent");
               taskbar.onevent = onevent;
+            });
+
+            then("the pin is shown nowhere", () => {
+              const slots = [...taskbar.root.querySelectorAll("slot")];
+              const shown = slots.flatMap((slot) => slot.assignedElements());
+              expect(shown).not.toContain(pin);
             });
 
             then("the pin keeps its appearance", () => {
@@ -239,89 +207,6 @@ composition(Composition.CSS, () => {
           then("the stylesheet file's name is correct", () => {
             expect(taskbar.root.innerHTML).toContain(CSS);
           });
-        });
-      });
-    });
-  });
-});
-
-composition(Composition.ELEMENT, () => {
-  and("Taskbar is defined in custom element registry", () => {
-    beforeEach(() => {
-      define(Taskbar.Tag, Taskbar);
-    });
-
-    and("HTML Template is added to DOM", () => {
-      beforeEach(async () => {
-        await Taskbar.Template.load("taskbar.template.html");
-      });
-      afterEach(() => {
-        remove(Taskbar.Tag);
-      });
-
-      and("a new taskbar is added to DOM", () => {
-        let taskbar: Taskbar;
-        beforeEach(() => {
-          taskbar = add<Taskbar>(Taskbar.Tag);
-        });
-        afterEach(() => {
-          taskbar.remove();
-        });
-
-        then("`taskbar.elements.bar` is defined", () => {
-          expect(taskbar["elements"].bar).toBeDefined();
-        });
-
-        when("`taskbar.elements.bar` is defined", () => {
-          then(
-            "`taskbar.elements.bar` is a cached reference to the `div` with class `bar`",
-            () => {
-              const bar = taskbar.root.querySelector(".bar") as HTMLDivElement;
-              expect(taskbar["elements"].bar).toBe(bar);
-            }
-          );
-        });
-
-        then("`taskbar.elements.start` is defined", () => {
-          expect(taskbar["elements"].start).toBeDefined();
-        });
-
-        when("`taskbar.elements.start` is defined", () => {
-          then(
-            "`taskbar.elements.start` is a cached reference to the `slot` with class `start`",
-            () => {
-              const start = taskbar.root.querySelector(".start") as HTMLSlotElement;
-              expect(taskbar["elements"].start).toBe(start);
-            }
-          );
-        });
-
-        then("`taskbar.elements.center` is defined", () => {
-          expect(taskbar["elements"].center).toBeDefined();
-        });
-
-        when("`taskbar.elements.center` is defined", () => {
-          then(
-            "`taskbar.elements.center` is a cached reference to the `slot` with class `center`",
-            () => {
-              const center = taskbar.root.querySelector(".center") as HTMLSlotElement;
-              expect(taskbar["elements"].center).toBe(center);
-            }
-          );
-        });
-
-        then("`taskbar.elements.end` is defined", () => {
-          expect(taskbar["elements"].end).toBeDefined();
-        });
-
-        when("`taskbar.elements.end` is defined", () => {
-          then(
-            "`taskbar.elements.end` is a cached reference to the `slot` with class `end`",
-            () => {
-              const last = taskbar.root.querySelector(".end") as HTMLSlotElement;
-              expect(taskbar["elements"].end).toBe(last);
-            }
-          );
         });
       });
     });
@@ -1068,109 +953,3 @@ events(Event.ON_SHOW, () => {
 });
 
 // Gesture
-
-gesture(Gesture.SLOTCHANGE, () => {
-  and("Taskbar is defined in custom element registry", () => {
-    beforeEach(() => {
-      define(Taskbar.Tag, Taskbar);
-    });
-
-    and("HTML Template is added to DOM", () => {
-      beforeEach(async () => {
-        await Taskbar.Template.load("taskbar.template.html");
-      });
-      afterEach(() => {
-        remove(Taskbar.Tag);
-      });
-
-      and("a new taskbar is added to DOM", () => {
-        let taskbar: Taskbar;
-        beforeEach(() => {
-          taskbar = add<Taskbar>(Taskbar.Tag);
-        });
-        afterEach(() => {
-          taskbar.remove();
-        });
-
-        and("a pin is placed at the start of the taskbar", () => {
-          let pin: Pin;
-          beforeEach(async () => {
-            define(Pin.Tag, Pin);
-            await Pin.Template.load("pin.template.html");
-            pin = taskbar.appendChild(create<Pin>(Pin.Tag, Zone.START));
-            await placed();
-          });
-          afterEach(() => {
-            remove(Pin.Tag);
-          });
-
-          then("the pin is in `slot.start`", () => {
-            const slot = taskbar.root.querySelector(
-              "slot.start"
-            ) as HTMLSlotElement;
-            expect(slot.assignedElements()).toContain(pin);
-          });
-        });
-
-        and("a pin is placed in the centre of the taskbar", () => {
-          let pin: Pin;
-          beforeEach(async () => {
-            define(Pin.Tag, Pin);
-            await Pin.Template.load("pin.template.html");
-            pin = taskbar.appendChild(create<Pin>(Pin.Tag, Zone.CENTER));
-            await placed();
-          });
-          afterEach(() => {
-            remove(Pin.Tag);
-          });
-
-          then("the pin is in `slot.center`", () => {
-            const slot = taskbar.root.querySelector(
-              "slot.center"
-            ) as HTMLSlotElement;
-            expect(slot.assignedElements()).toContain(pin);
-          });
-        });
-
-        and("a pin is placed at the end of the taskbar", () => {
-          let pin: Pin;
-          beforeEach(async () => {
-            define(Pin.Tag, Pin);
-            await Pin.Template.load("pin.template.html");
-            pin = taskbar.appendChild(create<Pin>(Pin.Tag, Zone.END));
-            await placed();
-          });
-          afterEach(() => {
-            remove(Pin.Tag);
-          });
-
-          then("the pin is in `slot.end`", () => {
-            const slot = taskbar.root.querySelector(
-              "slot.end"
-            ) as HTMLSlotElement;
-            expect(slot.assignedElements()).toContain(pin);
-          });
-        });
-
-        and("a pin is placed in the taskbar without a zone", () => {
-          let pin: Pin;
-          beforeEach(async () => {
-            define(Pin.Tag, Pin);
-            await Pin.Template.load("pin.template.html");
-            pin = taskbar.appendChild(create<Pin>(Pin.Tag));
-            await placed();
-          });
-          afterEach(() => {
-            remove(Pin.Tag);
-          });
-
-          then("the pin is in no slot", () => {
-            const slots = [...taskbar.root.querySelectorAll("slot")];
-            const shown = slots.flatMap((slot) => slot.assignedElements());
-            expect(shown).not.toContain(pin);
-          });
-        });
-      });
-    });
-  });
-});
