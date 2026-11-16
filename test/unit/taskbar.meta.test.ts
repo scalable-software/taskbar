@@ -180,6 +180,14 @@ metadata(Metadata.OPERATION, () => {
         then("`Operation.SHOW` is `show`", () => {
           expect(Operation.SHOW).toBe("show");
         });
+
+        then("`Operation.PIN` exists", () => {
+          expect(Operation.PIN).toBeDefined();
+        });
+
+        then("`Operation.PIN` is `pin`", () => {
+          expect(Operation.PIN).toBe("pin");
+        });
       });
     });
   });
