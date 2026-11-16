@@ -188,6 +188,14 @@ metadata(Metadata.OPERATION, () => {
         then("`Operation.PIN` is `pin`", () => {
           expect(Operation.PIN).toBe("pin");
         });
+
+        then("`Operation.UNPIN` exists", () => {
+          expect(Operation.UNPIN).toBeDefined();
+        });
+
+        then("`Operation.UNPIN` is `unpin`", () => {
+          expect(Operation.UNPIN).toBe("unpin");
+        });
       });
     });
   });
