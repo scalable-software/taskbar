@@ -10,6 +10,7 @@ import { type Configuration } from "@scalable.software/component";
 // taskbar finds each by the tag its class gives
 import { Pin } from "@scalable.software/pin";
 import { Minimize } from "@scalable.software/minimize";
+import { Maximize } from "@scalable.software/maximize";
 
 // Taskbar Metadata
 import {
@@ -103,8 +104,8 @@ export class Taskbar extends Component implements Meta {
    */
   protected elements: {
     start: { pin: Pin | null };
-    end: { minimize: Minimize | null };
-  } = { start: { pin: null }, end: { minimize: null } };
+    end: { minimize: Minimize | null; maximize: Maximize | null };
+  } = { start: { pin: null }, end: { minimize: null, maximize: null } };
 
   /**
    * @hidden
@@ -230,6 +231,9 @@ export class Taskbar extends Component implements Meta {
     this.elements.start.pin = this.root.querySelector<Pin>(Pin.Tag);
     this.elements.end.minimize = this.root.querySelector<Minimize>(
       Minimize.Tag
+    );
+    this.elements.end.maximize = this.root.querySelector<Maximize>(
+      Maximize.Tag
     );
   };
 
