@@ -167,6 +167,10 @@ metadata(Metadata.OPERATION, () => {
       });
 
       when("Operation is an object", () => {
+        then("`Operation` holds `hide` and `show` only", () => {
+          expect(Object.values(Operation)).toEqual(["hide", "show"]);
+        });
+
         then("no operation name is taken by the platform", () => {
           const taken = Object.values(Operation).filter(
             (name) => name in HTMLElement.prototype
@@ -188,54 +192,6 @@ metadata(Metadata.OPERATION, () => {
 
         then("`Operation.SHOW` is `show`", () => {
           expect(Operation.SHOW).toBe("show");
-        });
-
-        then("`Operation.PIN` exists", () => {
-          expect(Operation.PIN).toBeDefined();
-        });
-
-        then("`Operation.PIN` is `pin`", () => {
-          expect(Operation.PIN).toBe("pin");
-        });
-
-        then("`Operation.UNPIN` exists", () => {
-          expect(Operation.UNPIN).toBeDefined();
-        });
-
-        then("`Operation.UNPIN` is `unpin`", () => {
-          expect(Operation.UNPIN).toBe("unpin");
-        });
-
-        then("`Operation.MINIMIZE` exists", () => {
-          expect(Operation.MINIMIZE).toBeDefined();
-        });
-
-        then("`Operation.MINIMIZE` is `minimize`", () => {
-          expect(Operation.MINIMIZE).toBe("minimize");
-        });
-
-        then("`Operation.MAXIMIZE` exists", () => {
-          expect(Operation.MAXIMIZE).toBeDefined();
-        });
-
-        then("`Operation.MAXIMIZE` is `maximize`", () => {
-          expect(Operation.MAXIMIZE).toBe("maximize");
-        });
-
-        then("`Operation.RESTORE` exists", () => {
-          expect(Operation.RESTORE).toBeDefined();
-        });
-
-        then("`Operation.RESTORE` is `restore`", () => {
-          expect(Operation.RESTORE).toBe("restore");
-        });
-
-        then("`Operation.CLOSE` exists", () => {
-          expect(Operation.CLOSE).toBeDefined();
-        });
-
-        then("`Operation.CLOSE` is `close`", () => {
-          expect(Operation.CLOSE).toBe("close");
         });
       });
     });
