@@ -1988,6 +1988,51 @@ events(Event.ON_CLOSE, () => {
         then("`taskbar.onclose` setter exists", () => {
           expect(hasSetter(taskbar, Event.ON_CLOSE)).toBeTrue();
         });
+
+        and("`taskbar.onclose` setter exists", () => {
+          and("a close control is placed in the taskbar", () => {
+            let control: Close;
+            beforeEach(async () => {
+              define(Close.Tag, Close);
+              await Close.Template.load("close.template.html");
+              control = taskbar.appendChild(create<Close>(Close.Tag));
+              await placed();
+            });
+            afterEach(() => {
+              remove(Close.Tag);
+            });
+
+            and("`taskbar.onclose` is set to a listener", () => {
+              let first: jasmine.Spy;
+              beforeEach(() => {
+                first = jasmine.createSpy("first");
+                taskbar.onclose = first;
+              });
+
+              and("`taskbar.onclose` is set to a new listener", () => {
+                let second: jasmine.Spy;
+                beforeEach(() => {
+                  second = jasmine.createSpy("second");
+                  taskbar.onclose = second;
+                });
+
+                when("the close control reports", () => {
+                  beforeEach(() => {
+                    control.close();
+                  });
+
+                  then("old `taskbar.onclose` is not called", () => {
+                    expect(first).not.toHaveBeenCalled();
+                  });
+
+                  then("new `taskbar.onclose` is called", () => {
+                    expect(second).toHaveBeenCalledTimes(1);
+                  });
+                });
+              });
+            });
+          });
+        });
       });
     });
   });
