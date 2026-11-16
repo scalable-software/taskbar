@@ -82,7 +82,8 @@ export const Control = {
   PIN: "pin",
   MINIMIZE: "minimize",
   MAXIMIZE: "maximize",
-  RESTORE: "restore"
+  RESTORE: "restore",
+  CLOSE: "close"
 } as const;
 /**
  * The controls of the taskbar
