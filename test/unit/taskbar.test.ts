@@ -751,6 +751,32 @@ operation(Operation.UNPIN, () => {
         then("`taskbar.unpin` method exists", () => {
           expect(taskbar.unpin).toBeDefined();
         });
+
+        and("`taskbar.unpin` method exists", () => {
+          and("a pin is placed in the taskbar", () => {
+            let pin: Pin;
+            beforeEach(async () => {
+              define(Pin.Tag, Pin);
+              await Pin.Template.load("pin.template.html");
+              pin = taskbar.appendChild(create<Pin>(Pin.Tag));
+              await placed();
+              pin.pin();
+            });
+            afterEach(() => {
+              remove(Pin.Tag);
+            });
+
+            when("invoking `taskbar.unpin`", () => {
+              beforeEach(() => {
+                taskbar.unpin();
+              });
+
+              then("`pin.status` is `Status.UNPINNED`", () => {
+                expect(pin.status).toBe(Status.UNPINNED);
+              });
+            });
+          });
+        });
       });
     });
   });
