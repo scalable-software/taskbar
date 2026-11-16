@@ -6,7 +6,8 @@ import {
   CSS,
   Attributes,
   State,
-  Visibility
+  Visibility,
+  Orientation
 } from "@scalable.software/taskbar";
 
 // Configuration
@@ -370,6 +371,47 @@ state(State.VISIBILITY, () => {
               }
             );
           });
+        });
+      });
+    });
+  });
+});
+
+state(State.ORIENTATION, () => {
+  given("Taskbar is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Taskbar.Tag, Taskbar);
+    });
+
+    and("a HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Taskbar.Template.load("taskbar.template.html");
+      });
+      afterEach(() => {
+        remove(Taskbar.Tag);
+      });
+
+      and("a new taskbar is added to DOM", () => {
+        let taskbar: Taskbar;
+        beforeEach(() => {
+          taskbar = add<Taskbar>(Taskbar.Tag);
+        });
+        afterEach(() => {
+          taskbar.remove();
+        });
+
+        then("`taskbar.orientation` getter exists", () => {
+          expect(taskbar.orientation).toBeDefined();
+        });
+
+        when("`taskbar.orientation` getter exists", () => {
+          then("`taskbar.orientation` is `Orientation.LANDSCAPE`", () => {
+            expect(taskbar.orientation).toBe(Orientation.LANDSCAPE);
+          });
+        });
+
+        then("`orientation` attribute does not exist", () => {
+          expect(taskbar.hasAttribute(Attributes.ORIENTATION)).toBeFalse();
         });
       });
     });

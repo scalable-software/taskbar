@@ -3,6 +3,7 @@ import {
   Attributes,
   State,
   Visibility,
+  Orientation,
   Operation,
   Event,
   Gesture
@@ -41,6 +42,14 @@ metadata(Metadata.ATTRIBUTES, () => {
         then("`Attributes.VISIBILITY` is `visibility`", () => {
           expect(Attributes.VISIBILITY).toBe("visibility");
         });
+
+        then("`Attributes.ORIENTATION` exists", () => {
+          expect(Attributes.ORIENTATION).toBeDefined();
+        });
+
+        then("`Attributes.ORIENTATION` is `orientation`", () => {
+          expect(Attributes.ORIENTATION).toBe("orientation");
+        });
       });
     });
   });
@@ -65,6 +74,14 @@ metadata(Metadata.STATE, () => {
 
         then("`State.VISIBILITY` is `visibility`", () => {
           expect(State.VISIBILITY).toBe("visibility");
+        });
+
+        then("`State.ORIENTATION` exists", () => {
+          expect(State.ORIENTATION).toBeDefined();
+        });
+
+        then("`State.ORIENTATION` is `orientation`", () => {
+          expect(State.ORIENTATION).toBe("orientation");
         });
       });
     });
@@ -97,6 +114,38 @@ metadata(State.VISIBILITY, () => {
 
         then("`Visibility.HIDDEN` is `hidden`", () => {
           expect(Visibility.HIDDEN).toBe("hidden");
+        });
+      });
+    });
+  });
+});
+
+metadata(State.ORIENTATION, () => {
+  and("Orientation imported", () => {
+    then("Orientation is defined", () => {
+      expect(Orientation).toBeDefined();
+    });
+
+    and("Orientation is defined", () => {
+      then("Orientation is an object", () => {
+        expect(typeof Orientation).toBe("object");
+      });
+
+      when("Orientation is an object", () => {
+        then("`Orientation.LANDSCAPE` exists", () => {
+          expect(Orientation.LANDSCAPE).toBeDefined();
+        });
+
+        then("`Orientation.LANDSCAPE` is `landscape`", () => {
+          expect(Orientation.LANDSCAPE).toBe("landscape");
+        });
+
+        then("`Orientation.PORTRAIT` exists", () => {
+          expect(Orientation.PORTRAIT).toBeDefined();
+        });
+
+        then("`Orientation.PORTRAIT` is `portrait`", () => {
+          expect(Orientation.PORTRAIT).toBe("portrait");
         });
       });
     });
