@@ -7,7 +7,8 @@ import {
   Operation,
   Event,
   Gesture,
-  Appearance
+  Appearance,
+  Zone
 } from "@scalable.software/taskbar";
 
 // Tag
@@ -420,6 +421,46 @@ metadata(Metadata.APPEARANCE, () => {
 
         then("`Appearance.FLAT` is `flat`", () => {
           expect(Appearance.FLAT).toBe("flat");
+        });
+      });
+    });
+  });
+});
+
+metadata(Metadata.ZONE, () => {
+  and("Zone imported", () => {
+    then("Zone is defined", () => {
+      expect(Zone).toBeDefined();
+    });
+
+    and("Zone is defined", () => {
+      then("Zone is an object", () => {
+        expect(typeof Zone).toBe("object");
+      });
+
+      when("Zone is an object", () => {
+        then("`Zone.START` exists", () => {
+          expect(Zone.START).toBeDefined();
+        });
+
+        then("`Zone.START` is `start`", () => {
+          expect(Zone.START).toBe("start");
+        });
+
+        then("`Zone.CENTER` exists", () => {
+          expect(Zone.CENTER).toBeDefined();
+        });
+
+        then("`Zone.CENTER` is `center`", () => {
+          expect(Zone.CENTER).toBe("center");
+        });
+
+        then("`Zone.END` exists", () => {
+          expect(Zone.END).toBeDefined();
+        });
+
+        then("`Zone.END` is `end`", () => {
+          expect(Zone.END).toBe("end");
         });
       });
     });

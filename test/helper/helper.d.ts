@@ -24,6 +24,7 @@ declare const Metadata: {
   EVENT: string;
   GESTURE: string;
   APPEARANCE: string;
+  ZONE: string;
 };
 
 declare const Configuration: {
