@@ -300,6 +300,14 @@ metadata(Metadata.EVENT, () => {
         then("`Event.ON_MAXIMIZE` is `onmaximize`", () => {
           expect(Event.ON_MAXIMIZE).toBe("onmaximize");
         });
+
+        then("`Event.ON_RESTORE` exists", () => {
+          expect(Event.ON_RESTORE).toBeDefined();
+        });
+
+        then("`Event.ON_RESTORE` is `onrestore`", () => {
+          expect(Event.ON_RESTORE).toBe("onrestore");
+        });
       });
     });
   });
