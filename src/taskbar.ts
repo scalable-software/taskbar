@@ -13,7 +13,8 @@ import {
   Attributes,
   Visibility,
   Orientation,
-  Event
+  Event,
+  Operation
 } from "./taskbar.meta.js";
 
 import { type Meta } from "./taskbar.meta.js";
@@ -34,6 +35,14 @@ export const configuration: Configuration = {
     name: CSS
   }
 } as const;
+
+/**
+ * A control placed in the taskbar: any element. It may offer the operations the taskbar
+ * passes on, and it may have an appearance.
+ * @category Configuration
+ */
+type Control = Element &
+  Partial<Record<Operation, () => unknown>> & { appearance?: string };
 
 /**
  * @category Taskbar
@@ -315,7 +324,9 @@ export class Taskbar extends Component implements Meta {
    * Ask each control placed in the taskbar that offers `pin` to pin
    * @category Operations
    */
-  public pin = () => {};
+  public pin = () => {
+    this._ask(Operation.PIN);
+  };
 
   /**
    * Ask each control placed in the taskbar that offers `unpin` to unpin
@@ -388,4 +399,24 @@ export class Taskbar extends Component implements Meta {
    * @hidden
    */
   protected _removeEventListeners = () => {};
+
+  /**
+   * The controls placed in the taskbar: none until the taskbar is connected
+   * @category Operations
+   * @hidden
+   */
+  private _placed = () =>
+    (this.elements.controls?.assignedElements() ?? []) as Control[];
+
+  /**
+   * Ask each control placed in the taskbar that offers the operation to carry it out
+   * @category Operations
+   * @hidden
+   */
+  private _ask = (operation: Operation) => {
+    this._placed().forEach((control) => {
+      const act = control[operation];
+      typeof act === "function" && act.call(control);
+    });
+  };
 }
