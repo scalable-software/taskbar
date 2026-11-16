@@ -75,3 +75,7 @@ slot {
 :host([orientation="portrait"]) .bar {
   flex-direction: column;
 }
+
+:host([orientation="portrait"]) slot {
+  flex-direction: column;
+}
