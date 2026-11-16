@@ -284,6 +284,14 @@ metadata(Metadata.EVENT, () => {
         then("`Event.ON_UNPIN` is `onunpin`", () => {
           expect(Event.ON_UNPIN).toBe("onunpin");
         });
+
+        then("`Event.ON_MINIMIZE` exists", () => {
+          expect(Event.ON_MINIMIZE).toBeDefined();
+        });
+
+        then("`Event.ON_MINIMIZE` is `onminimize`", () => {
+          expect(Event.ON_MINIMIZE).toBe("onminimize");
+        });
       });
     });
   });
