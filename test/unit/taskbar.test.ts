@@ -427,6 +427,11 @@ state(State.ORIENTATION, () => {
             then("`taskbar.orientation` is `Orientation.PORTRAIT`", () => {
               expect(taskbar.orientation).toBe(Orientation.PORTRAIT);
             });
+
+            then("taskbar `orientation` attribute is `Orientation.PORTRAIT`", () => {
+              const value = taskbar.getAttribute(Attributes.ORIENTATION);
+              expect(value).toBe(Orientation.PORTRAIT);
+            });
           });
 
           when("`taskbar.orientation` is set to `null`", () => {
