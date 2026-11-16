@@ -14,9 +14,7 @@ import {
   Visibility,
   Orientation,
   Event,
-  Operation,
-  Gesture,
-  Appearance
+  Operation
 } from "./taskbar.meta.js";
 
 import { type Meta } from "./taskbar.meta.js";
@@ -407,33 +405,21 @@ export class Taskbar extends Component implements Meta {
    * @category Configuration
    * @hidden
    */
-  protected _initialize = () => {
-    this._flatten();
-  };
+  protected _initialize = () => {};
 
   /**
    * Called by the connectedCallback prototypical method
    * @category Configuration
    * @hidden
    */
-  protected _addEventListeners = () => {
-    this.elements.bar?.addEventListener(
-      Gesture.SLOTCHANGE,
-      this._handleBarSlotchangeFlatten
-    );
-  };
+  protected _addEventListeners = () => {};
 
   /**
    * Called by the disconnectedCallback prototypical method
    * @category Configuration
    * @hidden
    */
-  protected _removeEventListeners = () => {
-    this.elements.bar?.removeEventListener(
-      Gesture.SLOTCHANGE,
-      this._handleBarSlotchangeFlatten
-    );
-  };
+  protected _removeEventListeners = () => {};
 
   /**
    * The controls placed in the taskbar: none until the taskbar is connected
@@ -458,25 +444,4 @@ export class Taskbar extends Component implements Meta {
       typeof act === "function" && act.call(control);
     });
   };
-
-  /**
-   * Make every control placed in the taskbar that has an appearance flat: reached only
-   * through a gesture
-   * @category Operations
-   * @hidden
-   */
-  private _flatten = () => {
-    this._placed().forEach(
-      (control) =>
-        control.appearance !== undefined &&
-        (control.appearance = Appearance.FLAT)
-    );
-  };
-
-  /**
-   * Handles a control being placed in the taskbar or taken out: makes the controls flat
-   * @category Gesture
-   * @hidden
-   */
-  private _handleBarSlotchangeFlatten = () => this._flatten();
 }
