@@ -454,6 +454,37 @@ state(State.ORIENTATION, () => {
             });
           });
 
+          when("`orientation` attribute is set to `invalid`", () => {
+            beforeEach(async () => {
+              await jasmine.spyOnGlobalErrorsAsync(async () => {
+                taskbar.setAttribute(Attributes.ORIENTATION, "invalid");
+              });
+            });
+
+            then("`orientation` attribute does not exist", () => {
+              expect(taskbar.hasAttribute(Attributes.ORIENTATION)).toBeFalse();
+            });
+          });
+
+          and("`taskbar.orientation` is set to `Orientation.PORTRAIT`", () => {
+            beforeEach(() => {
+              taskbar.orientation = Orientation.PORTRAIT;
+            });
+
+            when("`orientation` attribute is set to `invalid`", () => {
+              beforeEach(async () => {
+                await jasmine.spyOnGlobalErrorsAsync(async () => {
+                  taskbar.setAttribute(Attributes.ORIENTATION, "invalid");
+                });
+              });
+
+              then("`orientation` attribute is `Orientation.PORTRAIT`", () => {
+                const value = taskbar.getAttribute(Attributes.ORIENTATION);
+                expect(value).toBe(Orientation.PORTRAIT);
+              });
+            });
+          });
+
           when("`taskbar.orientation` is set to `invalid`", () => {
             let error: Error;
             beforeEach(() => {
