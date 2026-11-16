@@ -10,7 +10,8 @@ import {
   Orientation,
   Operation,
   Event,
-  Gesture
+  Gesture,
+  Appearance
 } from "@scalable.software/taskbar";
 import { Pin, Status } from "@scalable.software/pin";
 import { Minimize } from "@scalable.software/minimize";
@@ -2163,6 +2164,9 @@ gesture(Gesture.SLOTCHANGE, () => {
                 });
               });
             });
+          });
+          then("`pin.appearance` is `Appearance.FLAT`", () => {
+            expect(pin.appearance).toBe(Appearance.FLAT);
           });
         });
         and("a pin is placed in a taskbar that is not in DOM yet", () => {
