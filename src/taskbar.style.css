@@ -9,3 +9,15 @@
   --bar-radius: 8px;
   --bar-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
+
+/* =======================
+  Dark Mode Variables
+======================= */
+@media (prefers-color-scheme: dark) {
+  :host {
+    --bar-background-color: #1e1e1e;
+    --bar-border-color: #3c3c3c;
+    --bar-shadow:
+      0 1px 3px rgba(255, 255, 255, 0.12), 0 3px 8px rgba(0, 0, 0, 0.6);
+  }
+}
