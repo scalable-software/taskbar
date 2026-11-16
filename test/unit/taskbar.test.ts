@@ -719,6 +719,20 @@ events(Event.ON_HIDE, () => {
                 }
               );
             });
+
+            when(
+              "`taskbar.visibility` is set to `Visibility.HIDDEN` twice",
+              () => {
+                beforeEach(() => {
+                  taskbar.visibility = Visibility.HIDDEN;
+                  taskbar.visibility = Visibility.HIDDEN;
+                });
+
+                then("`taskbar.onhide` is called once", () => {
+                  expect(onhide).toHaveBeenCalledTimes(1);
+                });
+              }
+            );
           });
         });
       });
