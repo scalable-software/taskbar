@@ -467,15 +467,32 @@ state(State.ORIENTATION, () => {
           });
 
           when("`orientation` attribute is set to `invalid`", () => {
+            let error: Error;
             beforeEach(async () => {
-              await jasmine.spyOnGlobalErrorsAsync(async () => {
+              await jasmine.spyOnGlobalErrorsAsync(async (reported) => {
                 taskbar.setAttribute(Attributes.ORIENTATION, "invalid");
+                error = reported.calls.mostRecent()?.args[0];
               });
             });
 
             then("`orientation` attribute does not exist", () => {
               expect(taskbar.hasAttribute(Attributes.ORIENTATION)).toBeFalse();
             });
+
+            then("`taskbar.orientation` is `Orientation.LANDSCAPE`", () => {
+              expect(taskbar.orientation).toBe(Orientation.LANDSCAPE);
+            });
+
+            then("an error is reported", () => {
+              expect(error).toBeDefined();
+            });
+
+            then(
+              "error message contains 'Invalid orientation value: invalid'",
+              () => {
+                expect(error.message).toBe("Invalid orientation value: invalid");
+              }
+            );
           });
 
           and("`taskbar.orientation` is set to `Orientation.PORTRAIT`", () => {
