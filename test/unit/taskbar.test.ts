@@ -1766,6 +1766,51 @@ events(Event.ON_MAXIMIZE, () => {
         then("`taskbar.onmaximize` setter exists", () => {
           expect(hasSetter(taskbar, Event.ON_MAXIMIZE)).toBeTrue();
         });
+
+        and("`taskbar.onmaximize` setter exists", () => {
+          and("a maximize control is placed in the taskbar", () => {
+            let control: Maximize;
+            beforeEach(async () => {
+              define(Maximize.Tag, Maximize);
+              await Maximize.Template.load("maximize.template.html");
+              control = taskbar.appendChild(create<Maximize>(Maximize.Tag));
+              await placed();
+            });
+            afterEach(() => {
+              remove(Maximize.Tag);
+            });
+
+            and("`taskbar.onmaximize` is set to a listener", () => {
+              let first: jasmine.Spy;
+              beforeEach(() => {
+                first = jasmine.createSpy("first");
+                taskbar.onmaximize = first;
+              });
+
+              and("`taskbar.onmaximize` is set to a new listener", () => {
+                let second: jasmine.Spy;
+                beforeEach(() => {
+                  second = jasmine.createSpy("second");
+                  taskbar.onmaximize = second;
+                });
+
+                when("the maximize control reports", () => {
+                  beforeEach(() => {
+                    control.maximize();
+                  });
+
+                  then("old `taskbar.onmaximize` is not called", () => {
+                    expect(first).not.toHaveBeenCalled();
+                  });
+
+                  then("new `taskbar.onmaximize` is called", () => {
+                    expect(second).toHaveBeenCalledTimes(1);
+                  });
+                });
+              });
+            });
+          });
+        });
       });
     });
   });
