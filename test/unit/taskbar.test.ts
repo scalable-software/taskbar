@@ -1655,6 +1655,51 @@ events(Event.ON_MINIMIZE, () => {
         then("`taskbar.onminimize` setter exists", () => {
           expect(hasSetter(taskbar, Event.ON_MINIMIZE)).toBeTrue();
         });
+
+        and("`taskbar.onminimize` setter exists", () => {
+          and("a minimize control is placed in the taskbar", () => {
+            let control: Minimize;
+            beforeEach(async () => {
+              define(Minimize.Tag, Minimize);
+              await Minimize.Template.load("minimize.template.html");
+              control = taskbar.appendChild(create<Minimize>(Minimize.Tag));
+              await placed();
+            });
+            afterEach(() => {
+              remove(Minimize.Tag);
+            });
+
+            and("`taskbar.onminimize` is set to a listener", () => {
+              let first: jasmine.Spy;
+              beforeEach(() => {
+                first = jasmine.createSpy("first");
+                taskbar.onminimize = first;
+              });
+
+              and("`taskbar.onminimize` is set to a new listener", () => {
+                let second: jasmine.Spy;
+                beforeEach(() => {
+                  second = jasmine.createSpy("second");
+                  taskbar.onminimize = second;
+                });
+
+                when("the minimize control reports", () => {
+                  beforeEach(() => {
+                    control.minimize();
+                  });
+
+                  then("old `taskbar.onminimize` is not called", () => {
+                    expect(first).not.toHaveBeenCalled();
+                  });
+
+                  then("new `taskbar.onminimize` is called", () => {
+                    expect(second).toHaveBeenCalledTimes(1);
+                  });
+                });
+              });
+            });
+          });
+        });
       });
     });
   });
