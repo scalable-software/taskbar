@@ -180,6 +180,14 @@ metadata(Metadata.CONTROL, () => {
         then("`Control.PIN` is `pin`", () => {
           expect(Control.PIN).toBe("pin");
         });
+
+        then("`Control.MINIMIZE` exists", () => {
+          expect(Control.MINIMIZE).toBeDefined();
+        });
+
+        then("`Control.MINIMIZE` is `minimize`", () => {
+          expect(Control.MINIMIZE).toBe("minimize");
+        });
       });
     });
   });
