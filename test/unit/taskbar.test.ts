@@ -341,6 +341,14 @@ composition(Composition.ELEMENT, () => {
             expect(taskbar["elements"].end.minimize).toBe(part);
           }
         );
+
+        then(
+          "`taskbar.elements.end.maximize` is a cached reference to the `maximize-button`",
+          () => {
+            const part = taskbar.root.querySelector(Maximize.Tag) as Maximize;
+            expect(taskbar["elements"].end.maximize).toBe(part);
+          }
+        );
       });
     });
   });
