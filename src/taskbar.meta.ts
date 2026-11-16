@@ -103,7 +103,8 @@ export const Event = {
   ON_UNPIN: "onunpin",
   ON_MINIMIZE: "onminimize",
   ON_MAXIMIZE: "onmaximize",
-  ON_RESTORE: "onrestore"
+  ON_RESTORE: "onrestore",
+  ON_CLOSE: "onclose"
 } as const;
 /**
  * @category Metadata

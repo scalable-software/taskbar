@@ -127,6 +127,13 @@ export class Taskbar extends Component implements Meta {
   private _onrestore: EventListener | null = null;
 
   /**
+   * onclose triggered when a control placed in the taskbar requests closing
+   * @category Events
+   * @hidden
+   */
+  private _onclose: EventListener | null = null;
+
+  /**
    * Cache element references to improve performance
    * @category State
    * @hidden
@@ -277,6 +284,15 @@ export class Taskbar extends Component implements Meta {
       this._onrestore,
       handler
     );
+  }
+
+  /**
+   * Triggered when a control placed in the taskbar requests closing
+   * @event
+   * @category Events
+   */
+  public set onclose(handler: EventListener | null) {
+    this._onclose = this._subscribe(Event.ON_CLOSE, this._onclose, handler);
   }
 
   /**
