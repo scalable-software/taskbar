@@ -14,11 +14,11 @@ The **Taskbar** component is a bridge between a host application and the control
 
 ```html
 <task-bar>
-  <pin-button></pin-button>
-  <minimize-button></minimize-button>
-  <maximize-button></maximize-button>
-  <restore-button></restore-button>
-  <close-button></close-button>
+  <pin-button slot="start"></pin-button>
+  <minimize-button slot="end"></minimize-button>
+  <maximize-button slot="end"></maximize-button>
+  <restore-button slot="end"></restore-button>
+  <close-button slot="end"></close-button>
 </task-bar>
 ```
 
@@ -28,6 +28,8 @@ const taskbar = document.querySelector("task-bar");
 taskbar.onclose = () => console.log("Closing was requested");
 taskbar.pin();
 ```
+
+The bar has three zones, and the host says where each control sits with the `slot` attribute: `start`, `center` or `end`. The centre takes the room the other two leave, so in a wide bar the pin sits at one end and the window controls at the other, with open space, or a title, between them. A control placed without one of the three names is not shown.
 
 The bar brings no controls of its own. The host application installs, defines and places the ones its window offers: `@scalable.software/pin`, `@scalable.software/minimize`, `@scalable.software/maximize`, `@scalable.software/restore` and `@scalable.software/close`, or any other component.
 
@@ -88,6 +90,8 @@ This walkthrough uses the demo page to show how `<task-bar>` behaves. The page h
 6. **Choose** `portrait` for `orientation` in the **States** group.
    - The controls sit one above the other, in the same order.
 
+   The page shows two bars. The second is half as wide as the window: its pin stays at the start, its window controls at the end, and the centre between them is empty. Narrow the window: the bar stops shrinking once it is as wide as its controls.
+
 7. **Inspect** the `<task-bar>` in the **Elements** tab.
    - Every control inside it carries `appearance="flat"`: the bar gave it that, so that the bar reads as one surface.
 
@@ -110,8 +114,8 @@ For more details on **States**, **Operations**, and **Events**, consult the sect
 
 ### 3.1 Composition
 
-- **Template** (`taskbar.template.html`): Defines DOM structure — a `.bar` surface holding one `slot`, where the controls the host places inside `<task-bar>` are shown.
-- **Style** (`taskbar.style.css`): Encapsulates the surface of the bar, the two orientations, and light/dark theme adaptation.
+- **Template** (`taskbar.template.html`): Defines DOM structure — a `.bar` surface holding three slots, `start`, `center` and `end`, where the controls the host places inside `<task-bar>` are shown.
+- **Style** (`taskbar.style.css`): Encapsulates the surface of the bar, its three zones, the two orientations, and light/dark theme adaptation. The bar is as high as its controls, leaves no space between them, and is never narrower than the controls it holds.
 - **Class** (`taskbar.ts`): Extends the base component class to handle lifecycle hooks, attribute reflection, listening to the controls, and event dispatch.
 
 The controls are the host's own elements. They are not part of the bar's template, and the host can still reach them: to hide the maximize control while the window is maximized, for instance, the host calls `hide()` on that control.
@@ -119,12 +123,12 @@ The controls are the host's own elements. They are not part of the bar's templat
 ### 3.2 Class Lifecycle
 
 - **`connectedCallback()`**
-  1. Caches the slot.
+  1. Caches the bar and its three slots.
   2. Makes every control already placed in the bar flat.
-  3. Listens to the slot for controls being placed or taken out, and to every control already placed.
+  3. Listens to the bar for controls being placed in a slot or taken out, and to every control already placed.
 
 - **`disconnectedCallback()`**
-  - Stops listening to the slot and to every control.
+  - Stops listening to the bar and to every control.
 
 ---
 
@@ -180,7 +184,7 @@ The last six change no state of the bar, and do nothing when no control in the b
 
 ### 4.4 Gestures
 
-- **`slotchange`**: when a control is placed in the bar or taken out, the bar listens to every control it now holds, stops listening to one that was taken out, and gives every control that has an `appearance` the value `flat`.
+- **`slotchange`**: when a control is placed in one of the three slots or taken out, the bar listens to every control it now holds, stops listening to one that was taken out, and gives every control that has an `appearance` the value `flat`.
 - **`onpin`, `onunpin`, `onminimize`, `onmaximize`, `onrestore`, `onclose`**: heard on each control through `addEventListener`, so the control's own `on…` properties stay free for the host. Each leads to the bar's event of the same name.
 
 ---
@@ -220,7 +224,7 @@ The host maps the bar, the base component, and each control it places:
 ```
 
 ```js
-import { Taskbar } from "@scalable.software/taskbar";
+import { Taskbar, Zone } from "@scalable.software/taskbar";
 import { Pin } from "@scalable.software/pin";
 
 await Pin.Template.load("pin.template.html");
@@ -228,6 +232,14 @@ customElements.define(Pin.Tag, Pin);
 
 await Taskbar.Template.load("taskbar.template.html");
 customElements.define(Taskbar.Tag, Taskbar);
+```
+
+The names of the zones are exported as `Zone.START`, `Zone.CENTER` and `Zone.END`, for a host that places controls from code:
+
+```js
+const pin = document.createElement(Pin.Tag);
+pin.slot = Zone.START;
+document.querySelector(Taskbar.Tag).append(pin);
 ```
 
 Define the controls before the bar, so that a control already in the markup can be made flat the moment the bar is connected.
