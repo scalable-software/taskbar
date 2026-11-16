@@ -1105,6 +1105,31 @@ control(Control.RESTORE, () => {
             expect(detached.restore).toBeNull();
           });
         });
+
+        and("`taskbar.restore.onrestore` is set to a listener", () => {
+          let onrestore: jasmine.Spy;
+          let onevent: jasmine.Spy;
+          beforeEach(() => {
+            onrestore = jasmine.createSpy("onrestore");
+            onevent = jasmine.createSpy("onevent");
+            (taskbar.restore as Restore).onrestore = onrestore;
+            taskbar.onevent = onevent;
+          });
+
+          when("invoking `taskbar.restore.restore`", () => {
+            beforeEach(() => {
+              taskbar.restore?.restore();
+            });
+
+            then("`taskbar.restore.onrestore` is called once", () => {
+              expect(onrestore).toHaveBeenCalledTimes(1);
+            });
+
+            then("the taskbar dispatches no event", () => {
+              expect(onevent).not.toHaveBeenCalled();
+            });
+          });
+        });
       });
     });
   });
