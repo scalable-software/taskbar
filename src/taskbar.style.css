@@ -38,3 +38,10 @@
   border-radius: var(--bar-radius);
   box-shadow: var(--bar-shadow);
 }
+
+/* =======================
+  State Visibility
+======================= */
+:host([visibility="hidden"]) {
+  display: none;
+}
