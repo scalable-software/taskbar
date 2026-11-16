@@ -995,6 +995,11 @@ control(Control.CLOSE, () => {
           expect(taskbar.close).toBeDefined();
         });
 
+        then("`taskbar.close` is the `close-button` of the taskbar", () => {
+          const part = taskbar.root.querySelector(Close.Tag) as Close;
+          expect(taskbar.close).toBe(part);
+        });
+
         and("a taskbar that is not in DOM", () => {
           let detached: Taskbar;
           beforeEach(() => {
