@@ -159,12 +159,16 @@ composition(Composition.TEMPLATE, () => {
           });
 
           then(
-            "`div.end` contains `minimize-button` and `maximize-button`, in that order, and nothing else",
+            "`div.end` contains `minimize-button`, `maximize-button` and `restore-button`, in that order, and nothing else",
             () => {
               const controls = [...div.querySelectorAll("div.end > *")].map(
                 (control) => control.localName
               );
-              expect(controls).toEqual([Minimize.Tag, Maximize.Tag]);
+              expect(controls).toEqual([
+                Minimize.Tag,
+                Maximize.Tag,
+                Restore.Tag
+              ]);
             }
           );
         });
