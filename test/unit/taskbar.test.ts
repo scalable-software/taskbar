@@ -632,6 +632,25 @@ operation(Operation.SHOW, () => {
         then("`taskbar.show` method exists", () => {
           expect(taskbar.show).toBeDefined();
         });
+
+        and("`taskbar.show` method exists", () => {
+          and("`taskbar.visibility` is `Visibility.HIDDEN`", () => {
+            beforeEach(() => {
+              taskbar.visibility = Visibility.HIDDEN;
+            });
+
+            when("invoking `taskbar.show`", () => {
+              let result: unknown;
+              beforeEach(() => {
+                result = taskbar.show();
+              });
+
+              then("`taskbar.visibility` is `Visibility.VISIBLE`", () => {
+                expect(taskbar.visibility).toBe(Visibility.VISIBLE);
+              });
+            });
+          });
+        });
       });
     });
   });
