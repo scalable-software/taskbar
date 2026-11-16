@@ -429,6 +429,16 @@ state(State.ORIENTATION, () => {
             });
           });
 
+          when("`taskbar.orientation` is set to `null`", () => {
+            beforeEach(() => {
+              taskbar.orientation = null;
+            });
+
+            then("`taskbar.orientation` is `Orientation.LANDSCAPE`", () => {
+              expect(taskbar.orientation).toBe(Orientation.LANDSCAPE);
+            });
+          });
+
           when("`taskbar.orientation` is set to `invalid`", () => {
             let error: Error;
             beforeEach(() => {
