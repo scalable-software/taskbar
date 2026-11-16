@@ -12,7 +12,8 @@ import {
   CSS,
   Attributes,
   Visibility,
-  Orientation
+  Orientation,
+  Event
 } from "./taskbar.meta.js";
 
 import { type Meta } from "./taskbar.meta.js";
@@ -75,6 +76,13 @@ export class Taskbar extends Component implements Meta {
    * @hidden
    */
   private _orientation: Orientation = Orientation.LANDSCAPE;
+
+  /**
+   * onhide triggered when taskbar visibility changes to hidden
+   * @category Events
+   * @hidden
+   */
+  private _onhide: EventListener | null = null;
 
   /**
    * Cache element references to improve performance
@@ -144,6 +152,15 @@ export class Taskbar extends Component implements Meta {
         Orientation.LANDSCAPE
       );
     }
+  }
+
+  /**
+   * Triggered via `.hide()`
+   * @event
+   * @category Events
+   */
+  public set onhide(handler: EventListener | null) {
+    this._onhide = this._subscribe(Event.ON_HIDE, this._onhide, handler);
   }
 
   /**

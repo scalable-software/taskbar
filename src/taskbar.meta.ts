@@ -90,7 +90,9 @@ export type Operation = (typeof Operation)[keyof typeof Operation];
  * @category Metadata
  * @enum
  */
-export const Event = {} as const;
+export const Event = {
+  ON_HIDE: "onhide"
+} as const;
 /**
  * @category Metadata
  */
@@ -119,7 +121,13 @@ export type States = Record<State, unknown>;
 export type Operations = Record<Operation, (...parameters: any[]) => unknown>;
 
 /**
+ * Every event the component must have a subscription property for
+ * @category Metadata
+ */
+export type Events = Record<Event, EventListener | null>;
+
+/**
  * Everything the metadata says the component has: implemented by the component
  * @category Metadata
  */
-export type Meta = States & Operations;
+export type Meta = States & Operations & Events;
