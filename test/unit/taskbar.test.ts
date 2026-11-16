@@ -176,6 +176,30 @@ composition(Composition.TEMPLATE, () => {
             });
           });
         });
+
+        and(
+          "a pin is placed inside the taskbar for the slot named `end`",
+          () => {
+            let pin: Pin;
+            let onevent: jasmine.Spy;
+            beforeEach(async () => {
+              pin = taskbar.appendChild(create<Pin>(Pin.Tag, "end"));
+              await placed();
+              onevent = jasmine.createSpy("onevent");
+              taskbar.onevent = onevent;
+            });
+
+            when("the pin is pinned", () => {
+              beforeEach(() => {
+                pin.pin();
+              });
+
+              then("the taskbar dispatches no event", () => {
+                expect(onevent).not.toHaveBeenCalled();
+              });
+            });
+          }
+        );
       });
     });
   });
@@ -1538,80 +1562,27 @@ events(Event.ON_PIN, () => {
         });
 
         and("`taskbar.onpin` setter exists", () => {
-          and("a pin is placed in the taskbar", () => {
-            let pin: Pin;
-            beforeEach(async () => {
-              define(Pin.Tag, Pin);
-              await Pin.Template.load("pin.template.html");
-              pin = taskbar.appendChild(create<Pin>(Pin.Tag, Zone.END));
-              await placed();
+          when("`taskbar.onpin` is set to `invalid`", () => {
+            let error: Error;
+            beforeEach(() => {
+              try {
+                // @ts-expect-error
+                taskbar.onpin = "invalid";
+              } catch (err) {
+                error = err as Error;
+              }
             });
-            afterEach(() => {
-              remove(Pin.Tag);
+
+            then("an error is thrown", () => {
+              expect(error).toBeDefined();
             });
 
-            and("`taskbar.onpin` is set to a listener", () => {
-              let first: jasmine.Spy;
-              beforeEach(() => {
-                first = jasmine.createSpy("first");
-                taskbar.onpin = first;
-              });
-
-              and("`taskbar.onpin` is set to a new listener", () => {
-                let second: jasmine.Spy;
-                beforeEach(() => {
-                  second = jasmine.createSpy("second");
-                  taskbar.onpin = second;
-                });
-
-                when("the pin reports", () => {
-                  beforeEach(() => {
-                    pin.pin();
-                  });
-
-                  then("old `taskbar.onpin` is not called", () => {
-                    expect(first).not.toHaveBeenCalled();
-                  });
-
-                  then("new `taskbar.onpin` is called", () => {
-                    expect(second).toHaveBeenCalledTimes(1);
-                  });
-                });
-              });
-
-              when("`taskbar.onpin` is set to `invalid`", () => {
-                let error: Error;
-                beforeEach(() => {
-                  try {
-                    // @ts-expect-error
-                    taskbar.onpin = "invalid";
-                  } catch (err) {
-                    error = err as Error;
-                  }
-                });
-
-                then("an error is thrown", () => {
-                  expect(error).toBeDefined();
-                });
-
-                then(
-                  "error message contains 'Invalid onpin value: invalid'",
-                  () => {
-                    expect(error.message).toBe("Invalid onpin value: invalid");
-                  }
-                );
-
-                when("the pin reports", () => {
-                  beforeEach(() => {
-                    pin.pin();
-                  });
-
-                  then("`taskbar.onpin` listener is still called", () => {
-                    expect(first).toHaveBeenCalledTimes(1);
-                  });
-                });
-              });
-            });
+            then(
+              "error message contains 'Invalid onpin value: invalid'",
+              () => {
+                expect(error.message).toBe("Invalid onpin value: invalid");
+              }
+            );
           });
         });
       });
@@ -1647,83 +1618,27 @@ events(Event.ON_UNPIN, () => {
         });
 
         and("`taskbar.onunpin` setter exists", () => {
-          and("a pin is placed in the taskbar", () => {
-            let pin: Pin;
-            beforeEach(async () => {
-              define(Pin.Tag, Pin);
-              await Pin.Template.load("pin.template.html");
-              pin = taskbar.appendChild(create<Pin>(Pin.Tag, Zone.END));
-              await placed();
-              pin.pin();
-            });
-            afterEach(() => {
-              remove(Pin.Tag);
+          when("`taskbar.onunpin` is set to `invalid`", () => {
+            let error: Error;
+            beforeEach(() => {
+              try {
+                // @ts-expect-error
+                taskbar.onunpin = "invalid";
+              } catch (err) {
+                error = err as Error;
+              }
             });
 
-            and("`taskbar.onunpin` is set to a listener", () => {
-              let first: jasmine.Spy;
-              beforeEach(() => {
-                first = jasmine.createSpy("first");
-                taskbar.onunpin = first;
-              });
-
-              and("`taskbar.onunpin` is set to a new listener", () => {
-                let second: jasmine.Spy;
-                beforeEach(() => {
-                  second = jasmine.createSpy("second");
-                  taskbar.onunpin = second;
-                });
-
-                when("the pin reports", () => {
-                  beforeEach(() => {
-                    pin.unpin();
-                  });
-
-                  then("old `taskbar.onunpin` is not called", () => {
-                    expect(first).not.toHaveBeenCalled();
-                  });
-
-                  then("new `taskbar.onunpin` is called", () => {
-                    expect(second).toHaveBeenCalledTimes(1);
-                  });
-                });
-              });
-
-              when("`taskbar.onunpin` is set to `invalid`", () => {
-                let error: Error;
-                beforeEach(() => {
-                  try {
-                    // @ts-expect-error
-                    taskbar.onunpin = "invalid";
-                  } catch (err) {
-                    error = err as Error;
-                  }
-                });
-
-                then("an error is thrown", () => {
-                  expect(error).toBeDefined();
-                });
-
-                then(
-                  "error message contains 'Invalid onunpin value: invalid'",
-                  () => {
-                    expect(error.message).toBe(
-                      "Invalid onunpin value: invalid"
-                    );
-                  }
-                );
-
-                when("the pin reports", () => {
-                  beforeEach(() => {
-                    pin.unpin();
-                  });
-
-                  then("`taskbar.onunpin` listener is still called", () => {
-                    expect(first).toHaveBeenCalledTimes(1);
-                  });
-                });
-              });
+            then("an error is thrown", () => {
+              expect(error).toBeDefined();
             });
+
+            then(
+              "error message contains 'Invalid onunpin value: invalid'",
+              () => {
+                expect(error.message).toBe("Invalid onunpin value: invalid");
+              }
+            );
           });
         });
       });
@@ -1759,82 +1674,27 @@ events(Event.ON_MINIMIZE, () => {
         });
 
         and("`taskbar.onminimize` setter exists", () => {
-          and("a minimize control is placed in the taskbar", () => {
-            let control: Minimize;
-            beforeEach(async () => {
-              define(Minimize.Tag, Minimize);
-              await Minimize.Template.load("minimize.template.html");
-              control = taskbar.appendChild(create<Minimize>(Minimize.Tag, Zone.END));
-              await placed();
+          when("`taskbar.onminimize` is set to `invalid`", () => {
+            let error: Error;
+            beforeEach(() => {
+              try {
+                // @ts-expect-error
+                taskbar.onminimize = "invalid";
+              } catch (err) {
+                error = err as Error;
+              }
             });
-            afterEach(() => {
-              remove(Minimize.Tag);
+
+            then("an error is thrown", () => {
+              expect(error).toBeDefined();
             });
 
-            and("`taskbar.onminimize` is set to a listener", () => {
-              let first: jasmine.Spy;
-              beforeEach(() => {
-                first = jasmine.createSpy("first");
-                taskbar.onminimize = first;
-              });
-
-              and("`taskbar.onminimize` is set to a new listener", () => {
-                let second: jasmine.Spy;
-                beforeEach(() => {
-                  second = jasmine.createSpy("second");
-                  taskbar.onminimize = second;
-                });
-
-                when("the minimize control reports", () => {
-                  beforeEach(() => {
-                    control.minimize();
-                  });
-
-                  then("old `taskbar.onminimize` is not called", () => {
-                    expect(first).not.toHaveBeenCalled();
-                  });
-
-                  then("new `taskbar.onminimize` is called", () => {
-                    expect(second).toHaveBeenCalledTimes(1);
-                  });
-                });
-              });
-
-              when("`taskbar.onminimize` is set to `invalid`", () => {
-                let error: Error;
-                beforeEach(() => {
-                  try {
-                    // @ts-expect-error
-                    taskbar.onminimize = "invalid";
-                  } catch (err) {
-                    error = err as Error;
-                  }
-                });
-
-                then("an error is thrown", () => {
-                  expect(error).toBeDefined();
-                });
-
-                then(
-                  "error message contains 'Invalid onminimize value: invalid'",
-                  () => {
-                    expect(error.message).toBe(
-                      "Invalid onminimize value: invalid"
-                    );
-                  }
-                );
-
-                when("the minimize control reports", () => {
-                  beforeEach(() => {
-                    control.minimize();
-                  });
-
-                  then("`taskbar.onminimize` listener is still called", () => {
-                    expect(first).toHaveBeenCalledTimes(1);
-                  });
-                });
-              });
-            });
+            then(
+              "error message contains 'Invalid onminimize value: invalid'",
+              () => {
+                expect(error.message).toBe("Invalid onminimize value: invalid");
+              }
+            );
           });
         });
       });
@@ -1870,82 +1730,27 @@ events(Event.ON_MAXIMIZE, () => {
         });
 
         and("`taskbar.onmaximize` setter exists", () => {
-          and("a maximize control is placed in the taskbar", () => {
-            let control: Maximize;
-            beforeEach(async () => {
-              define(Maximize.Tag, Maximize);
-              await Maximize.Template.load("maximize.template.html");
-              control = taskbar.appendChild(create<Maximize>(Maximize.Tag, Zone.END));
-              await placed();
+          when("`taskbar.onmaximize` is set to `invalid`", () => {
+            let error: Error;
+            beforeEach(() => {
+              try {
+                // @ts-expect-error
+                taskbar.onmaximize = "invalid";
+              } catch (err) {
+                error = err as Error;
+              }
             });
-            afterEach(() => {
-              remove(Maximize.Tag);
+
+            then("an error is thrown", () => {
+              expect(error).toBeDefined();
             });
 
-            and("`taskbar.onmaximize` is set to a listener", () => {
-              let first: jasmine.Spy;
-              beforeEach(() => {
-                first = jasmine.createSpy("first");
-                taskbar.onmaximize = first;
-              });
-
-              and("`taskbar.onmaximize` is set to a new listener", () => {
-                let second: jasmine.Spy;
-                beforeEach(() => {
-                  second = jasmine.createSpy("second");
-                  taskbar.onmaximize = second;
-                });
-
-                when("the maximize control reports", () => {
-                  beforeEach(() => {
-                    control.maximize();
-                  });
-
-                  then("old `taskbar.onmaximize` is not called", () => {
-                    expect(first).not.toHaveBeenCalled();
-                  });
-
-                  then("new `taskbar.onmaximize` is called", () => {
-                    expect(second).toHaveBeenCalledTimes(1);
-                  });
-                });
-              });
-
-              when("`taskbar.onmaximize` is set to `invalid`", () => {
-                let error: Error;
-                beforeEach(() => {
-                  try {
-                    // @ts-expect-error
-                    taskbar.onmaximize = "invalid";
-                  } catch (err) {
-                    error = err as Error;
-                  }
-                });
-
-                then("an error is thrown", () => {
-                  expect(error).toBeDefined();
-                });
-
-                then(
-                  "error message contains 'Invalid onmaximize value: invalid'",
-                  () => {
-                    expect(error.message).toBe(
-                      "Invalid onmaximize value: invalid"
-                    );
-                  }
-                );
-
-                when("the maximize control reports", () => {
-                  beforeEach(() => {
-                    control.maximize();
-                  });
-
-                  then("`taskbar.onmaximize` listener is still called", () => {
-                    expect(first).toHaveBeenCalledTimes(1);
-                  });
-                });
-              });
-            });
+            then(
+              "error message contains 'Invalid onmaximize value: invalid'",
+              () => {
+                expect(error.message).toBe("Invalid onmaximize value: invalid");
+              }
+            );
           });
         });
       });
@@ -1981,82 +1786,27 @@ events(Event.ON_RESTORE, () => {
         });
 
         and("`taskbar.onrestore` setter exists", () => {
-          and("a restore control is placed in the taskbar", () => {
-            let control: Restore;
-            beforeEach(async () => {
-              define(Restore.Tag, Restore);
-              await Restore.Template.load("restore.template.html");
-              control = taskbar.appendChild(create<Restore>(Restore.Tag, Zone.END));
-              await placed();
+          when("`taskbar.onrestore` is set to `invalid`", () => {
+            let error: Error;
+            beforeEach(() => {
+              try {
+                // @ts-expect-error
+                taskbar.onrestore = "invalid";
+              } catch (err) {
+                error = err as Error;
+              }
             });
-            afterEach(() => {
-              remove(Restore.Tag);
+
+            then("an error is thrown", () => {
+              expect(error).toBeDefined();
             });
 
-            and("`taskbar.onrestore` is set to a listener", () => {
-              let first: jasmine.Spy;
-              beforeEach(() => {
-                first = jasmine.createSpy("first");
-                taskbar.onrestore = first;
-              });
-
-              and("`taskbar.onrestore` is set to a new listener", () => {
-                let second: jasmine.Spy;
-                beforeEach(() => {
-                  second = jasmine.createSpy("second");
-                  taskbar.onrestore = second;
-                });
-
-                when("the restore control reports", () => {
-                  beforeEach(() => {
-                    control.restore();
-                  });
-
-                  then("old `taskbar.onrestore` is not called", () => {
-                    expect(first).not.toHaveBeenCalled();
-                  });
-
-                  then("new `taskbar.onrestore` is called", () => {
-                    expect(second).toHaveBeenCalledTimes(1);
-                  });
-                });
-              });
-
-              when("`taskbar.onrestore` is set to `invalid`", () => {
-                let error: Error;
-                beforeEach(() => {
-                  try {
-                    // @ts-expect-error
-                    taskbar.onrestore = "invalid";
-                  } catch (err) {
-                    error = err as Error;
-                  }
-                });
-
-                then("an error is thrown", () => {
-                  expect(error).toBeDefined();
-                });
-
-                then(
-                  "error message contains 'Invalid onrestore value: invalid'",
-                  () => {
-                    expect(error.message).toBe(
-                      "Invalid onrestore value: invalid"
-                    );
-                  }
-                );
-
-                when("the restore control reports", () => {
-                  beforeEach(() => {
-                    control.restore();
-                  });
-
-                  then("`taskbar.onrestore` listener is still called", () => {
-                    expect(first).toHaveBeenCalledTimes(1);
-                  });
-                });
-              });
-            });
+            then(
+              "error message contains 'Invalid onrestore value: invalid'",
+              () => {
+                expect(error.message).toBe("Invalid onrestore value: invalid");
+              }
+            );
           });
         });
       });
@@ -2092,82 +1842,27 @@ events(Event.ON_CLOSE, () => {
         });
 
         and("`taskbar.onclose` setter exists", () => {
-          and("a close control is placed in the taskbar", () => {
-            let control: Close;
-            beforeEach(async () => {
-              define(Close.Tag, Close);
-              await Close.Template.load("close.template.html");
-              control = taskbar.appendChild(create<Close>(Close.Tag, Zone.END));
-              await placed();
+          when("`taskbar.onclose` is set to `invalid`", () => {
+            let error: Error;
+            beforeEach(() => {
+              try {
+                // @ts-expect-error
+                taskbar.onclose = "invalid";
+              } catch (err) {
+                error = err as Error;
+              }
             });
-            afterEach(() => {
-              remove(Close.Tag);
+
+            then("an error is thrown", () => {
+              expect(error).toBeDefined();
             });
 
-            and("`taskbar.onclose` is set to a listener", () => {
-              let first: jasmine.Spy;
-              beforeEach(() => {
-                first = jasmine.createSpy("first");
-                taskbar.onclose = first;
-              });
-
-              and("`taskbar.onclose` is set to a new listener", () => {
-                let second: jasmine.Spy;
-                beforeEach(() => {
-                  second = jasmine.createSpy("second");
-                  taskbar.onclose = second;
-                });
-
-                when("the close control reports", () => {
-                  beforeEach(() => {
-                    control.close();
-                  });
-
-                  then("old `taskbar.onclose` is not called", () => {
-                    expect(first).not.toHaveBeenCalled();
-                  });
-
-                  then("new `taskbar.onclose` is called", () => {
-                    expect(second).toHaveBeenCalledTimes(1);
-                  });
-                });
-              });
-
-              when("`taskbar.onclose` is set to `invalid`", () => {
-                let error: Error;
-                beforeEach(() => {
-                  try {
-                    // @ts-expect-error
-                    taskbar.onclose = "invalid";
-                  } catch (err) {
-                    error = err as Error;
-                  }
-                });
-
-                then("an error is thrown", () => {
-                  expect(error).toBeDefined();
-                });
-
-                then(
-                  "error message contains 'Invalid onclose value: invalid'",
-                  () => {
-                    expect(error.message).toBe(
-                      "Invalid onclose value: invalid"
-                    );
-                  }
-                );
-
-                when("the close control reports", () => {
-                  beforeEach(() => {
-                    control.close();
-                  });
-
-                  then("`taskbar.onclose` listener is still called", () => {
-                    expect(first).toHaveBeenCalledTimes(1);
-                  });
-                });
-              });
-            });
+            then(
+              "error message contains 'Invalid onclose value: invalid'",
+              () => {
+                expect(error.message).toBe("Invalid onclose value: invalid");
+              }
+            );
           });
         });
       });
@@ -2212,60 +1907,6 @@ gesture(Gesture.SLOTCHANGE, () => {
             remove(Pin.Tag);
           });
 
-          and("`taskbar.onpin` is set to a listener", () => {
-            let onpin: jasmine.Spy;
-            beforeEach(() => {
-              onpin = jasmine.createSpy("onpin");
-              taskbar.onpin = onpin;
-            });
-
-            and("the pin is taken out of the taskbar", () => {
-              beforeEach(async () => {
-                pin.remove();
-                await placed();
-              });
-
-              when("the pin is pinned", () => {
-                beforeEach(() => {
-                  pin.pin();
-                });
-
-                then("`onpin` is not called", () => {
-                  expect(onpin).not.toHaveBeenCalled();
-                });
-              });
-            });
-            and("the taskbar is removed from DOM", () => {
-              beforeEach(() => {
-                taskbar.remove();
-              });
-
-              when("the pin is pinned", () => {
-                beforeEach(() => {
-                  pin.pin();
-                });
-
-                then("`onpin` is not called", () => {
-                  expect(onpin).not.toHaveBeenCalled();
-                });
-              });
-              and("the taskbar is added to DOM again", () => {
-                beforeEach(() => {
-                  document.body.appendChild(taskbar);
-                });
-
-                when("the pin is pinned", () => {
-                  beforeEach(() => {
-                    pin.pin();
-                  });
-
-                  then("`onpin` is called once", () => {
-                    expect(onpin).toHaveBeenCalledTimes(1);
-                  });
-                });
-              });
-            });
-          });
           then("`pin.appearance` is `Appearance.FLAT`", () => {
             expect(pin.appearance).toBe(Appearance.FLAT);
           });
@@ -2306,18 +1947,6 @@ gesture(Gesture.SLOTCHANGE, () => {
               document.body.appendChild(later);
             });
 
-            when("the pin is pinned", () => {
-              let onpin: jasmine.Spy;
-              beforeEach(() => {
-                onpin = jasmine.createSpy("onpin");
-                later.onpin = onpin;
-                pin.pin();
-              });
-
-              then("`onpin` is called once", () => {
-                expect(onpin).toHaveBeenCalledTimes(1);
-              });
-            });
             then("`pin.appearance` is `Appearance.FLAT`", () => {
               expect(pin.appearance).toBe(Appearance.FLAT);
             });
@@ -2341,14 +1970,11 @@ gesture(Gesture.SLOTCHANGE, () => {
 
         and("a pin is placed at the start of the taskbar", () => {
           let pin: Pin;
-          let onpin: jasmine.Spy;
           beforeEach(async () => {
             define(Pin.Tag, Pin);
             await Pin.Template.load("pin.template.html");
             pin = taskbar.appendChild(create<Pin>(Pin.Tag, Zone.START));
             await placed();
-            onpin = jasmine.createSpy("onpin");
-            taskbar.onpin = onpin;
           });
           afterEach(() => {
             remove(Pin.Tag);
@@ -2365,16 +1991,6 @@ gesture(Gesture.SLOTCHANGE, () => {
             expect(pin.appearance).toBe(Appearance.FLAT);
           });
 
-          when("the pin is pinned", () => {
-            beforeEach(() => {
-              pin.pin();
-            });
-
-            then("`onpin` is called once", () => {
-              expect(onpin).toHaveBeenCalledTimes(1);
-            });
-          });
-
           when("invoking `taskbar.pin`", () => {
             beforeEach(() => {
               taskbar.pin();
@@ -2388,14 +2004,11 @@ gesture(Gesture.SLOTCHANGE, () => {
 
         and("a pin is placed in the centre of the taskbar", () => {
           let pin: Pin;
-          let onpin: jasmine.Spy;
           beforeEach(async () => {
             define(Pin.Tag, Pin);
             await Pin.Template.load("pin.template.html");
             pin = taskbar.appendChild(create<Pin>(Pin.Tag, Zone.CENTER));
             await placed();
-            onpin = jasmine.createSpy("onpin");
-            taskbar.onpin = onpin;
           });
           afterEach(() => {
             remove(Pin.Tag);
@@ -2412,16 +2025,6 @@ gesture(Gesture.SLOTCHANGE, () => {
             expect(pin.appearance).toBe(Appearance.FLAT);
           });
 
-          when("the pin is pinned", () => {
-            beforeEach(() => {
-              pin.pin();
-            });
-
-            then("`onpin` is called once", () => {
-              expect(onpin).toHaveBeenCalledTimes(1);
-            });
-          });
-
           when("invoking `taskbar.pin`", () => {
             beforeEach(() => {
               taskbar.pin();
@@ -2435,14 +2038,11 @@ gesture(Gesture.SLOTCHANGE, () => {
 
         and("a pin is placed at the end of the taskbar", () => {
           let pin: Pin;
-          let onpin: jasmine.Spy;
           beforeEach(async () => {
             define(Pin.Tag, Pin);
             await Pin.Template.load("pin.template.html");
             pin = taskbar.appendChild(create<Pin>(Pin.Tag, Zone.END));
             await placed();
-            onpin = jasmine.createSpy("onpin");
-            taskbar.onpin = onpin;
           });
           afterEach(() => {
             remove(Pin.Tag);
@@ -2459,16 +2059,6 @@ gesture(Gesture.SLOTCHANGE, () => {
             expect(pin.appearance).toBe(Appearance.FLAT);
           });
 
-          when("the pin is pinned", () => {
-            beforeEach(() => {
-              pin.pin();
-            });
-
-            then("`onpin` is called once", () => {
-              expect(onpin).toHaveBeenCalledTimes(1);
-            });
-          });
-
           when("invoking `taskbar.pin`", () => {
             beforeEach(() => {
               taskbar.pin();
@@ -2482,14 +2072,11 @@ gesture(Gesture.SLOTCHANGE, () => {
 
         and("a pin is placed in the taskbar without a zone", () => {
           let pin: Pin;
-          let onpin: jasmine.Spy;
           beforeEach(async () => {
             define(Pin.Tag, Pin);
             await Pin.Template.load("pin.template.html");
             pin = taskbar.appendChild(create<Pin>(Pin.Tag));
             await placed();
-            onpin = jasmine.createSpy("onpin");
-            taskbar.onpin = onpin;
           });
           afterEach(() => {
             remove(Pin.Tag);
@@ -2499,481 +2086,6 @@ gesture(Gesture.SLOTCHANGE, () => {
             const slots = [...taskbar.root.querySelectorAll("slot")];
             const shown = slots.flatMap((slot) => slot.assignedElements());
             expect(shown).not.toContain(pin);
-          });
-
-          when("the pin is pinned", () => {
-            beforeEach(() => {
-              pin.pin();
-            });
-
-            then("`onpin` is not called", () => {
-              expect(onpin).not.toHaveBeenCalled();
-            });
-          });
-        });
-      });
-    });
-  });
-});
-
-gesture(Gesture.ON_PIN, () => {
-  and("Taskbar is defined in custom element registry", () => {
-    beforeEach(() => {
-      define(Taskbar.Tag, Taskbar);
-    });
-
-    and("HTML Template is added to DOM", () => {
-      beforeEach(async () => {
-        await Taskbar.Template.load("taskbar.template.html");
-      });
-      afterEach(() => {
-        remove(Taskbar.Tag);
-      });
-
-      and("a new taskbar is added to DOM", () => {
-        let taskbar: Taskbar;
-        beforeEach(() => {
-          taskbar = add<Taskbar>(Taskbar.Tag);
-        });
-        afterEach(() => {
-          taskbar.remove();
-        });
-
-        and("a pin is placed in the taskbar", () => {
-          let pin: Pin;
-          beforeEach(async () => {
-            define(Pin.Tag, Pin);
-            await Pin.Template.load("pin.template.html");
-            pin = taskbar.appendChild(create<Pin>(Pin.Tag, Zone.END));
-            await placed();
-          });
-          afterEach(() => {
-            remove(Pin.Tag);
-          });
-
-          and("`taskbar.onpin` is set to a listener", () => {
-            let onpin: jasmine.Spy;
-            beforeEach(() => {
-              onpin = jasmine.createSpy("onpin");
-              taskbar.onpin = onpin;
-            });
-
-            when("the pin is pinned", () => {
-              beforeEach(() => {
-                pin.pin();
-              });
-
-              then("`onpin` is called once", () => {
-                expect(onpin).toHaveBeenCalledTimes(1);
-              });
-
-              then(
-                "`onpin` is called with `{ detail: { status: Status.PINNED } }`",
-                () => {
-                  expect(onpin).toHaveBeenCalledWith(
-                    jasmine.objectContaining({
-                      detail: { status: Status.PINNED }
-                    })
-                  );
-                }
-              );
-            });
-
-            when("the pin is hidden and shown", () => {
-              let onhide: jasmine.Spy;
-              let onshow: jasmine.Spy;
-              beforeEach(() => {
-                onhide = jasmine.createSpy("onhide");
-                onshow = jasmine.createSpy("onshow");
-                taskbar.onhide = onhide;
-                taskbar.onshow = onshow;
-                pin.hide();
-                pin.show();
-              });
-
-              then("`taskbar.onhide` is not called", () => {
-                expect(onhide).not.toHaveBeenCalled();
-              });
-
-              then("`taskbar.onshow` is not called", () => {
-                expect(onshow).not.toHaveBeenCalled();
-              });
-            });
-          });
-        });
-      });
-    });
-  });
-});
-
-gesture(Gesture.ON_UNPIN, () => {
-  and("Taskbar is defined in custom element registry", () => {
-    beforeEach(() => {
-      define(Taskbar.Tag, Taskbar);
-    });
-
-    and("HTML Template is added to DOM", () => {
-      beforeEach(async () => {
-        await Taskbar.Template.load("taskbar.template.html");
-      });
-      afterEach(() => {
-        remove(Taskbar.Tag);
-      });
-
-      and("a new taskbar is added to DOM", () => {
-        let taskbar: Taskbar;
-        beforeEach(() => {
-          taskbar = add<Taskbar>(Taskbar.Tag);
-        });
-        afterEach(() => {
-          taskbar.remove();
-        });
-
-        and("a pin is placed in the taskbar", () => {
-          let pin: Pin;
-          beforeEach(async () => {
-            define(Pin.Tag, Pin);
-            await Pin.Template.load("pin.template.html");
-            pin = taskbar.appendChild(create<Pin>(Pin.Tag, Zone.END));
-            await placed();
-            pin.pin();
-          });
-          afterEach(() => {
-            remove(Pin.Tag);
-          });
-
-          and("`taskbar.onunpin` is set to a listener", () => {
-            let onunpin: jasmine.Spy;
-            beforeEach(() => {
-              onunpin = jasmine.createSpy("onunpin");
-              taskbar.onunpin = onunpin;
-            });
-
-            when("the pin is unpinned", () => {
-              beforeEach(() => {
-                pin.unpin();
-              });
-
-              then("`onunpin` is called once", () => {
-                expect(onunpin).toHaveBeenCalledTimes(1);
-              });
-
-              then(
-                "`onunpin` is called with `{ detail: { status: Status.UNPINNED } }`",
-                () => {
-                  expect(onunpin).toHaveBeenCalledWith(
-                    jasmine.objectContaining({
-                      detail: { status: Status.UNPINNED }
-                    })
-                  );
-                }
-              );
-            });
-          });
-        });
-      });
-    });
-  });
-});
-
-gesture(Gesture.ON_MINIMIZE, () => {
-  and("Taskbar is defined in custom element registry", () => {
-    beforeEach(() => {
-      define(Taskbar.Tag, Taskbar);
-    });
-
-    and("HTML Template is added to DOM", () => {
-      beforeEach(async () => {
-        await Taskbar.Template.load("taskbar.template.html");
-      });
-      afterEach(() => {
-        remove(Taskbar.Tag);
-      });
-
-      and("a new taskbar is added to DOM", () => {
-        let taskbar: Taskbar;
-        beforeEach(() => {
-          taskbar = add<Taskbar>(Taskbar.Tag);
-        });
-        afterEach(() => {
-          taskbar.remove();
-        });
-
-        and("a minimize control is placed in the taskbar", () => {
-          let control: Minimize;
-          beforeEach(async () => {
-            define(Minimize.Tag, Minimize);
-            await Minimize.Template.load("minimize.template.html");
-            control = taskbar.appendChild(create<Minimize>(Minimize.Tag, Zone.END));
-            await placed();
-          });
-          afterEach(() => {
-            remove(Minimize.Tag);
-          });
-
-          and("`taskbar.onminimize` is set to a listener", () => {
-            let onminimize: jasmine.Spy;
-            beforeEach(() => {
-              onminimize = jasmine.createSpy("onminimize");
-              taskbar.onminimize = onminimize;
-            });
-
-            when("the minimize control requests minimizing", () => {
-              beforeEach(() => {
-                control.minimize();
-              });
-
-              then("`onminimize` is called once", () => {
-                expect(onminimize).toHaveBeenCalledTimes(1);
-              });
-
-              then("`onminimize` is called with no detail", () => {
-                expect(onminimize.calls.mostRecent().args[0].detail).toBeNull();
-              });
-
-              when("the minimize control requests minimizing again", () => {
-                beforeEach(() => {
-                  control.minimize();
-                });
-
-                then("`onminimize` is called twice", () => {
-                  expect(onminimize).toHaveBeenCalledTimes(2);
-                });
-              });
-            });
-          });
-        });
-      });
-    });
-  });
-});
-
-gesture(Gesture.ON_MAXIMIZE, () => {
-  and("Taskbar is defined in custom element registry", () => {
-    beforeEach(() => {
-      define(Taskbar.Tag, Taskbar);
-    });
-
-    and("HTML Template is added to DOM", () => {
-      beforeEach(async () => {
-        await Taskbar.Template.load("taskbar.template.html");
-      });
-      afterEach(() => {
-        remove(Taskbar.Tag);
-      });
-
-      and("a new taskbar is added to DOM", () => {
-        let taskbar: Taskbar;
-        beforeEach(() => {
-          taskbar = add<Taskbar>(Taskbar.Tag);
-        });
-        afterEach(() => {
-          taskbar.remove();
-        });
-
-        and("a maximize control is placed in the taskbar", () => {
-          let control: Maximize;
-          beforeEach(async () => {
-            define(Maximize.Tag, Maximize);
-            await Maximize.Template.load("maximize.template.html");
-            control = taskbar.appendChild(create<Maximize>(Maximize.Tag, Zone.END));
-            await placed();
-          });
-          afterEach(() => {
-            remove(Maximize.Tag);
-          });
-
-          and("`taskbar.onmaximize` is set to a listener", () => {
-            let onmaximize: jasmine.Spy;
-            beforeEach(() => {
-              onmaximize = jasmine.createSpy("onmaximize");
-              taskbar.onmaximize = onmaximize;
-            });
-
-            when("the maximize control requests maximizing", () => {
-              beforeEach(() => {
-                control.maximize();
-              });
-
-              then("`onmaximize` is called once", () => {
-                expect(onmaximize).toHaveBeenCalledTimes(1);
-              });
-
-              then("`onmaximize` is called with no detail", () => {
-                expect(onmaximize.calls.mostRecent().args[0].detail).toBeNull();
-              });
-
-              when("the maximize control requests maximizing again", () => {
-                beforeEach(() => {
-                  control.maximize();
-                });
-
-                then("`onmaximize` is called twice", () => {
-                  expect(onmaximize).toHaveBeenCalledTimes(2);
-                });
-              });
-            });
-          });
-        });
-      });
-    });
-  });
-});
-
-gesture(Gesture.ON_RESTORE, () => {
-  and("Taskbar is defined in custom element registry", () => {
-    beforeEach(() => {
-      define(Taskbar.Tag, Taskbar);
-    });
-
-    and("HTML Template is added to DOM", () => {
-      beforeEach(async () => {
-        await Taskbar.Template.load("taskbar.template.html");
-      });
-      afterEach(() => {
-        remove(Taskbar.Tag);
-      });
-
-      and("a new taskbar is added to DOM", () => {
-        let taskbar: Taskbar;
-        beforeEach(() => {
-          taskbar = add<Taskbar>(Taskbar.Tag);
-        });
-        afterEach(() => {
-          taskbar.remove();
-        });
-
-        and("a restore control is placed in the taskbar", () => {
-          let control: Restore;
-          beforeEach(async () => {
-            define(Restore.Tag, Restore);
-            await Restore.Template.load("restore.template.html");
-            control = taskbar.appendChild(create<Restore>(Restore.Tag, Zone.END));
-            await placed();
-          });
-          afterEach(() => {
-            remove(Restore.Tag);
-          });
-
-          and("`taskbar.onrestore` is set to a listener", () => {
-            let onrestore: jasmine.Spy;
-            beforeEach(() => {
-              onrestore = jasmine.createSpy("onrestore");
-              taskbar.onrestore = onrestore;
-            });
-
-            when("the restore control requests restoring", () => {
-              beforeEach(() => {
-                control.restore();
-              });
-
-              then("`onrestore` is called once", () => {
-                expect(onrestore).toHaveBeenCalledTimes(1);
-              });
-
-              then("`onrestore` is called with no detail", () => {
-                expect(onrestore.calls.mostRecent().args[0].detail).toBeNull();
-              });
-
-              when("the restore control requests restoring again", () => {
-                beforeEach(() => {
-                  control.restore();
-                });
-
-                then("`onrestore` is called twice", () => {
-                  expect(onrestore).toHaveBeenCalledTimes(2);
-                });
-              });
-            });
-          });
-        });
-      });
-    });
-  });
-});
-
-gesture(Gesture.ON_CLOSE, () => {
-  and("Taskbar is defined in custom element registry", () => {
-    beforeEach(() => {
-      define(Taskbar.Tag, Taskbar);
-    });
-
-    and("HTML Template is added to DOM", () => {
-      beforeEach(async () => {
-        await Taskbar.Template.load("taskbar.template.html");
-      });
-      afterEach(() => {
-        remove(Taskbar.Tag);
-      });
-
-      and("a new taskbar is added to DOM", () => {
-        let taskbar: Taskbar;
-        beforeEach(() => {
-          taskbar = add<Taskbar>(Taskbar.Tag);
-        });
-        afterEach(() => {
-          taskbar.remove();
-        });
-
-        and("a close control is placed in the taskbar", () => {
-          let control: Close;
-          beforeEach(async () => {
-            define(Close.Tag, Close);
-            await Close.Template.load("close.template.html");
-            control = taskbar.appendChild(create<Close>(Close.Tag, Zone.END));
-            await placed();
-          });
-          afterEach(() => {
-            remove(Close.Tag);
-          });
-
-          and("`taskbar.onclose` is set to a listener", () => {
-            let onclose: jasmine.Spy;
-            beforeEach(() => {
-              onclose = jasmine.createSpy("onclose");
-              taskbar.onclose = onclose;
-            });
-
-            when("the close control requests closing", () => {
-              beforeEach(() => {
-                control.close();
-              });
-
-              then("`onclose` is called once", () => {
-                expect(onclose).toHaveBeenCalledTimes(1);
-              });
-
-              then("`onclose` is called with no detail", () => {
-                expect(onclose.calls.mostRecent().args[0].detail).toBeNull();
-              });
-
-              when("the close control requests closing again", () => {
-                beforeEach(() => {
-                  control.close();
-                });
-
-                then("`onclose` is called twice", () => {
-                  expect(onclose).toHaveBeenCalledTimes(2);
-                });
-              });
-            });
-
-            when(
-              "the close control requests closing, and the taskbar has reported it",
-              () => {
-                beforeEach(() => {
-                  control.close();
-                });
-
-                then("the taskbar is still in the page", () => {
-                  expect(taskbar.isConnected).toBeTrue();
-                });
-
-                then("the close control is still in the taskbar", () => {
-                  expect(control.parentElement).toBe(taskbar);
-                });
-              }
-            );
           });
         });
       });
