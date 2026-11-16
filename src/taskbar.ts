@@ -427,11 +427,11 @@ export class Taskbar extends Component implements Meta {
    * @hidden
    */
   protected _addEventListeners = () => {
-    this.elements.controls?.addEventListener(
+    this.elements.bar?.addEventListener(
       Gesture.SLOTCHANGE,
       this._handleControlsSlotchangeListen
     );
-    this.elements.controls?.addEventListener(
+    this.elements.bar?.addEventListener(
       Gesture.SLOTCHANGE,
       this._handleControlsSlotchangeFlatten
     );
@@ -444,11 +444,11 @@ export class Taskbar extends Component implements Meta {
    * @hidden
    */
   protected _removeEventListeners = () => {
-    this.elements.controls?.removeEventListener(
+    this.elements.bar?.removeEventListener(
       Gesture.SLOTCHANGE,
       this._handleControlsSlotchangeListen
     );
-    this.elements.controls?.removeEventListener(
+    this.elements.bar?.removeEventListener(
       Gesture.SLOTCHANGE,
       this._handleControlsSlotchangeFlatten
     );
@@ -461,7 +461,12 @@ export class Taskbar extends Component implements Meta {
    * @hidden
    */
   private _placed = () =>
-    (this.elements.controls?.assignedElements() ?? []) as Control[];
+    [
+      this.elements.start,
+      this.elements.center,
+      this.elements.end,
+      this.elements.controls
+    ].flatMap((slot) => slot?.assignedElements() ?? []) as Control[];
 
   /**
    * Ask each control placed in the taskbar that offers the operation to carry it out
