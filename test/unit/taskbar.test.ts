@@ -2222,6 +2222,21 @@ gesture(Gesture.SLOTCHANGE, () => {
             });
           });
         });
+        and("an element without an appearance is placed in the taskbar", () => {
+          let plain: HTMLSpanElement;
+          beforeEach(async () => {
+            plain = taskbar.appendChild(create<HTMLSpanElement>("span"));
+            await placed();
+          });
+
+          then("the element has no `appearance` attribute", () => {
+            expect(plain.hasAttribute("appearance")).toBeFalse();
+          });
+
+          then("the element has no `appearance` property", () => {
+            expect("appearance" in plain).toBeFalse();
+          });
+        });
       });
     });
   });
