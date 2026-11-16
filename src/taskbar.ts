@@ -414,6 +414,7 @@ export class Taskbar extends Component implements Meta {
       Gesture.SLOTCHANGE,
       this._handleControlsSlotchangeListen
     );
+    this._listen();
   };
 
   /**
