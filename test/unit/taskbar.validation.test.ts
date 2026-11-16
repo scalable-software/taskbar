@@ -161,6 +161,37 @@ validation(State.ORIENTATION, () => {
           });
         });
       });
+
+      and("`value` is `invalid`", () => {
+        let value: any;
+        beforeEach(() => {
+          value = "invalid";
+        });
+
+        when("`Validate.orientation(value)` is called", () => {
+          let error: unknown | undefined;
+          beforeEach(() => {
+            try {
+              Validate.orientation(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("an error is thrown", () => {
+            expect(error).not.toBeUndefined();
+          });
+
+          then(
+            "error message contains 'Invalid orientation value: invalid'",
+            () => {
+              expect((error as Error).message).toEqual(
+                "Invalid orientation value: invalid"
+              );
+            }
+          );
+        });
+      });
     });
   });
 });
