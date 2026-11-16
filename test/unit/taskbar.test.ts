@@ -158,12 +158,15 @@ composition(Composition.TEMPLATE, () => {
             expect(slot).not.toBeNull();
           });
 
-          then("`div.end` contains `minimize-button`, and nothing else", () => {
-            const controls = [...div.querySelectorAll("div.end > *")].map(
-              (control) => control.localName
-            );
-            expect(controls).toEqual([Minimize.Tag]);
-          });
+          then(
+            "`div.end` contains `minimize-button` and `maximize-button`, in that order, and nothing else",
+            () => {
+              const controls = [...div.querySelectorAll("div.end > *")].map(
+                (control) => control.localName
+              );
+              expect(controls).toEqual([Minimize.Tag, Maximize.Tag]);
+            }
+          );
         });
 
         and(
