@@ -85,7 +85,10 @@ export class Taskbar extends Component implements Meta {
   public get visibility(): Visibility {
     return this._visibility;
   }
-  public set visibility(visibility: Visibility) {
+  public set visibility(visibility: Visibility | null) {
+    // Normalize
+    visibility = visibility ?? Visibility.VISIBLE;
+
     // Validate
     visibility = Validate.visibility(visibility);
 
