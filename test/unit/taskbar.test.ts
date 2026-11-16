@@ -131,11 +131,6 @@ composition(Composition.TEMPLATE, () => {
               div = taskbar.root.querySelector("div.bar") as HTMLDivElement;
             });
 
-            then("`div.bar` contains `slot.controls`", () => {
-              const slot = div.querySelector("slot.controls");
-              expect(slot).not.toBeNull();
-            });
-
             then("`div.bar` contains `slot.start`", () => {
               const slot = div.querySelector("slot.start");
               expect(slot).not.toBeNull();
@@ -229,22 +224,6 @@ composition(Composition.ELEMENT, () => {
         });
         afterEach(() => {
           taskbar.remove();
-        });
-
-        then("`taskbar.elements.controls` is defined", () => {
-          expect(taskbar["elements"].controls).toBeDefined();
-        });
-
-        when("`taskbar.elements.controls` is defined", () => {
-          then(
-            "`taskbar.elements.controls` is a cached reference to the `slot` with class `controls`",
-            () => {
-              const controls = taskbar.root.querySelector(
-                ".controls"
-              ) as HTMLSlotElement;
-              expect(taskbar["elements"].controls).toBe(controls);
-            }
-          );
         });
 
         then("`taskbar.elements.bar` is defined", () => {
@@ -798,7 +777,7 @@ operation(Operation.PIN, () => {
             beforeEach(async () => {
               define(Pin.Tag, Pin);
               await Pin.Template.load("pin.template.html");
-              pin = taskbar.appendChild(create<Pin>(Pin.Tag));
+              pin = taskbar.appendChild(create<Pin>(Pin.Tag, Zone.END));
               await placed();
             });
             afterEach(() => {
@@ -885,7 +864,7 @@ operation(Operation.UNPIN, () => {
             beforeEach(async () => {
               define(Pin.Tag, Pin);
               await Pin.Template.load("pin.template.html");
-              pin = taskbar.appendChild(create<Pin>(Pin.Tag));
+              pin = taskbar.appendChild(create<Pin>(Pin.Tag, Zone.END));
               await placed();
               pin.pin();
             });
@@ -955,7 +934,7 @@ operation(Operation.MINIMIZE, () => {
             beforeEach(async () => {
               define(Minimize.Tag, Minimize);
               await Minimize.Template.load("minimize.template.html");
-              control = taskbar.appendChild(create<Minimize>(Minimize.Tag));
+              control = taskbar.appendChild(create<Minimize>(Minimize.Tag, Zone.END));
               await placed();
             });
             afterEach(() => {
@@ -1035,7 +1014,7 @@ operation(Operation.MAXIMIZE, () => {
             beforeEach(async () => {
               define(Maximize.Tag, Maximize);
               await Maximize.Template.load("maximize.template.html");
-              control = taskbar.appendChild(create<Maximize>(Maximize.Tag));
+              control = taskbar.appendChild(create<Maximize>(Maximize.Tag, Zone.END));
               await placed();
             });
             afterEach(() => {
@@ -1115,7 +1094,7 @@ operation(Operation.RESTORE, () => {
             beforeEach(async () => {
               define(Restore.Tag, Restore);
               await Restore.Template.load("restore.template.html");
-              control = taskbar.appendChild(create<Restore>(Restore.Tag));
+              control = taskbar.appendChild(create<Restore>(Restore.Tag, Zone.END));
               await placed();
             });
             afterEach(() => {
@@ -1192,7 +1171,7 @@ operation(Operation.CLOSE, () => {
             beforeEach(async () => {
               define(Close.Tag, Close);
               await Close.Template.load("close.template.html");
-              control = taskbar.appendChild(create<Close>(Close.Tag));
+              control = taskbar.appendChild(create<Close>(Close.Tag, Zone.END));
               await placed();
             });
             afterEach(() => {
@@ -1550,7 +1529,7 @@ events(Event.ON_PIN, () => {
             beforeEach(async () => {
               define(Pin.Tag, Pin);
               await Pin.Template.load("pin.template.html");
-              pin = taskbar.appendChild(create<Pin>(Pin.Tag));
+              pin = taskbar.appendChild(create<Pin>(Pin.Tag, Zone.END));
               await placed();
             });
             afterEach(() => {
@@ -1659,7 +1638,7 @@ events(Event.ON_UNPIN, () => {
             beforeEach(async () => {
               define(Pin.Tag, Pin);
               await Pin.Template.load("pin.template.html");
-              pin = taskbar.appendChild(create<Pin>(Pin.Tag));
+              pin = taskbar.appendChild(create<Pin>(Pin.Tag, Zone.END));
               await placed();
               pin.pin();
             });
@@ -1771,7 +1750,7 @@ events(Event.ON_MINIMIZE, () => {
             beforeEach(async () => {
               define(Minimize.Tag, Minimize);
               await Minimize.Template.load("minimize.template.html");
-              control = taskbar.appendChild(create<Minimize>(Minimize.Tag));
+              control = taskbar.appendChild(create<Minimize>(Minimize.Tag, Zone.END));
               await placed();
             });
             afterEach(() => {
@@ -1882,7 +1861,7 @@ events(Event.ON_MAXIMIZE, () => {
             beforeEach(async () => {
               define(Maximize.Tag, Maximize);
               await Maximize.Template.load("maximize.template.html");
-              control = taskbar.appendChild(create<Maximize>(Maximize.Tag));
+              control = taskbar.appendChild(create<Maximize>(Maximize.Tag, Zone.END));
               await placed();
             });
             afterEach(() => {
@@ -1993,7 +1972,7 @@ events(Event.ON_RESTORE, () => {
             beforeEach(async () => {
               define(Restore.Tag, Restore);
               await Restore.Template.load("restore.template.html");
-              control = taskbar.appendChild(create<Restore>(Restore.Tag));
+              control = taskbar.appendChild(create<Restore>(Restore.Tag, Zone.END));
               await placed();
             });
             afterEach(() => {
@@ -2104,7 +2083,7 @@ events(Event.ON_CLOSE, () => {
             beforeEach(async () => {
               define(Close.Tag, Close);
               await Close.Template.load("close.template.html");
-              control = taskbar.appendChild(create<Close>(Close.Tag));
+              control = taskbar.appendChild(create<Close>(Close.Tag, Zone.END));
               await placed();
             });
             afterEach(() => {
@@ -2212,7 +2191,7 @@ gesture(Gesture.SLOTCHANGE, () => {
           beforeEach(async () => {
             define(Pin.Tag, Pin);
             await Pin.Template.load("pin.template.html");
-            pin = taskbar.appendChild(create<Pin>(Pin.Tag));
+            pin = taskbar.appendChild(create<Pin>(Pin.Tag, Zone.END));
             await placed();
           });
           afterEach(() => {
@@ -2281,7 +2260,7 @@ gesture(Gesture.SLOTCHANGE, () => {
             beforeEach(async () => {
               define(Minimize.Tag, Minimize);
               await Minimize.Template.load("minimize.template.html");
-              control = taskbar.appendChild(create<Minimize>(Minimize.Tag));
+              control = taskbar.appendChild(create<Minimize>(Minimize.Tag, Zone.END));
               await placed();
             });
             afterEach(() => {
@@ -2300,7 +2279,7 @@ gesture(Gesture.SLOTCHANGE, () => {
             define(Pin.Tag, Pin);
             await Pin.Template.load("pin.template.html");
             later = create<Taskbar>(Taskbar.Tag);
-            pin = later.appendChild(create<Pin>(Pin.Tag));
+            pin = later.appendChild(create<Pin>(Pin.Tag, Zone.END));
             await placed();
           });
           afterEach(() => {
@@ -2333,7 +2312,7 @@ gesture(Gesture.SLOTCHANGE, () => {
         and("an element without an appearance is placed in the taskbar", () => {
           let plain: HTMLSpanElement;
           beforeEach(async () => {
-            plain = taskbar.appendChild(create<HTMLSpanElement>("span"));
+            plain = taskbar.appendChild(create<HTMLSpanElement>("span", Zone.END));
             await placed();
           });
 
@@ -2486,6 +2465,38 @@ gesture(Gesture.SLOTCHANGE, () => {
             });
           });
         });
+
+        and("a pin is placed in the taskbar without a zone", () => {
+          let pin: Pin;
+          let onpin: jasmine.Spy;
+          beforeEach(async () => {
+            define(Pin.Tag, Pin);
+            await Pin.Template.load("pin.template.html");
+            pin = taskbar.appendChild(create<Pin>(Pin.Tag));
+            await placed();
+            onpin = jasmine.createSpy("onpin");
+            taskbar.onpin = onpin;
+          });
+          afterEach(() => {
+            remove(Pin.Tag);
+          });
+
+          then("the pin is in no slot", () => {
+            const slots = [...taskbar.root.querySelectorAll("slot")];
+            const shown = slots.flatMap((slot) => slot.assignedElements());
+            expect(shown).not.toContain(pin);
+          });
+
+          when("the pin is pinned", () => {
+            beforeEach(() => {
+              pin.pin();
+            });
+
+            then("`onpin` is not called", () => {
+              expect(onpin).not.toHaveBeenCalled();
+            });
+          });
+        });
       });
     });
   });
@@ -2519,7 +2530,7 @@ gesture(Gesture.ON_PIN, () => {
           beforeEach(async () => {
             define(Pin.Tag, Pin);
             await Pin.Template.load("pin.template.html");
-            pin = taskbar.appendChild(create<Pin>(Pin.Tag));
+            pin = taskbar.appendChild(create<Pin>(Pin.Tag, Zone.END));
             await placed();
           });
           afterEach(() => {
@@ -2609,7 +2620,7 @@ gesture(Gesture.ON_UNPIN, () => {
           beforeEach(async () => {
             define(Pin.Tag, Pin);
             await Pin.Template.load("pin.template.html");
-            pin = taskbar.appendChild(create<Pin>(Pin.Tag));
+            pin = taskbar.appendChild(create<Pin>(Pin.Tag, Zone.END));
             await placed();
             pin.pin();
           });
@@ -2679,7 +2690,7 @@ gesture(Gesture.ON_MINIMIZE, () => {
           beforeEach(async () => {
             define(Minimize.Tag, Minimize);
             await Minimize.Template.load("minimize.template.html");
-            control = taskbar.appendChild(create<Minimize>(Minimize.Tag));
+            control = taskbar.appendChild(create<Minimize>(Minimize.Tag, Zone.END));
             await placed();
           });
           afterEach(() => {
@@ -2751,7 +2762,7 @@ gesture(Gesture.ON_MAXIMIZE, () => {
           beforeEach(async () => {
             define(Maximize.Tag, Maximize);
             await Maximize.Template.load("maximize.template.html");
-            control = taskbar.appendChild(create<Maximize>(Maximize.Tag));
+            control = taskbar.appendChild(create<Maximize>(Maximize.Tag, Zone.END));
             await placed();
           });
           afterEach(() => {
@@ -2823,7 +2834,7 @@ gesture(Gesture.ON_RESTORE, () => {
           beforeEach(async () => {
             define(Restore.Tag, Restore);
             await Restore.Template.load("restore.template.html");
-            control = taskbar.appendChild(create<Restore>(Restore.Tag));
+            control = taskbar.appendChild(create<Restore>(Restore.Tag, Zone.END));
             await placed();
           });
           afterEach(() => {
@@ -2895,7 +2906,7 @@ gesture(Gesture.ON_CLOSE, () => {
           beforeEach(async () => {
             define(Close.Tag, Close);
             await Close.Template.load("close.template.html");
-            control = taskbar.appendChild(create<Close>(Close.Tag));
+            control = taskbar.appendChild(create<Close>(Close.Tag, Zone.END));
             await placed();
           });
           afterEach(() => {
