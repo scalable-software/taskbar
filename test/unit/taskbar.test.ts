@@ -1130,6 +1130,27 @@ control(Control.RESTORE, () => {
             });
           });
         });
+
+        when("invoking `taskbar.restore.hide`", () => {
+          let onhide: jasmine.Spy;
+          beforeEach(() => {
+            onhide = jasmine.createSpy("onhide");
+            taskbar.onhide = onhide;
+            taskbar.restore?.hide();
+          });
+
+          then("the restore control is hidden", () => {
+            expect(taskbar.restore?.visibility).toBe(Visibility.HIDDEN);
+          });
+
+          then("the taskbar is still visible", () => {
+            expect(taskbar.visibility).toBe(Visibility.VISIBLE);
+          });
+
+          then("`taskbar.onhide` is not called", () => {
+            expect(onhide).not.toHaveBeenCalled();
+          });
+        });
       });
     });
   });
