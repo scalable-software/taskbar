@@ -145,13 +145,6 @@ export class Taskbar extends Component implements Meta {
   private _onclose: EventListener | null = null;
 
   /**
-   * The controls the taskbar listens to
-   * @category Gesture
-   * @hidden
-   */
-  private _controls: Control[] = [];
-
-  /**
    * Cache element references to improve performance
    * @category State
    * @hidden
@@ -426,13 +419,8 @@ export class Taskbar extends Component implements Meta {
   protected _addEventListeners = () => {
     this.elements.bar?.addEventListener(
       Gesture.SLOTCHANGE,
-      this._handleBarSlotchangeListen
-    );
-    this.elements.bar?.addEventListener(
-      Gesture.SLOTCHANGE,
       this._handleBarSlotchangeFlatten
     );
-    this._listen();
   };
 
   /**
@@ -443,13 +431,8 @@ export class Taskbar extends Component implements Meta {
   protected _removeEventListeners = () => {
     this.elements.bar?.removeEventListener(
       Gesture.SLOTCHANGE,
-      this._handleBarSlotchangeListen
-    );
-    this.elements.bar?.removeEventListener(
-      Gesture.SLOTCHANGE,
       this._handleBarSlotchangeFlatten
     );
-    this._ignore();
   };
 
   /**
@@ -477,65 +460,6 @@ export class Taskbar extends Component implements Meta {
   };
 
   /**
-   * Listen to every control placed in the taskbar: reached only through a gesture
-   * @category Operations
-   * @hidden
-   */
-  private _listen = () => {
-    this._ignore();
-    this._controls = this._placed();
-    this._controls.forEach((control) => {
-      control.addEventListener(Gesture.ON_PIN, this._handleBarOnpin);
-      control.addEventListener(Gesture.ON_UNPIN, this._handleBarOnunpin);
-      control.addEventListener(
-        Gesture.ON_MINIMIZE,
-        this._handleBarOnminimize
-      );
-      control.addEventListener(
-        Gesture.ON_MAXIMIZE,
-        this._handleBarOnmaximize
-      );
-      control.addEventListener(
-        Gesture.ON_RESTORE,
-        this._handleBarOnrestore
-      );
-      control.addEventListener(Gesture.ON_CLOSE, this._handleBarOnclose);
-    });
-  };
-
-  /**
-   * Stop listening to every control the taskbar listens to: reached only through a gesture
-   * @category Operations
-   * @hidden
-   */
-  private _ignore = () => {
-    this._controls.forEach((control) => {
-      control.removeEventListener(Gesture.ON_PIN, this._handleBarOnpin);
-      control.removeEventListener(
-        Gesture.ON_UNPIN,
-        this._handleBarOnunpin
-      );
-      control.removeEventListener(
-        Gesture.ON_MINIMIZE,
-        this._handleBarOnminimize
-      );
-      control.removeEventListener(
-        Gesture.ON_MAXIMIZE,
-        this._handleBarOnmaximize
-      );
-      control.removeEventListener(
-        Gesture.ON_RESTORE,
-        this._handleBarOnrestore
-      );
-      control.removeEventListener(
-        Gesture.ON_CLOSE,
-        this._handleBarOnclose
-      );
-    });
-    this._controls = [];
-  };
-
-  /**
    * Make every control placed in the taskbar that has an appearance flat: reached only
    * through a gesture
    * @category Operations
@@ -550,76 +474,9 @@ export class Taskbar extends Component implements Meta {
   };
 
   /**
-   * Report what a control placed in the taskbar reported, as the taskbar's own event:
-   * reached only through a gesture
-   * @category Operations
-   * @hidden
-   */
-  private _report = (event: Event, detail?: unknown) => {
-    this._dispatch(event, detail);
-  };
-
-  /**
-   * Handles a control being placed in the taskbar or taken out: listens to the controls
-   * @category Gesture
-   * @hidden
-   */
-  private _handleBarSlotchangeListen = () => this._listen();
-
-  /**
    * Handles a control being placed in the taskbar or taken out: makes the controls flat
    * @category Gesture
    * @hidden
    */
   private _handleBarSlotchangeFlatten = () => this._flatten();
-
-  /**
-   * Handles a pin placed in the taskbar reporting that it was pinned: reports it,
-   * with the status the pin gave
-   * @category Gesture
-   * @hidden
-   */
-  private _handleBarOnpin = (event: globalThis.Event) =>
-    this._report(Event.ON_PIN, (event as CustomEvent).detail);
-
-  /**
-   * Handles a pin placed in the taskbar reporting that it was unpinned: reports it,
-   * with the status the pin gave
-   * @category Gesture
-   * @hidden
-   */
-  private _handleBarOnunpin = (event: globalThis.Event) =>
-    this._report(Event.ON_UNPIN, (event as CustomEvent).detail);
-
-  /**
-   * Handles a control placed in the taskbar reporting that minimizing is requested:
-   * reports it
-   * @category Gesture
-   * @hidden
-   */
-  private _handleBarOnminimize = () => this._report(Event.ON_MINIMIZE);
-
-  /**
-   * Handles a control placed in the taskbar reporting that maximizing is requested:
-   * reports it
-   * @category Gesture
-   * @hidden
-   */
-  private _handleBarOnmaximize = () => this._report(Event.ON_MAXIMIZE);
-
-  /**
-   * Handles a control placed in the taskbar reporting that restoring is requested:
-   * reports it
-   * @category Gesture
-   * @hidden
-   */
-  private _handleBarOnrestore = () => this._report(Event.ON_RESTORE);
-
-  /**
-   * Handles a control placed in the taskbar reporting that closing is requested:
-   * reports it
-   * @category Gesture
-   * @hidden
-   */
-  private _handleBarOnclose = () => this._report(Event.ON_CLOSE);
 }
