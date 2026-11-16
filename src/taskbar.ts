@@ -12,6 +12,7 @@ import { Pin } from "@scalable.software/pin";
 import { Minimize } from "@scalable.software/minimize";
 import { Maximize } from "@scalable.software/maximize";
 import { Restore } from "@scalable.software/restore";
+import { Close } from "@scalable.software/close";
 
 // Taskbar Metadata
 import {
@@ -109,10 +110,11 @@ export class Taskbar extends Component implements Meta {
       minimize: Minimize | null;
       maximize: Maximize | null;
       restore: Restore | null;
+      close: Close | null;
     };
   } = {
     start: { pin: null },
-    end: { minimize: null, maximize: null, restore: null }
+    end: { minimize: null, maximize: null, restore: null, close: null }
   };
 
   /**
@@ -244,6 +246,7 @@ export class Taskbar extends Component implements Meta {
       Maximize.Tag
     );
     this.elements.end.restore = this.root.querySelector<Restore>(Restore.Tag);
+    this.elements.end.close = this.root.querySelector<Close>(Close.Tag);
   };
 
   /**
