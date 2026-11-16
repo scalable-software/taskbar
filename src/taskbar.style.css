@@ -79,6 +79,8 @@
   flex-direction: column;
 }
 
-:host([orientation="portrait"]) slot {
+:host([orientation="portrait"]) .start,
+:host([orientation="portrait"]) .center,
+:host([orientation="portrait"]) .end {
   flex-direction: column;
 }
