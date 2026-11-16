@@ -332,7 +332,9 @@ export class Taskbar extends Component implements Meta {
    * Ask each control placed in the taskbar that offers `unpin` to unpin
    * @category Operations
    */
-  public unpin = () => {};
+  public unpin = () => {
+    this._ask(Operation.UNPIN);
+  };
 
   /**
    * Ask each control placed in the taskbar that offers `minimize` to request minimizing
