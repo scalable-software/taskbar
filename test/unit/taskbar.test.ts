@@ -1882,6 +1882,16 @@ gesture(Gesture.ON_MAXIMIZE, () => {
               then("`onmaximize` is called with no detail", () => {
                 expect(onmaximize.calls.mostRecent().args[0].detail).toBeNull();
               });
+
+              when("the maximize control requests maximizing again", () => {
+                beforeEach(() => {
+                  control.maximize();
+                });
+
+                then("`onmaximize` is called twice", () => {
+                  expect(onmaximize).toHaveBeenCalledTimes(2);
+                });
+              });
             });
           });
         });
