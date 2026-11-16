@@ -726,6 +726,24 @@ operation(Operation.PIN, () => {
             });
           });
 
+          and("a taskbar that is not in DOM", () => {
+            let detached: Taskbar;
+            beforeEach(() => {
+              detached = create<Taskbar>(Taskbar.Tag);
+            });
+
+            when("invoking `detached.pin`", () => {
+              let result: unknown;
+              beforeEach(() => {
+                result = detached.pin();
+              });
+
+              then("`detached.pin` returns nothing", () => {
+                expect(result).toBeUndefined();
+              });
+            });
+          });
+
           and("no control is placed in the taskbar", () => {
             when("invoking `taskbar.pin`", () => {
               let result: unknown;
