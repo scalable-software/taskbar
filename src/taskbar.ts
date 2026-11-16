@@ -7,7 +7,13 @@ import { Component, Template } from "@scalable.software/component";
 import { type Configuration } from "@scalable.software/component";
 
 // Taskbar Metadata
-import { Tag, CSS, Attributes, Visibility } from "./taskbar.meta.js";
+import {
+  Tag,
+  CSS,
+  Attributes,
+  Visibility,
+  Orientation
+} from "./taskbar.meta.js";
 
 import { type Meta } from "./taskbar.meta.js";
 
@@ -63,6 +69,14 @@ export class Taskbar extends Component implements Meta {
   private _visibility: Visibility = Visibility.VISIBLE;
 
   /**
+   * Internal Orientation state of the component
+   * @category State
+   * @default Orientation.LANDSCAPE
+   * @hidden
+   */
+  private _orientation: Orientation = Orientation.LANDSCAPE;
+
+  /**
    * Cache element references to improve performance
    * @category State
    * @hidden
@@ -103,6 +117,14 @@ export class Taskbar extends Component implements Meta {
         Visibility.VISIBLE
       );
     }
+  }
+
+  /**
+   * Get the orientation of the taskbar
+   * @category State
+   */
+  public get orientation(): Orientation {
+    return this._orientation;
   }
 
   /**

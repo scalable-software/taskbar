@@ -18,7 +18,8 @@ export const CSS = "taskbar.style.css" as const;
  * @enum
  */
 export const Attributes = {
-  VISIBILITY: "visibility"
+  VISIBILITY: "visibility",
+  ORIENTATION: "orientation"
 } as const;
 /**
  * HTML Attributes available to set
@@ -55,6 +56,21 @@ export const Visibility = {
  * @category Metadata
  */
 export type Visibility = (typeof Visibility)[keyof typeof Visibility];
+
+/**
+ * Indicates whether the controls are laid out side by side or one above the other
+ * @category Metadata
+ * @enum
+ */
+export const Orientation = {
+  LANDSCAPE: "landscape",
+  PORTRAIT: "portrait"
+} as const;
+/**
+ * Indicates whether the controls are laid out side by side or one above the other
+ * @category Metadata
+ */
+export type Orientation = (typeof Orientation)[keyof typeof Orientation];
 
 /**
  * @category Metadata
