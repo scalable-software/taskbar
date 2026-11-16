@@ -13,6 +13,7 @@ import {
 } from "@scalable.software/taskbar";
 import { Pin, Status } from "@scalable.software/pin";
 import { Minimize } from "@scalable.software/minimize";
+import { Maximize } from "@scalable.software/maximize";
 
 // Creates an element that is not in DOM yet
 const create = <T extends Element>(tag: string) =>
@@ -875,6 +876,42 @@ operation(Operation.MAXIMIZE, () => {
 
         then("`taskbar.maximize` method exists", () => {
           expect(taskbar.maximize).toBeDefined();
+        });
+
+        and("`taskbar.maximize` method exists", () => {
+          and("a maximize control is placed in the taskbar", () => {
+            let control: Maximize;
+            beforeEach(async () => {
+              define(Maximize.Tag, Maximize);
+              await Maximize.Template.load("maximize.template.html");
+              control = taskbar.appendChild(create<Maximize>(Maximize.Tag));
+              await placed();
+            });
+            afterEach(() => {
+              remove(Maximize.Tag);
+            });
+
+            and("the maximize control has a listener for `onmaximize`", () => {
+              let onmaximize: jasmine.Spy;
+              beforeEach(() => {
+                onmaximize = jasmine.createSpy("onmaximize");
+                control.onmaximize = onmaximize;
+              });
+
+              when("invoking `taskbar.maximize`", () => {
+                beforeEach(() => {
+                  taskbar.maximize();
+                });
+
+                then(
+                  "the maximize control's `onmaximize` is called once",
+                  () => {
+                    expect(onmaximize).toHaveBeenCalledTimes(1);
+                  }
+                );
+              });
+            });
+          });
         });
       });
     });
