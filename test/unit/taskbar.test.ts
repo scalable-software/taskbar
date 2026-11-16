@@ -413,6 +413,22 @@ state(State.ORIENTATION, () => {
         then("`orientation` attribute does not exist", () => {
           expect(taskbar.hasAttribute(Attributes.ORIENTATION)).toBeFalse();
         });
+
+        then("`taskbar.orientation` setter exists", () => {
+          expect(hasSetter(taskbar, "orientation")).toBeTrue();
+        });
+
+        and("`taskbar.orientation` setter exists", () => {
+          when("`taskbar.orientation` is set to `Orientation.PORTRAIT`", () => {
+            beforeEach(() => {
+              taskbar.orientation = Orientation.PORTRAIT;
+            });
+
+            then("`taskbar.orientation` is `Orientation.PORTRAIT`", () => {
+              expect(taskbar.orientation).toBe(Orientation.PORTRAIT);
+            });
+          });
+        });
       });
     });
   });
