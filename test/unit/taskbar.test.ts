@@ -237,6 +237,22 @@ state(State.VISIBILITY, () => {
         then("`visibility` attribute does not exist", () => {
           expect(taskbar.hasAttribute(Attributes.VISIBILITY)).toBeFalse();
         });
+
+        then("`taskbar.visibility` setter exists", () => {
+          expect(hasSetter(taskbar, "visibility")).toBeTrue();
+        });
+
+        and("`taskbar.visibility` setter exists", () => {
+          when("`taskbar.visibility` is set to `Visibility.HIDDEN`", () => {
+            beforeEach(() => {
+              taskbar.visibility = Visibility.HIDDEN;
+            });
+
+            then("`taskbar.visibility` is `Visibility.HIDDEN`", () => {
+              expect(taskbar.visibility).toBe(Visibility.HIDDEN);
+            });
+          });
+        });
       });
     });
   });
