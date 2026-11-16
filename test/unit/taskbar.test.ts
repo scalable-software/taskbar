@@ -285,6 +285,20 @@ composition(Composition.ELEMENT, () => {
             }
           );
         });
+
+        then("`taskbar.elements.end` is defined", () => {
+          expect(taskbar["elements"].end).toBeDefined();
+        });
+
+        when("`taskbar.elements.end` is defined", () => {
+          then(
+            "`taskbar.elements.end` is a cached reference to the `slot` with class `end`",
+            () => {
+              const last = taskbar.root.querySelector(".end") as HTMLSlotElement;
+              expect(taskbar["elements"].end).toBe(last);
+            }
+          );
+        });
       });
     });
   });
