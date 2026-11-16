@@ -356,6 +356,14 @@ metadata(Metadata.GESTURE, () => {
         then("`Gesture.ON_PIN` is `onpin`", () => {
           expect(Gesture.ON_PIN).toBe("onpin");
         });
+
+        then("`Gesture.ON_UNPIN` exists", () => {
+          expect(Gesture.ON_UNPIN).toBeDefined();
+        });
+
+        then("`Gesture.ON_UNPIN` is `onunpin`", () => {
+          expect(Gesture.ON_UNPIN).toBe("onunpin");
+        });
       });
     });
   });
