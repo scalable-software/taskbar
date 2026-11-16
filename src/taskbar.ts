@@ -210,6 +210,12 @@ export class Taskbar extends Component implements Meta {
   public pin = () => {};
 
   /**
+   * Ask each control placed in the taskbar that offers `unpin` to unpin
+   * @category Operations
+   */
+  public unpin = () => {};
+
+  /**
    * List operations to perform for selected attributes being observed in the DOM.
    * @category Configuration
    * @hidden
