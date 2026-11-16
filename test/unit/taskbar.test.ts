@@ -428,6 +428,29 @@ state(State.ORIENTATION, () => {
               expect(taskbar.orientation).toBe(Orientation.PORTRAIT);
             });
           });
+
+          when("`taskbar.orientation` is set to `invalid`", () => {
+            let error: Error;
+            beforeEach(() => {
+              try {
+                // @ts-expect-error
+                taskbar.orientation = "invalid";
+              } catch (err) {
+                error = err as Error;
+              }
+            });
+
+            then("an error is thrown", () => {
+              expect(error).toBeDefined();
+            });
+
+            then(
+              "error message contains 'Invalid orientation value: invalid'",
+              () => {
+                expect(error.message).toBe("Invalid orientation value: invalid");
+              }
+            );
+          });
         });
       });
     });
