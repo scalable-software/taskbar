@@ -348,7 +348,9 @@ export class Taskbar extends Component implements Meta {
    * Ask each control placed in the taskbar that offers `maximize` to request maximizing
    * @category Operations
    */
-  public maximize = () => {};
+  public maximize = () => {
+    this._ask(Operation.MAXIMIZE);
+  };
 
   /**
    * Ask each control placed in the taskbar that offers `restore` to request restoring
