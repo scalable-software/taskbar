@@ -13,8 +13,7 @@ import {
   Attributes,
   Visibility,
   Orientation,
-  Event,
-  Operation
+  Event
 } from "./taskbar.meta.js";
 
 import { type Meta } from "./taskbar.meta.js";
@@ -35,14 +34,6 @@ export const configuration: Configuration = {
     name: CSS
   }
 } as const;
-
-/**
- * A control placed in the taskbar: any element. It may offer the operations the taskbar
- * passes on, and it may have an appearance.
- * @category Configuration
- */
-type Control = Element &
-  Partial<Record<Operation, () => unknown>> & { appearance?: string };
 
 /**
  * @category Taskbar
@@ -329,54 +320,6 @@ export class Taskbar extends Component implements Meta {
   };
 
   /**
-   * Ask each control placed in the taskbar that offers `pin` to pin
-   * @category Operations
-   */
-  public pin = () => {
-    this._ask(Operation.PIN);
-  };
-
-  /**
-   * Ask each control placed in the taskbar that offers `unpin` to unpin
-   * @category Operations
-   */
-  public unpin = () => {
-    this._ask(Operation.UNPIN);
-  };
-
-  /**
-   * Ask each control placed in the taskbar that offers `minimize` to request minimizing
-   * @category Operations
-   */
-  public minimize = () => {
-    this._ask(Operation.MINIMIZE);
-  };
-
-  /**
-   * Ask each control placed in the taskbar that offers `maximize` to request maximizing
-   * @category Operations
-   */
-  public maximize = () => {
-    this._ask(Operation.MAXIMIZE);
-  };
-
-  /**
-   * Ask each control placed in the taskbar that offers `restore` to request restoring
-   * @category Operations
-   */
-  public restore = () => {
-    this._ask(Operation.RESTORE);
-  };
-
-  /**
-   * Ask each control placed in the taskbar that offers `close` to request closing: the taskbar removes nothing
-   * @category Operations
-   */
-  public close = () => {
-    this._ask(Operation.CLOSE);
-  };
-
-  /**
    * List operations to perform for selected attributes being observed in the DOM.
    * @category Configuration
    * @hidden
@@ -420,28 +363,4 @@ export class Taskbar extends Component implements Meta {
    * @hidden
    */
   protected _removeEventListeners = () => {};
-
-  /**
-   * The controls placed in the taskbar: none until the taskbar is connected
-   * @category Operations
-   * @hidden
-   */
-  private _placed = () =>
-    [
-      this.elements.start,
-      this.elements.center,
-      this.elements.end
-    ].flatMap((slot) => slot?.assignedElements() ?? []) as Control[];
-
-  /**
-   * Ask each control placed in the taskbar that offers the operation to carry it out
-   * @category Operations
-   * @hidden
-   */
-  private _ask = (operation: Operation) => {
-    this._placed().forEach((control) => {
-      const act = control[operation];
-      typeof act === "function" && act.call(control);
-    });
-  };
 }
