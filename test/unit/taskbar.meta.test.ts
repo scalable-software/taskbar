@@ -196,6 +196,14 @@ metadata(Metadata.OPERATION, () => {
         then("`Operation.UNPIN` is `unpin`", () => {
           expect(Operation.UNPIN).toBe("unpin");
         });
+
+        then("`Operation.MINIMIZE` exists", () => {
+          expect(Operation.MINIMIZE).toBeDefined();
+        });
+
+        then("`Operation.MINIMIZE` is `minimize`", () => {
+          expect(Operation.MINIMIZE).toBe("minimize");
+        });
       });
     });
   });
