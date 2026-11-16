@@ -8,7 +8,8 @@ import {
   State,
   Visibility,
   Orientation,
-  Operation
+  Operation,
+  Event
 } from "@scalable.software/taskbar";
 
 // Configuration
@@ -661,5 +662,36 @@ operation(Operation.SHOW, () => {
 });
 
 // Event
+
+events(Event.ON_HIDE, () => {
+  and("Taskbar is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Taskbar.Tag, Taskbar);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Taskbar.Template.load("taskbar.template.html");
+      });
+      afterEach(() => {
+        remove(Taskbar.Tag);
+      });
+
+      and("a new taskbar is added to DOM", () => {
+        let taskbar: Taskbar;
+        beforeEach(() => {
+          taskbar = add<Taskbar>(Taskbar.Tag);
+        });
+        afterEach(() => {
+          taskbar.remove();
+        });
+
+        then("`taskbar.onhide` setter exists", () => {
+          expect(hasSetter(taskbar, Event.ON_HIDE)).toBeTrue();
+        });
+      });
+    });
+  });
+});
 
 // Gesture
