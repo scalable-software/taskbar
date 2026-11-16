@@ -995,6 +995,18 @@ control(Control.CLOSE, () => {
           expect(taskbar.close).toBeDefined();
         });
 
+        then("`taskbar.close` has no setter", () => {
+          expect(hasSetter(taskbar, Control.CLOSE)).toBeFalse();
+        });
+
+        then("assigning `taskbar.close` does not compile", () => {
+          const assign = () => {
+            // @ts-expect-error: `close` is read-only
+            taskbar.close = null;
+          };
+          expect(assign).toEqual(jasmine.any(Function));
+        });
+
         then("`taskbar.close` is the `close-button` of the taskbar", () => {
           const part = taskbar.root.querySelector(Close.Tag) as Close;
           expect(taskbar.close).toBe(part);
