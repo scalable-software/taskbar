@@ -1919,6 +1919,41 @@ events(Event.ON_RESTORE, () => {
                   });
                 });
               });
+
+              when("`taskbar.onrestore` is set to `invalid`", () => {
+                let error: Error;
+                beforeEach(() => {
+                  try {
+                    // @ts-expect-error
+                    taskbar.onrestore = "invalid";
+                  } catch (err) {
+                    error = err as Error;
+                  }
+                });
+
+                then("an error is thrown", () => {
+                  expect(error).toBeDefined();
+                });
+
+                then(
+                  "error message contains 'Invalid onrestore value: invalid'",
+                  () => {
+                    expect(error.message).toBe(
+                      "Invalid onrestore value: invalid"
+                    );
+                  }
+                );
+
+                when("the restore control reports", () => {
+                  beforeEach(() => {
+                    control.restore();
+                  });
+
+                  then("`taskbar.onrestore` listener is still called", () => {
+                    expect(first).toHaveBeenCalledTimes(1);
+                  });
+                });
+              });
             });
           });
         });
