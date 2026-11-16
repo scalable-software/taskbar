@@ -257,6 +257,20 @@ composition(Composition.ELEMENT, () => {
             }
           );
         });
+
+        then("`taskbar.elements.start` is defined", () => {
+          expect(taskbar["elements"].start).toBeDefined();
+        });
+
+        when("`taskbar.elements.start` is defined", () => {
+          then(
+            "`taskbar.elements.start` is a cached reference to the `slot` with class `start`",
+            () => {
+              const start = taskbar.root.querySelector(".start") as HTMLSlotElement;
+              expect(taskbar["elements"].start).toBe(start);
+            }
+          );
+        });
       });
     });
   });
