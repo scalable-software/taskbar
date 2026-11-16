@@ -251,6 +251,11 @@ state(State.VISIBILITY, () => {
             then("`taskbar.visibility` is `Visibility.HIDDEN`", () => {
               expect(taskbar.visibility).toBe(Visibility.HIDDEN);
             });
+
+            then("taskbar `visibility` attribute is `Visibility.HIDDEN`", () => {
+              const value = taskbar.getAttribute(Attributes.VISIBILITY);
+              expect(value).toBe(Visibility.HIDDEN);
+            });
           });
 
           when("`taskbar.visibility` is set to `null`", () => {
