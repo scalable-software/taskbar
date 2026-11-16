@@ -165,6 +165,13 @@ metadata(Metadata.OPERATION, () => {
       });
 
       when("Operation is an object", () => {
+        then("no operation name is taken by the platform", () => {
+          const taken = Object.values(Operation).filter(
+            (name) => name in HTMLElement.prototype
+          );
+          expect(taken).toEqual([]);
+        });
+
         then("`Operation.HIDE` exists", () => {
           expect(Operation.HIDE).toBeDefined();
         });
