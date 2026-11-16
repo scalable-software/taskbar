@@ -253,6 +253,16 @@ state(State.VISIBILITY, () => {
             });
           });
 
+          when("`taskbar.visibility` is set to `null`", () => {
+            beforeEach(() => {
+              taskbar.visibility = null;
+            });
+
+            then("`taskbar.visibility` is `Visibility.VISIBLE`", () => {
+              expect(taskbar.visibility).toBe(Visibility.VISIBLE);
+            });
+          });
+
           when("`taskbar.visibility` is set to `invalid`", () => {
             let error: Error;
             beforeEach(() => {
