@@ -150,6 +150,11 @@ composition(Composition.TEMPLATE, () => {
                 expect(zones).toEqual(["start", "center", "end"]);
               }
             );
+
+            then("`div.center` contains a `slot`", () => {
+              const slot = div.querySelector("div.center > slot");
+              expect(slot).not.toBeNull();
+            });
           });
         });
 
@@ -186,6 +191,21 @@ composition(Composition.TEMPLATE, () => {
             });
           }
         );
+
+        and("a pin is placed inside the taskbar", () => {
+          let pin: Pin;
+          beforeEach(async () => {
+            pin = taskbar.appendChild(create<Pin>(Pin.Tag));
+            await placed();
+          });
+
+          then("the pin is shown in the `slot` of `div.center`", () => {
+            const slot = taskbar.root.querySelector(
+              "div.center > slot"
+            ) as HTMLSlotElement;
+            expect(slot.assignedElements()).toContain(pin);
+          });
+        });
       });
     });
   });
