@@ -54,7 +54,9 @@ export class Taskbar extends Component {
    * @category State
    * @hidden
    */
-  protected elements: {} = {};
+  protected elements: { controls: HTMLSlotElement | null } = {
+    controls: null
+  };
 
   /**
    * @hidden
@@ -75,7 +77,9 @@ export class Taskbar extends Component {
    * @category Configuration
    * @hidden
    */
-  protected _cache = () => {};
+  protected _cache = () => {
+    this.elements.controls = this.root.querySelector(".controls");
+  };
 
   /**
    * Initialize taskbar attributes with default values
