@@ -228,6 +228,12 @@ export class Taskbar extends Component implements Meta {
   public maximize = () => {};
 
   /**
+   * Ask each control placed in the taskbar that offers `restore` to request restoring
+   * @category Operations
+   */
+  public restore = () => {};
+
+  /**
    * List operations to perform for selected attributes being observed in the DOM.
    * @category Configuration
    * @hidden
