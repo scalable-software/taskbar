@@ -356,7 +356,9 @@ export class Taskbar extends Component implements Meta {
    * Ask each control placed in the taskbar that offers `restore` to request restoring
    * @category Operations
    */
-  public restore = () => {};
+  public restore = () => {
+    this._ask(Operation.RESTORE);
+  };
 
   /**
    * Ask each control placed in the taskbar that offers `close` to request closing: the taskbar removes nothing
