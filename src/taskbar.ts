@@ -204,6 +204,12 @@ export class Taskbar extends Component implements Meta {
   };
 
   /**
+   * Ask each control placed in the taskbar that offers `pin` to pin
+   * @category Operations
+   */
+  public pin = () => {};
+
+  /**
    * List operations to perform for selected attributes being observed in the DOM.
    * @category Configuration
    * @hidden

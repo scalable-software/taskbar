@@ -78,7 +78,8 @@ export type Orientation = (typeof Orientation)[keyof typeof Orientation];
  */
 export const Operation = {
   HIDE: "hide",
-  SHOW: "show"
+  SHOW: "show",
+  PIN: "pin"
 } as const;
 
 /**
