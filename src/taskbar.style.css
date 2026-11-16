@@ -3,4 +3,79 @@
 ======================= */
 :host {
   display: inline-block;
+  min-width: min-content;
+  min-height: min-content;
+
+  --bar-background-color: #ffffff;
+  --bar-border-color: #d1d1d1;
+  --bar-radius: 8px;
+  --bar-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* =======================
+  Dark Mode Variables
+======================= */
+@media (prefers-color-scheme: dark) {
+  :host {
+    --bar-background-color: #1e1e1e;
+    --bar-border-color: #3c3c3c;
+    --bar-shadow:
+      0 1px 3px rgba(255, 255, 255, 0.12), 0 3px 8px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* =======================
+  Bar Styles
+======================= */
+.bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bar-background-color);
+  border: 1px solid var(--bar-border-color);
+  border-radius: var(--bar-radius);
+  box-shadow: var(--bar-shadow);
+}
+
+/* =======================
+  Zone Styles
+======================= */
+slot {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.center {
+  flex: 1;
+}
+
+/* =======================
+  Control Styles
+======================= */
+::slotted(*) {
+  flex-shrink: 0;
+  --icon-margin: 0;
+}
+
+/* =======================
+  State Visibility
+======================= */
+:host([visibility="hidden"]) {
+  display: none;
+}
+
+/* =======================
+  State Orientation: Portrait
+======================= */
+:host([orientation="portrait"]) .bar {
+  flex-direction: column;
+}
+
+:host([orientation="portrait"]) slot {
+  flex-direction: column;
 }

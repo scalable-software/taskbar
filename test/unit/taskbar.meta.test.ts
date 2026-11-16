@@ -2,9 +2,13 @@ import {
   Tag,
   Attributes,
   State,
+  Visibility,
+  Orientation,
   Operation,
   Event,
-  Gesture
+  Gesture,
+  Appearance,
+  Zone
 } from "@scalable.software/taskbar";
 
 // Tag
@@ -12,6 +16,10 @@ metadata(Metadata.TAG, () => {
   when("Tag imported", () => {
     then("Tag is defined", () => {
       expect(Tag).toBeDefined();
+    });
+
+    then("Tag is `task-bar`", () => {
+      expect(Tag).toBe("task-bar");
     });
   });
 });
@@ -23,9 +31,27 @@ metadata(Metadata.ATTRIBUTES, () => {
       expect(Attributes).toBeDefined();
     });
 
-    when("Attributes is defined", () => {
+    and("Attributes is defined", () => {
       then("Attributes is an object", () => {
         expect(typeof Attributes).toBe("object");
+      });
+
+      when("Attributes is an object", () => {
+        then("`Attributes.VISIBILITY` exists", () => {
+          expect(Attributes.VISIBILITY).toBeDefined();
+        });
+
+        then("`Attributes.VISIBILITY` is `visibility`", () => {
+          expect(Attributes.VISIBILITY).toBe("visibility");
+        });
+
+        then("`Attributes.ORIENTATION` exists", () => {
+          expect(Attributes.ORIENTATION).toBeDefined();
+        });
+
+        then("`Attributes.ORIENTATION` is `orientation`", () => {
+          expect(Attributes.ORIENTATION).toBe("orientation");
+        });
       });
     });
   });
@@ -38,9 +64,91 @@ metadata(Metadata.STATE, () => {
       expect(State).toBeDefined();
     });
 
-    when("State is defined", () => {
+    and("State is defined", () => {
       then("State is an object", () => {
         expect(typeof State).toBe("object");
+      });
+
+      when("State is an object", () => {
+        then("`State.VISIBILITY` exists", () => {
+          expect(State.VISIBILITY).toBeDefined();
+        });
+
+        then("`State.VISIBILITY` is `visibility`", () => {
+          expect(State.VISIBILITY).toBe("visibility");
+        });
+
+        then("`State.ORIENTATION` exists", () => {
+          expect(State.ORIENTATION).toBeDefined();
+        });
+
+        then("`State.ORIENTATION` is `orientation`", () => {
+          expect(State.ORIENTATION).toBe("orientation");
+        });
+      });
+    });
+  });
+});
+
+metadata(State.VISIBILITY, () => {
+  and("Visibility imported", () => {
+    then("Visibility is defined", () => {
+      expect(Visibility).toBeDefined();
+    });
+
+    and("Visibility is defined", () => {
+      then("Visibility is an object", () => {
+        expect(typeof Visibility).toBe("object");
+      });
+
+      when("Visibility is an object", () => {
+        then("`Visibility.VISIBLE` exists", () => {
+          expect(Visibility.VISIBLE).toBeDefined();
+        });
+
+        then("`Visibility.VISIBLE` is `visible`", () => {
+          expect(Visibility.VISIBLE).toBe("visible");
+        });
+
+        then("`Visibility.HIDDEN` exists", () => {
+          expect(Visibility.HIDDEN).toBeDefined();
+        });
+
+        then("`Visibility.HIDDEN` is `hidden`", () => {
+          expect(Visibility.HIDDEN).toBe("hidden");
+        });
+      });
+    });
+  });
+});
+
+metadata(State.ORIENTATION, () => {
+  and("Orientation imported", () => {
+    then("Orientation is defined", () => {
+      expect(Orientation).toBeDefined();
+    });
+
+    and("Orientation is defined", () => {
+      then("Orientation is an object", () => {
+        expect(typeof Orientation).toBe("object");
+      });
+
+      when("Orientation is an object", () => {
+        then("`Orientation.LANDSCAPE` exists", () => {
+          expect(Orientation.LANDSCAPE).toBeDefined();
+        });
+
+        then("`Orientation.LANDSCAPE` is `landscape`", () => {
+          expect(Orientation.LANDSCAPE).toBe("landscape");
+        });
+
+        then("`Orientation.PORTRAIT` exists", () => {
+          expect(Orientation.PORTRAIT).toBeDefined();
+        });
+
+        then("`Orientation.PORTRAIT` is `portrait`", () => {
+          expect(Orientation.PORTRAIT).toBe("portrait");
+        });
       });
     });
   });
@@ -53,9 +161,82 @@ metadata(Metadata.OPERATION, () => {
       expect(Operation).toBeDefined();
     });
 
-    when("Operation is defined", () => {
+    and("Operation is defined", () => {
       then("Operation is an object", () => {
         expect(typeof Operation).toBe("object");
+      });
+
+      when("Operation is an object", () => {
+        then("no operation name is taken by the platform", () => {
+          const taken = Object.values(Operation).filter(
+            (name) => name in HTMLElement.prototype
+          );
+          expect(taken).toEqual([]);
+        });
+
+        then("`Operation.HIDE` exists", () => {
+          expect(Operation.HIDE).toBeDefined();
+        });
+
+        then("`Operation.HIDE` is `hide`", () => {
+          expect(Operation.HIDE).toBe("hide");
+        });
+
+        then("`Operation.SHOW` exists", () => {
+          expect(Operation.SHOW).toBeDefined();
+        });
+
+        then("`Operation.SHOW` is `show`", () => {
+          expect(Operation.SHOW).toBe("show");
+        });
+
+        then("`Operation.PIN` exists", () => {
+          expect(Operation.PIN).toBeDefined();
+        });
+
+        then("`Operation.PIN` is `pin`", () => {
+          expect(Operation.PIN).toBe("pin");
+        });
+
+        then("`Operation.UNPIN` exists", () => {
+          expect(Operation.UNPIN).toBeDefined();
+        });
+
+        then("`Operation.UNPIN` is `unpin`", () => {
+          expect(Operation.UNPIN).toBe("unpin");
+        });
+
+        then("`Operation.MINIMIZE` exists", () => {
+          expect(Operation.MINIMIZE).toBeDefined();
+        });
+
+        then("`Operation.MINIMIZE` is `minimize`", () => {
+          expect(Operation.MINIMIZE).toBe("minimize");
+        });
+
+        then("`Operation.MAXIMIZE` exists", () => {
+          expect(Operation.MAXIMIZE).toBeDefined();
+        });
+
+        then("`Operation.MAXIMIZE` is `maximize`", () => {
+          expect(Operation.MAXIMIZE).toBe("maximize");
+        });
+
+        then("`Operation.RESTORE` exists", () => {
+          expect(Operation.RESTORE).toBeDefined();
+        });
+
+        then("`Operation.RESTORE` is `restore`", () => {
+          expect(Operation.RESTORE).toBe("restore");
+        });
+
+        then("`Operation.CLOSE` exists", () => {
+          expect(Operation.CLOSE).toBeDefined();
+        });
+
+        then("`Operation.CLOSE` is `close`", () => {
+          expect(Operation.CLOSE).toBe("close");
+        });
       });
     });
   });
@@ -68,9 +249,82 @@ metadata(Metadata.EVENT, () => {
       expect(Event).toBeDefined();
     });
 
-    when("Event is defined", () => {
+    and("Event is defined", () => {
       then("Event is an object", () => {
         expect(typeof Event).toBe("object");
+      });
+
+      when("Event is an object", () => {
+        then("only `onclose` overrides an event name of the platform", () => {
+          const taken = Object.values(Event).filter(
+            (name) => name in HTMLElement.prototype
+          );
+          expect(taken).toEqual(["onclose"]);
+        });
+
+        then("`Event.ON_HIDE` exists", () => {
+          expect(Event.ON_HIDE).toBeDefined();
+        });
+
+        then("`Event.ON_HIDE` is `onhide`", () => {
+          expect(Event.ON_HIDE).toBe("onhide");
+        });
+
+        then("`Event.ON_SHOW` exists", () => {
+          expect(Event.ON_SHOW).toBeDefined();
+        });
+
+        then("`Event.ON_SHOW` is `onshow`", () => {
+          expect(Event.ON_SHOW).toBe("onshow");
+        });
+
+        then("`Event.ON_PIN` exists", () => {
+          expect(Event.ON_PIN).toBeDefined();
+        });
+
+        then("`Event.ON_PIN` is `onpin`", () => {
+          expect(Event.ON_PIN).toBe("onpin");
+        });
+
+        then("`Event.ON_UNPIN` exists", () => {
+          expect(Event.ON_UNPIN).toBeDefined();
+        });
+
+        then("`Event.ON_UNPIN` is `onunpin`", () => {
+          expect(Event.ON_UNPIN).toBe("onunpin");
+        });
+
+        then("`Event.ON_MINIMIZE` exists", () => {
+          expect(Event.ON_MINIMIZE).toBeDefined();
+        });
+
+        then("`Event.ON_MINIMIZE` is `onminimize`", () => {
+          expect(Event.ON_MINIMIZE).toBe("onminimize");
+        });
+
+        then("`Event.ON_MAXIMIZE` exists", () => {
+          expect(Event.ON_MAXIMIZE).toBeDefined();
+        });
+
+        then("`Event.ON_MAXIMIZE` is `onmaximize`", () => {
+          expect(Event.ON_MAXIMIZE).toBe("onmaximize");
+        });
+
+        then("`Event.ON_RESTORE` exists", () => {
+          expect(Event.ON_RESTORE).toBeDefined();
+        });
+
+        then("`Event.ON_RESTORE` is `onrestore`", () => {
+          expect(Event.ON_RESTORE).toBe("onrestore");
+        });
+
+        then("`Event.ON_CLOSE` exists", () => {
+          expect(Event.ON_CLOSE).toBeDefined();
+        });
+
+        then("`Event.ON_CLOSE` is `onclose`", () => {
+          expect(Event.ON_CLOSE).toBe("onclose");
+        });
       });
     });
   });
@@ -83,9 +337,131 @@ metadata(Metadata.GESTURE, () => {
       expect(Gesture).toBeDefined();
     });
 
-    when("Gesture is defined", () => {
+    and("Gesture is defined", () => {
       then("Gesture is an object", () => {
         expect(typeof Gesture).toBe("object");
+      });
+
+      when("Gesture is an object", () => {
+        then("`Gesture.SLOTCHANGE` exists", () => {
+          expect(Gesture.SLOTCHANGE).toBeDefined();
+        });
+
+        then("`Gesture.SLOTCHANGE` is `slotchange`", () => {
+          expect(Gesture.SLOTCHANGE).toBe("slotchange");
+        });
+
+        then("`Gesture.ON_PIN` exists", () => {
+          expect(Gesture.ON_PIN).toBeDefined();
+        });
+
+        then("`Gesture.ON_PIN` is `onpin`", () => {
+          expect(Gesture.ON_PIN).toBe("onpin");
+        });
+
+        then("`Gesture.ON_UNPIN` exists", () => {
+          expect(Gesture.ON_UNPIN).toBeDefined();
+        });
+
+        then("`Gesture.ON_UNPIN` is `onunpin`", () => {
+          expect(Gesture.ON_UNPIN).toBe("onunpin");
+        });
+
+        then("`Gesture.ON_MINIMIZE` exists", () => {
+          expect(Gesture.ON_MINIMIZE).toBeDefined();
+        });
+
+        then("`Gesture.ON_MINIMIZE` is `onminimize`", () => {
+          expect(Gesture.ON_MINIMIZE).toBe("onminimize");
+        });
+
+        then("`Gesture.ON_MAXIMIZE` exists", () => {
+          expect(Gesture.ON_MAXIMIZE).toBeDefined();
+        });
+
+        then("`Gesture.ON_MAXIMIZE` is `onmaximize`", () => {
+          expect(Gesture.ON_MAXIMIZE).toBe("onmaximize");
+        });
+
+        then("`Gesture.ON_RESTORE` exists", () => {
+          expect(Gesture.ON_RESTORE).toBeDefined();
+        });
+
+        then("`Gesture.ON_RESTORE` is `onrestore`", () => {
+          expect(Gesture.ON_RESTORE).toBe("onrestore");
+        });
+
+        then("`Gesture.ON_CLOSE` exists", () => {
+          expect(Gesture.ON_CLOSE).toBeDefined();
+        });
+
+        then("`Gesture.ON_CLOSE` is `onclose`", () => {
+          expect(Gesture.ON_CLOSE).toBe("onclose");
+        });
+      });
+    });
+  });
+});
+
+metadata(Metadata.APPEARANCE, () => {
+  and("Appearance imported", () => {
+    then("Appearance is defined", () => {
+      expect(Appearance).toBeDefined();
+    });
+
+    and("Appearance is defined", () => {
+      then("Appearance is an object", () => {
+        expect(typeof Appearance).toBe("object");
+      });
+
+      when("Appearance is an object", () => {
+        then("`Appearance.FLAT` exists", () => {
+          expect(Appearance.FLAT).toBeDefined();
+        });
+
+        then("`Appearance.FLAT` is `flat`", () => {
+          expect(Appearance.FLAT).toBe("flat");
+        });
+      });
+    });
+  });
+});
+
+metadata(Metadata.ZONE, () => {
+  and("Zone imported", () => {
+    then("Zone is defined", () => {
+      expect(Zone).toBeDefined();
+    });
+
+    and("Zone is defined", () => {
+      then("Zone is an object", () => {
+        expect(typeof Zone).toBe("object");
+      });
+
+      when("Zone is an object", () => {
+        then("`Zone.START` exists", () => {
+          expect(Zone.START).toBeDefined();
+        });
+
+        then("`Zone.START` is `start`", () => {
+          expect(Zone.START).toBe("start");
+        });
+
+        then("`Zone.CENTER` exists", () => {
+          expect(Zone.CENTER).toBeDefined();
+        });
+
+        then("`Zone.CENTER` is `center`", () => {
+          expect(Zone.CENTER).toBe("center");
+        });
+
+        then("`Zone.END` exists", () => {
+          expect(Zone.END).toBeDefined();
+        });
+
+        then("`Zone.END` is `end`", () => {
+          expect(Zone.END).toBe("end");
+        });
       });
     });
   });

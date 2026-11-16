@@ -1,7 +1,7 @@
 {
   "Component": "Taskbar",
   "Package": "taskbar",
-  "Description": "A theme-aware web component that groups the pin, minimize, maximize, restore and close controls of a window in one bar, and emits its own event for each event of a control.",
+  "Description": "A theme-aware web component that holds the controls of a window the host places in it, in one bar, emits its own event for each pin, unpin and request of a control, and passes the host's own requests on to the controls.",
   "Tag": "task-bar",
   "Composition": {
     "template": {
@@ -11,41 +11,38 @@
       "contains": ["div.bar"]
     },
     "div.bar": {
-      "description": "The surface that lays out the controls in a row or in a column.",
+      "description": "The surface that lays out its three zones, the start, the centre and the end, in a row or in a column. A control placed inside the taskbar without one of the three slot names is not shown.",
       "type": "div",
       "class": "bar",
-      "contains": [
-        "pin-button",
-        "minimize-button",
-        "maximize-button",
-        "restore-button",
-        "close-button"
-      ]
+      "cached": true,
+      "contains": ["slot.start", "slot.center", "slot.end"]
     },
-    "pin-button": {
-      "description": "The control that pins and unpins.",
-      "type": "pin-button",
-      "cached": true
+    "slot.start": {
+      "description": "The place where the controls the host places inside the taskbar with `slot=\"start\"` are shown, at the start of the bar, in the order they were placed. The controls are the host's own elements and are not parts of the taskbar; the taskbar reaches them through this slot.",
+      "type": "slot",
+      "class": "start",
+      "cached": true,
+      "attributes": {
+        "name": "start"
+      }
     },
-    "minimize-button": {
-      "description": "The control that requests minimizing.",
-      "type": "minimize-button",
-      "cached": true
+    "slot.center": {
+      "description": "The place where the controls the host places inside the taskbar with `slot=\"center\"` are shown, in the centre of the bar, which takes the room the start and the end leave, in the order they were placed. The controls are the host's own elements and are not parts of the taskbar; the taskbar reaches them through this slot.",
+      "type": "slot",
+      "class": "center",
+      "cached": true,
+      "attributes": {
+        "name": "center"
+      }
     },
-    "maximize-button": {
-      "description": "The control that requests maximizing.",
-      "type": "maximize-button",
-      "cached": true
-    },
-    "restore-button": {
-      "description": "The control that requests restoring.",
-      "type": "restore-button",
-      "cached": true
-    },
-    "close-button": {
-      "description": "The control that requests closing.",
-      "type": "close-button",
-      "cached": true
+    "slot.end": {
+      "description": "The place where the controls the host places inside the taskbar with `slot=\"end\"` are shown, at the end of the bar, in the order they were placed. The controls are the host's own elements and are not parts of the taskbar; the taskbar reaches them through this slot.",
+      "type": "slot",
+      "class": "end",
+      "cached": true,
+      "attributes": {
+        "name": "end"
+      }
     }
   },
   "States": {
@@ -78,6 +75,36 @@
     },
     "show": {
       "description": "Sets 'visibility' state to 'visible' and shows the taskbar.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "pin": {
+      "description": "Asks each control placed in the taskbar that offers 'pin' to pin. The taskbar dispatches 'onpin' when a pin reports that it became pinned. Changes no state of the taskbar, and does nothing when no control offers it.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "unpin": {
+      "description": "Asks each control placed in the taskbar that offers 'unpin' to unpin. The taskbar dispatches 'onunpin' when a pin reports that it became unpinned. Changes no state of the taskbar, and does nothing when no control offers it.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "minimize": {
+      "description": "Asks each control placed in the taskbar that offers 'minimize' to request minimizing. The taskbar dispatches 'onminimize' when the control reports the request. Changes no state of the taskbar, and does nothing when no control offers it.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "maximize": {
+      "description": "Asks each control placed in the taskbar that offers 'maximize' to request maximizing. The taskbar dispatches 'onmaximize' when the control reports the request. Changes no state of the taskbar, and does nothing when no control offers it.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "restore": {
+      "description": "Asks each control placed in the taskbar that offers 'restore' to request restoring. The taskbar dispatches 'onrestore' when the control reports the request. Changes no state of the taskbar, and does nothing when no control offers it.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "close": {
+      "description": "Asks each control placed in the taskbar that offers 'close' to request closing. The taskbar dispatches 'onclose' when the control reports the request. Changes no state of the taskbar, and does nothing when no control offers it.",
       "parameters": [],
       "returns": "void"
     }
@@ -116,12 +143,12 @@
       ]
     },
     "onpin": {
-      "description": "Dispatched each time the pin control reports that its status changed to 'pinned'.",
+      "description": "Dispatched each time a pin placed in the taskbar reports that its status changed to 'pinned'.",
       "parameters": [
         {
           "name": "detail",
           "type": "object",
-          "description": "Contains the new status of the pin control.",
+          "description": "Contains the new status of the pin, as the pin reported it.",
           "properties": {
             "status": {
               "type": "Status",
@@ -132,12 +159,12 @@
       ]
     },
     "onunpin": {
-      "description": "Dispatched each time the pin control reports that its status changed to 'unpinned'.",
+      "description": "Dispatched each time a pin placed in the taskbar reports that its status changed to 'unpinned'.",
       "parameters": [
         {
           "name": "detail",
           "type": "object",
-          "description": "Contains the new status of the pin control.",
+          "description": "Contains the new status of the pin, as the pin reported it.",
           "properties": {
             "status": {
               "type": "Status",
@@ -148,70 +175,89 @@
       ]
     },
     "onminimize": {
-      "description": "Dispatched each time the minimize control reports that minimizing is requested."
+      "description": "Dispatched each time a control placed in the taskbar reports that minimizing is requested."
     },
     "onmaximize": {
-      "description": "Dispatched each time the maximize control reports that maximizing is requested."
+      "description": "Dispatched each time a control placed in the taskbar reports that maximizing is requested."
     },
     "onrestore": {
-      "description": "Dispatched each time the restore control reports that restoring is requested."
+      "description": "Dispatched each time a control placed in the taskbar reports that restoring is requested."
     },
     "onclose": {
-      "description": "Dispatched each time the close control reports that closing is requested."
+      "description": "Dispatched each time a control placed in the taskbar reports that closing is requested. The taskbar removes nothing."
     }
   },
   "Gestures": {
-    "onpin": {
-      "description": "The pin control reports that it was pinned.",
+    "slotchange": {
+      "description": "The host places a control in one of the three slots of the taskbar, or takes one out; the gesture is heard on the bar, which every slot reports to: the taskbar listens to every control it now holds, and no longer to one that was taken out, and makes every control it holds that has an 'appearance' flat. The triggers act in the order listed.",
       "triggers": [
         {
-          "target": "pin-button",
-          "operation": "_pin"
+          "target": "div.bar",
+          "operation": "_listen"
+        },
+        {
+          "target": "div.bar",
+          "operation": "_flatten"
+        }
+      ]
+    },
+    "onpin": {
+      "description": "A pin placed in the taskbar reports that it was pinned: the taskbar dispatches its own `onpin` with the status the pin reported. Heard on each control through `addEventListener`, never through the control's `onpin` property.",
+      "triggers": [
+        {
+          "target": "div.bar",
+          "condition": "on each control placed in the taskbar",
+          "operation": "_report"
         }
       ]
     },
     "onunpin": {
-      "description": "The pin control reports that it was unpinned.",
+      "description": "A pin placed in the taskbar reports that it was unpinned: the taskbar dispatches its own `onunpin` with the status the pin reported. Heard on each control through `addEventListener`, never through the control's `onunpin` property.",
       "triggers": [
         {
-          "target": "pin-button",
-          "operation": "_unpin"
+          "target": "div.bar",
+          "condition": "on each control placed in the taskbar",
+          "operation": "_report"
         }
       ]
     },
     "onminimize": {
-      "description": "The minimize control reports that minimizing is requested.",
+      "description": "A control placed in the taskbar reports that minimizing is requested: the taskbar dispatches its own `onminimize`. Heard on each control through `addEventListener`, never through the control's `onminimize` property.",
       "triggers": [
         {
-          "target": "minimize-button",
-          "operation": "_minimize"
+          "target": "div.bar",
+          "condition": "on each control placed in the taskbar",
+          "operation": "_report"
         }
       ]
     },
     "onmaximize": {
-      "description": "The maximize control reports that maximizing is requested.",
+      "description": "A control placed in the taskbar reports that maximizing is requested: the taskbar dispatches its own `onmaximize`. Heard on each control through `addEventListener`, never through the control's `onmaximize` property.",
       "triggers": [
         {
-          "target": "maximize-button",
-          "operation": "_maximize"
+          "target": "div.bar",
+          "condition": "on each control placed in the taskbar",
+          "operation": "_report"
         }
       ]
     },
     "onrestore": {
-      "description": "The restore control reports that restoring is requested.",
+      "description": "A control placed in the taskbar reports that restoring is requested: the taskbar dispatches its own `onrestore`. Heard on each control through `addEventListener`, never through the control's `onrestore` property.",
       "triggers": [
         {
-          "target": "restore-button",
-          "operation": "_restore"
+          "target": "div.bar",
+          "condition": "on each control placed in the taskbar",
+          "operation": "_report"
         }
       ]
     },
     "onclose": {
-      "description": "The close control reports that closing is requested.",
+      "description": "A control placed in the taskbar reports that closing is requested: the taskbar dispatches its own `onclose`. Heard on each control through `addEventListener`, never through the control's `onclose` property.",
       "triggers": [
         {
-          "target": "close-button",
-          "operation": "_close"
+          "target": "div.bar",
+          "condition": "on each control placed in the taskbar",
+          "operation": "_report"
         }
       ]
     }

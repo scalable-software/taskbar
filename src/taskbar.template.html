@@ -1,1 +1,7 @@
-<template id="task-bar"> </template>
+<template id="task-bar">
+  <div class="bar">
+    <slot class="start" name="start"></slot>
+    <slot class="center" name="center"></slot>
+    <slot class="end" name="end"></slot>
+  </div>
+</template>

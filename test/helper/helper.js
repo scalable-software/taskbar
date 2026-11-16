@@ -113,7 +113,9 @@ globalThis.Metadata = {
   STATE: "state",
   OPERATION: "operation",
   EVENT: "event",
-  GESTURE: "gesture"
+  GESTURE: "gesture",
+  APPEARANCE: "appearance",
+  ZONE: "zone"
 };
 
 globalThis.Configuration = {
