@@ -76,7 +76,9 @@ export type Orientation = (typeof Orientation)[keyof typeof Orientation];
  * @category Metadata
  * @enum
  */
-export const Operation = {} as const;
+export const Operation = {
+  HIDE: "hide"
+} as const;
 
 /**
  * @category Metadata
@@ -110,7 +112,13 @@ export type Gesture = (typeof Gesture)[keyof typeof Gesture];
 export type States = Record<State, unknown>;
 
 /**
+ * Every operation the component must have
+ * @category Metadata
+ */
+export type Operations = Record<Operation, (...parameters: any[]) => unknown>;
+
+/**
  * Everything the metadata says the component has: implemented by the component
  * @category Metadata
  */
-export type Meta = States;
+export type Meta = States & Operations;
