@@ -1586,6 +1586,41 @@ events(Event.ON_UNPIN, () => {
                   });
                 });
               });
+
+              when("`taskbar.onunpin` is set to `invalid`", () => {
+                let error: Error;
+                beforeEach(() => {
+                  try {
+                    // @ts-expect-error
+                    taskbar.onunpin = "invalid";
+                  } catch (err) {
+                    error = err as Error;
+                  }
+                });
+
+                then("an error is thrown", () => {
+                  expect(error).toBeDefined();
+                });
+
+                then(
+                  "error message contains 'Invalid onunpin value: invalid'",
+                  () => {
+                    expect(error.message).toBe(
+                      "Invalid onunpin value: invalid"
+                    );
+                  }
+                );
+
+                when("the pin reports", () => {
+                  beforeEach(() => {
+                    pin.unpin();
+                  });
+
+                  then("`taskbar.onunpin` listener is still called", () => {
+                    expect(first).toHaveBeenCalledTimes(1);
+                  });
+                });
+              });
             });
           });
         });
