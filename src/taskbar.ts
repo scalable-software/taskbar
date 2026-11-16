@@ -340,7 +340,9 @@ export class Taskbar extends Component implements Meta {
    * Ask each control placed in the taskbar that offers `minimize` to request minimizing
    * @category Operations
    */
-  public minimize = () => {};
+  public minimize = () => {
+    this._ask(Operation.MINIMIZE);
+  };
 
   /**
    * Ask each control placed in the taskbar that offers `maximize` to request maximizing
