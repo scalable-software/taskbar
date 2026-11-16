@@ -873,6 +873,19 @@ operation(Operation.MINIMIZE, () => {
               });
             });
           });
+
+          and("no control is placed in the taskbar", () => {
+            when("invoking `taskbar.minimize`", () => {
+              let result: unknown;
+              beforeEach(() => {
+                result = taskbar.minimize();
+              });
+
+              then("`taskbar.minimize` returns nothing", () => {
+                expect(result).toBeUndefined();
+              });
+            });
+          });
         });
       });
     });
