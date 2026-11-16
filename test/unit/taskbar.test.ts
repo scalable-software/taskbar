@@ -1808,6 +1808,41 @@ events(Event.ON_MAXIMIZE, () => {
                   });
                 });
               });
+
+              when("`taskbar.onmaximize` is set to `invalid`", () => {
+                let error: Error;
+                beforeEach(() => {
+                  try {
+                    // @ts-expect-error
+                    taskbar.onmaximize = "invalid";
+                  } catch (err) {
+                    error = err as Error;
+                  }
+                });
+
+                then("an error is thrown", () => {
+                  expect(error).toBeDefined();
+                });
+
+                then(
+                  "error message contains 'Invalid onmaximize value: invalid'",
+                  () => {
+                    expect(error.message).toBe(
+                      "Invalid onmaximize value: invalid"
+                    );
+                  }
+                );
+
+                when("the maximize control reports", () => {
+                  beforeEach(() => {
+                    control.maximize();
+                  });
+
+                  then("`taskbar.onmaximize` listener is still called", () => {
+                    expect(first).toHaveBeenCalledTimes(1);
+                  });
+                });
+              });
             });
           });
         });
