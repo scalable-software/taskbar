@@ -120,6 +120,13 @@ export class Taskbar extends Component implements Meta {
   private _onmaximize: EventListener | null = null;
 
   /**
+   * onrestore triggered when a control placed in the taskbar requests restoring
+   * @category Events
+   * @hidden
+   */
+  private _onrestore: EventListener | null = null;
+
+  /**
    * Cache element references to improve performance
    * @category State
    * @hidden
@@ -255,6 +262,19 @@ export class Taskbar extends Component implements Meta {
     this._onmaximize = this._subscribe(
       Event.ON_MAXIMIZE,
       this._onmaximize,
+      handler
+    );
+  }
+
+  /**
+   * Triggered when a control placed in the taskbar requests restoring
+   * @event
+   * @category Events
+   */
+  public set onrestore(handler: EventListener | null) {
+    this._onrestore = this._subscribe(
+      Event.ON_RESTORE,
+      this._onrestore,
       handler
     );
   }
