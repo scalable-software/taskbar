@@ -1000,6 +1000,31 @@ control(Control.MAXIMIZE, () => {
             expect(detached.maximize).toBeNull();
           });
         });
+
+        and("`taskbar.maximize.onmaximize` is set to a listener", () => {
+          let onmaximize: jasmine.Spy;
+          let onevent: jasmine.Spy;
+          beforeEach(() => {
+            onmaximize = jasmine.createSpy("onmaximize");
+            onevent = jasmine.createSpy("onevent");
+            (taskbar.maximize as Maximize).onmaximize = onmaximize;
+            taskbar.onevent = onevent;
+          });
+
+          when("invoking `taskbar.maximize.maximize`", () => {
+            beforeEach(() => {
+              taskbar.maximize?.maximize();
+            });
+
+            then("`taskbar.maximize.onmaximize` is called once", () => {
+              expect(onmaximize).toHaveBeenCalledTimes(1);
+            });
+
+            then("the taskbar dispatches no event", () => {
+              expect(onevent).not.toHaveBeenCalled();
+            });
+          });
+        });
       });
     });
   });
