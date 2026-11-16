@@ -151,7 +151,9 @@ export class Taskbar extends Component implements Meta {
    */
   protected _attributeHandlers = {
     [Attributes.VISIBILITY]: (value: Visibility | null) =>
-      (this.visibility = value)
+      (this.visibility = value),
+    [Attributes.ORIENTATION]: (value: Orientation | null) =>
+      (this.orientation = value)
   };
 
   /**
