@@ -892,6 +892,31 @@ control(Control.MINIMIZE, () => {
             expect(detached.minimize).toBeNull();
           });
         });
+
+        and("`taskbar.minimize.onminimize` is set to a listener", () => {
+          let onminimize: jasmine.Spy;
+          let onevent: jasmine.Spy;
+          beforeEach(() => {
+            onminimize = jasmine.createSpy("onminimize");
+            onevent = jasmine.createSpy("onevent");
+            (taskbar.minimize as Minimize).onminimize = onminimize;
+            taskbar.onevent = onevent;
+          });
+
+          when("invoking `taskbar.minimize.minimize`", () => {
+            beforeEach(() => {
+              taskbar.minimize?.minimize();
+            });
+
+            then("`taskbar.minimize.onminimize` is called once", () => {
+              expect(onminimize).toHaveBeenCalledTimes(1);
+            });
+
+            then("the taskbar dispatches no event", () => {
+              expect(onevent).not.toHaveBeenCalled();
+            });
+          });
+        });
       });
     });
   });
