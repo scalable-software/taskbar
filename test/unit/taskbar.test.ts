@@ -432,6 +432,18 @@ state(State.ORIENTATION, () => {
               const value = taskbar.getAttribute(Attributes.ORIENTATION);
               expect(value).toBe(Orientation.PORTRAIT);
             });
+
+            when("`taskbar.orientation` is set to `Orientation.LANDSCAPE`", () => {
+              beforeEach(() => {
+                taskbar.orientation = Orientation.LANDSCAPE;
+              });
+
+              then("`orientation` attribute does not exist", () => {
+                expect(
+                  taskbar.hasAttribute(Attributes.ORIENTATION)
+                ).toBeFalse();
+              });
+            });
           });
 
           when("`taskbar.orientation` is set to `null`", () => {
