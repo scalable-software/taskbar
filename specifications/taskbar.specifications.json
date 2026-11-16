@@ -91,12 +91,12 @@
       ]
     },
     "onpin": {
-      "description": "Dispatched each time the pin control reports that its status changed to 'pinned'.",
+      "description": "Dispatched each time a pin placed in the taskbar reports that its status changed to 'pinned'.",
       "parameters": [
         {
           "name": "detail",
           "type": "object",
-          "description": "Contains the new status of the pin control.",
+          "description": "Contains the new status of the pin, as the pin reported it.",
           "properties": {
             "status": {
               "type": "Status",
@@ -107,12 +107,12 @@
       ]
     },
     "onunpin": {
-      "description": "Dispatched each time the pin control reports that its status changed to 'unpinned'.",
+      "description": "Dispatched each time a pin placed in the taskbar reports that its status changed to 'unpinned'.",
       "parameters": [
         {
           "name": "detail",
           "type": "object",
-          "description": "Contains the new status of the pin control.",
+          "description": "Contains the new status of the pin, as the pin reported it.",
           "properties": {
             "status": {
               "type": "Status",
@@ -123,70 +123,85 @@
       ]
     },
     "onminimize": {
-      "description": "Dispatched each time the minimize control reports that minimizing is requested."
+      "description": "Dispatched each time a control placed in the taskbar reports that minimizing is requested."
     },
     "onmaximize": {
-      "description": "Dispatched each time the maximize control reports that maximizing is requested."
+      "description": "Dispatched each time a control placed in the taskbar reports that maximizing is requested."
     },
     "onrestore": {
-      "description": "Dispatched each time the restore control reports that restoring is requested."
+      "description": "Dispatched each time a control placed in the taskbar reports that restoring is requested."
     },
     "onclose": {
-      "description": "Dispatched each time the close control reports that closing is requested."
+      "description": "Dispatched each time a control placed in the taskbar reports that closing is requested. The taskbar removes nothing."
     }
   },
   "Gestures": {
-    "onpin": {
-      "description": "The pin control reports that it was pinned.",
+    "slotchange": {
+      "description": "The host places a control in the taskbar, or takes one out: the taskbar listens to every control it now holds, and no longer to one that was taken out.",
       "triggers": [
         {
-          "target": "pin-button",
-          "operation": "_pin"
+          "target": "slot.controls",
+          "operation": "_listen"
+        }
+      ]
+    },
+    "onpin": {
+      "description": "A pin placed in the taskbar reports that it was pinned: the taskbar dispatches its own `onpin` with the status the pin reported. Heard on each control through `addEventListener`, never through the control's `onpin` property.",
+      "triggers": [
+        {
+          "target": "slot.controls",
+          "condition": "on each control placed in the taskbar",
+          "operation": "_report"
         }
       ]
     },
     "onunpin": {
-      "description": "The pin control reports that it was unpinned.",
+      "description": "A pin placed in the taskbar reports that it was unpinned: the taskbar dispatches its own `onunpin` with the status the pin reported. Heard on each control through `addEventListener`, never through the control's `onunpin` property.",
       "triggers": [
         {
-          "target": "pin-button",
-          "operation": "_unpin"
+          "target": "slot.controls",
+          "condition": "on each control placed in the taskbar",
+          "operation": "_report"
         }
       ]
     },
     "onminimize": {
-      "description": "The minimize control reports that minimizing is requested.",
+      "description": "A control placed in the taskbar reports that minimizing is requested: the taskbar dispatches its own `onminimize`. Heard on each control through `addEventListener`, never through the control's `onminimize` property.",
       "triggers": [
         {
-          "target": "minimize-button",
-          "operation": "_minimize"
+          "target": "slot.controls",
+          "condition": "on each control placed in the taskbar",
+          "operation": "_report"
         }
       ]
     },
     "onmaximize": {
-      "description": "The maximize control reports that maximizing is requested.",
+      "description": "A control placed in the taskbar reports that maximizing is requested: the taskbar dispatches its own `onmaximize`. Heard on each control through `addEventListener`, never through the control's `onmaximize` property.",
       "triggers": [
         {
-          "target": "maximize-button",
-          "operation": "_maximize"
+          "target": "slot.controls",
+          "condition": "on each control placed in the taskbar",
+          "operation": "_report"
         }
       ]
     },
     "onrestore": {
-      "description": "The restore control reports that restoring is requested.",
+      "description": "A control placed in the taskbar reports that restoring is requested: the taskbar dispatches its own `onrestore`. Heard on each control through `addEventListener`, never through the control's `onrestore` property.",
       "triggers": [
         {
-          "target": "restore-button",
-          "operation": "_restore"
+          "target": "slot.controls",
+          "condition": "on each control placed in the taskbar",
+          "operation": "_report"
         }
       ]
     },
     "onclose": {
-      "description": "The close control reports that closing is requested.",
+      "description": "A control placed in the taskbar reports that closing is requested: the taskbar dispatches its own `onclose`. Heard on each control through `addEventListener`, never through the control's `onclose` property.",
       "triggers": [
         {
-          "target": "close-button",
-          "operation": "_close"
+          "target": "slot.controls",
+          "condition": "on each control placed in the taskbar",
+          "operation": "_report"
         }
       ]
     }
