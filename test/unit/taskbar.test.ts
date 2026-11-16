@@ -278,6 +278,37 @@ state(State.VISIBILITY, () => {
             });
           });
 
+          when("`visibility` attribute is set to `invalid`", () => {
+            beforeEach(async () => {
+              await jasmine.spyOnGlobalErrorsAsync(async () => {
+                taskbar.setAttribute(Attributes.VISIBILITY, "invalid");
+              });
+            });
+
+            then("`visibility` attribute does not exist", () => {
+              expect(taskbar.hasAttribute(Attributes.VISIBILITY)).toBeFalse();
+            });
+          });
+
+          and("`taskbar.visibility` is set to `Visibility.HIDDEN`", () => {
+            beforeEach(() => {
+              taskbar.visibility = Visibility.HIDDEN;
+            });
+
+            when("`visibility` attribute is set to `invalid`", () => {
+              beforeEach(async () => {
+                await jasmine.spyOnGlobalErrorsAsync(async () => {
+                  taskbar.setAttribute(Attributes.VISIBILITY, "invalid");
+                });
+              });
+
+              then("`visibility` attribute is `Visibility.HIDDEN`", () => {
+                const value = taskbar.getAttribute(Attributes.VISIBILITY);
+                expect(value).toBe(Visibility.HIDDEN);
+              });
+            });
+          });
+
           when("`taskbar.visibility` is set to `invalid`", () => {
             let error: Error;
             beforeEach(() => {
