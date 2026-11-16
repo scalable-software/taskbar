@@ -1712,3 +1712,61 @@ gesture(Gesture.ON_UNPIN, () => {
     });
   });
 });
+
+gesture(Gesture.ON_MINIMIZE, () => {
+  and("Taskbar is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Taskbar.Tag, Taskbar);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Taskbar.Template.load("taskbar.template.html");
+      });
+      afterEach(() => {
+        remove(Taskbar.Tag);
+      });
+
+      and("a new taskbar is added to DOM", () => {
+        let taskbar: Taskbar;
+        beforeEach(() => {
+          taskbar = add<Taskbar>(Taskbar.Tag);
+        });
+        afterEach(() => {
+          taskbar.remove();
+        });
+
+        and("a minimize control is placed in the taskbar", () => {
+          let control: Minimize;
+          beforeEach(async () => {
+            define(Minimize.Tag, Minimize);
+            await Minimize.Template.load("minimize.template.html");
+            control = taskbar.appendChild(create<Minimize>(Minimize.Tag));
+            await placed();
+          });
+          afterEach(() => {
+            remove(Minimize.Tag);
+          });
+
+          and("`taskbar.onminimize` is set to a listener", () => {
+            let onminimize: jasmine.Spy;
+            beforeEach(() => {
+              onminimize = jasmine.createSpy("onminimize");
+              taskbar.onminimize = onminimize;
+            });
+
+            when("the minimize control requests minimizing", () => {
+              beforeEach(() => {
+                control.minimize();
+              });
+
+              then("`onminimize` is called once", () => {
+                expect(onminimize).toHaveBeenCalledTimes(1);
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+});
