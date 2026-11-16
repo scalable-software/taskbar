@@ -1,4 +1,4 @@
-import { State, Visibility } from "@scalable.software/taskbar";
+import { State, Visibility, Orientation } from "@scalable.software/taskbar";
 
 import { Validate } from "@scalable.software/taskbar";
 
@@ -93,6 +93,72 @@ validation(State.VISIBILITY, () => {
               );
             }
           );
+        });
+      });
+    });
+  });
+});
+
+validation(State.ORIENTATION, () => {
+  given("Validate imported", () => {
+    then("Validate is defined", () => {
+      expect(Validate).toBeDefined();
+    });
+
+    and("Validate is defined", () => {
+      then("`Validate.orientation` static method exists", () => {
+        expect(Validate.orientation).toBeDefined();
+      });
+
+      and("`value` is `Orientation.LANDSCAPE`", () => {
+        let value: any;
+        beforeEach(() => {
+          value = Orientation.LANDSCAPE;
+        });
+
+        when("`Validate.orientation(value)` is called", () => {
+          let error: unknown | undefined;
+          let result: any;
+          beforeEach(() => {
+            try {
+              result = Validate.orientation(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+          then("no error is thrown", () => {
+            expect(error).toBeUndefined();
+          });
+
+          then("result is `Orientation.LANDSCAPE`", () => {
+            expect(result).toBe(Orientation.LANDSCAPE);
+          });
+        });
+      });
+
+      and("`value` is `Orientation.PORTRAIT`", () => {
+        let value: any;
+        beforeEach(() => {
+          value = Orientation.PORTRAIT;
+        });
+
+        when("`Validate.orientation(value)` is called", () => {
+          let error: unknown | undefined;
+          let result: any;
+          beforeEach(() => {
+            try {
+              result = Validate.orientation(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+          then("no error is thrown", () => {
+            expect(error).toBeUndefined();
+          });
+
+          then("result is `Orientation.PORTRAIT`", () => {
+            expect(result).toBe(Orientation.PORTRAIT);
+          });
         });
       });
     });
