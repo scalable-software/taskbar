@@ -898,6 +898,42 @@ events(Event.ON_SHOW, () => {
                   }
                 );
               });
+
+              when("`taskbar.onshow` is set to `invalid`", () => {
+                let error: Error;
+                beforeEach(() => {
+                  try {
+                    // @ts-expect-error
+                    taskbar.onshow = "invalid";
+                  } catch (err) {
+                    error = err as Error;
+                  }
+                });
+
+                then("an error is thrown", () => {
+                  expect(error).toBeDefined();
+                });
+
+                then(
+                  "error message contains 'Invalid onshow value: invalid'",
+                  () => {
+                    expect(error.message).toBe("Invalid onshow value: invalid");
+                  }
+                );
+
+                when(
+                  "`taskbar.visibility` is set to `Visibility.VISIBLE`",
+                  () => {
+                    beforeEach(() => {
+                      taskbar.visibility = Visibility.VISIBLE;
+                    });
+
+                    then("`taskbar.onshow` is still called", () => {
+                      expect(onshow).toHaveBeenCalled();
+                    });
+                  }
+                );
+              });
             });
           });
         });
