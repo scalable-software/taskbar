@@ -19,6 +19,14 @@ module.exports = function (config) {
         pattern: "./node_modules/@scalable.software/**/dist/*.js",
         type: "module"
       },
+      {
+        pattern: "./node_modules/@scalable.software/**/dist/*.html",
+        included: false
+      },
+      {
+        pattern: "./node_modules/@scalable.software/**/dist/*.css",
+        included: false
+      },
       { pattern: "./src/**/*.js", type: "module" },
       { pattern: "./test/unit/**/*.js", type: "module" }
     ],
