@@ -59,7 +59,8 @@
 /* =======================
   Control Styles
 ======================= */
-::slotted(*) {
+.start > *,
+.end > * {
   flex-shrink: 0;
   --icon-margin: 0;
 }
