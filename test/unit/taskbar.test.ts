@@ -1828,3 +1828,61 @@ gesture(Gesture.ON_MAXIMIZE, () => {
     });
   });
 });
+
+gesture(Gesture.ON_RESTORE, () => {
+  and("Taskbar is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Taskbar.Tag, Taskbar);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Taskbar.Template.load("taskbar.template.html");
+      });
+      afterEach(() => {
+        remove(Taskbar.Tag);
+      });
+
+      and("a new taskbar is added to DOM", () => {
+        let taskbar: Taskbar;
+        beforeEach(() => {
+          taskbar = add<Taskbar>(Taskbar.Tag);
+        });
+        afterEach(() => {
+          taskbar.remove();
+        });
+
+        and("a restore control is placed in the taskbar", () => {
+          let control: Restore;
+          beforeEach(async () => {
+            define(Restore.Tag, Restore);
+            await Restore.Template.load("restore.template.html");
+            control = taskbar.appendChild(create<Restore>(Restore.Tag));
+            await placed();
+          });
+          afterEach(() => {
+            remove(Restore.Tag);
+          });
+
+          and("`taskbar.onrestore` is set to a listener", () => {
+            let onrestore: jasmine.Spy;
+            beforeEach(() => {
+              onrestore = jasmine.createSpy("onrestore");
+              taskbar.onrestore = onrestore;
+            });
+
+            when("the restore control requests restoring", () => {
+              beforeEach(() => {
+                control.restore();
+              });
+
+              then("`onrestore` is called once", () => {
+                expect(onrestore).toHaveBeenCalledTimes(1);
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+});
