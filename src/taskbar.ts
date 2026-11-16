@@ -458,6 +458,10 @@ export class Taskbar extends Component implements Meta {
         Gesture.ON_MAXIMIZE,
         this._handleControlsOnmaximize
       );
+      control.addEventListener(
+        Gesture.ON_RESTORE,
+        this._handleControlsOnrestore
+      );
     });
   };
 
@@ -511,4 +515,12 @@ export class Taskbar extends Component implements Meta {
    * @hidden
    */
   private _handleControlsOnmaximize = () => this._report(Event.ON_MAXIMIZE);
+
+  /**
+   * Handles a control placed in the taskbar reporting that restoring is requested:
+   * reports it
+   * @category Gesture
+   * @hidden
+   */
+  private _handleControlsOnrestore = () => this._report(Event.ON_RESTORE);
 }
