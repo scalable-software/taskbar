@@ -12,6 +12,7 @@ import {
   Event
 } from "@scalable.software/taskbar";
 import { Pin, Status } from "@scalable.software/pin";
+import { Minimize } from "@scalable.software/minimize";
 
 // Creates an element that is not in DOM yet
 const create = <T extends Element>(tag: string) =>
@@ -807,6 +808,42 @@ operation(Operation.MINIMIZE, () => {
 
         then("`taskbar.minimize` method exists", () => {
           expect(taskbar.minimize).toBeDefined();
+        });
+
+        and("`taskbar.minimize` method exists", () => {
+          and("a minimize control is placed in the taskbar", () => {
+            let control: Minimize;
+            beforeEach(async () => {
+              define(Minimize.Tag, Minimize);
+              await Minimize.Template.load("minimize.template.html");
+              control = taskbar.appendChild(create<Minimize>(Minimize.Tag));
+              await placed();
+            });
+            afterEach(() => {
+              remove(Minimize.Tag);
+            });
+
+            and("the minimize control has a listener for `onminimize`", () => {
+              let onminimize: jasmine.Spy;
+              beforeEach(() => {
+                onminimize = jasmine.createSpy("onminimize");
+                control.onminimize = onminimize;
+              });
+
+              when("invoking `taskbar.minimize`", () => {
+                beforeEach(() => {
+                  taskbar.minimize();
+                });
+
+                then(
+                  "the minimize control's `onminimize` is called once",
+                  () => {
+                    expect(onminimize).toHaveBeenCalledTimes(1);
+                  }
+                );
+              });
+            });
+          });
         });
       });
     });
