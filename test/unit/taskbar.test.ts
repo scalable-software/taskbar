@@ -1971,6 +1971,10 @@ gesture(Gesture.ON_CLOSE, () => {
               then("`onclose` is called once", () => {
                 expect(onclose).toHaveBeenCalledTimes(1);
               });
+
+              then("`onclose` is called with no detail", () => {
+                expect(onclose.calls.mostRecent().args[0].detail).toBeNull();
+              });
             });
           });
         });
