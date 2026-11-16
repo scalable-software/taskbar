@@ -936,6 +936,18 @@ control(Control.RESTORE, () => {
           expect(taskbar.restore).toBeDefined();
         });
 
+        then("`taskbar.restore` has no setter", () => {
+          expect(hasSetter(taskbar, Control.RESTORE)).toBeFalse();
+        });
+
+        then("assigning `taskbar.restore` does not compile", () => {
+          const assign = () => {
+            // @ts-expect-error: `restore` is read-only
+            taskbar.restore = null;
+          };
+          expect(assign).toEqual(jasmine.any(Function));
+        });
+
         then("`taskbar.restore` is the `restore-button` of the taskbar", () => {
           const part = taskbar.root.querySelector(Restore.Tag) as Restore;
           expect(taskbar.restore).toBe(part);
