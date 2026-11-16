@@ -733,6 +733,28 @@ events(Event.ON_HIDE, () => {
                 });
               }
             );
+
+            and("`taskbar.onhide` is set to a new listener", () => {
+              let onhide2: jasmine.Spy;
+              beforeEach(() => {
+                onhide2 = jasmine.createSpy("onhide2");
+                taskbar.onhide = onhide2;
+              });
+
+              when("`taskbar.visibility` is set to `Visibility.HIDDEN`", () => {
+                beforeEach(() => {
+                  taskbar.visibility = Visibility.HIDDEN;
+                });
+
+                then("old `taskbar.onhide` is not called", () => {
+                  expect(onhide).not.toHaveBeenCalled();
+                });
+
+                then("new `taskbar.onhide` is called", () => {
+                  expect(onhide2).toHaveBeenCalled();
+                });
+              });
+            });
           });
         });
       });
