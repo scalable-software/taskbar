@@ -183,6 +183,14 @@ composition(Composition.TEMPLATE, () => {
             );
             expect(flat).toBeTrue();
           });
+
+          then("no control carries a class", () => {
+            const controls = [
+              ...div.querySelectorAll("div.start > *, div.end > *")
+            ];
+            const classes = controls.filter((control) => control.className);
+            expect(classes).toEqual([]);
+          });
         });
 
         and(
