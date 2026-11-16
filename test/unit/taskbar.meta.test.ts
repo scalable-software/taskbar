@@ -372,6 +372,14 @@ metadata(Metadata.GESTURE, () => {
         then("`Gesture.ON_MINIMIZE` is `onminimize`", () => {
           expect(Gesture.ON_MINIMIZE).toBe("onminimize");
         });
+
+        then("`Gesture.ON_MAXIMIZE` exists", () => {
+          expect(Gesture.ON_MAXIMIZE).toBeDefined();
+        });
+
+        then("`Gesture.ON_MAXIMIZE` is `onmaximize`", () => {
+          expect(Gesture.ON_MAXIMIZE).toBe("onmaximize");
+        });
       });
     });
   });
