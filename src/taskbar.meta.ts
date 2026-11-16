@@ -120,7 +120,8 @@ export const Gesture = {
   ON_PIN: "onpin",
   ON_UNPIN: "onunpin",
   ON_MINIMIZE: "onminimize",
-  ON_MAXIMIZE: "onmaximize"
+  ON_MAXIMIZE: "onmaximize",
+  ON_RESTORE: "onrestore"
 } as const;
 /**
  * @category Metadata
