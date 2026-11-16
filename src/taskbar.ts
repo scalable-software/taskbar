@@ -139,6 +139,7 @@ export class Taskbar extends Component implements Meta {
     // Dispatch
     const detail = { visibility };
     visibility === Visibility.HIDDEN && this._dispatch(Event.ON_HIDE, detail);
+    visibility === Visibility.VISIBLE && this._dispatch(Event.ON_SHOW);
   }
 
   /**
