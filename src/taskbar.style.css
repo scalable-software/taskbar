@@ -55,6 +55,14 @@ slot {
 }
 
 /* =======================
+  Control Styles
+======================= */
+::slotted(*) {
+  flex-shrink: 0;
+  --icon-margin: 0;
+}
+
+/* =======================
   State Visibility
 ======================= */
 :host([visibility="hidden"]) {
