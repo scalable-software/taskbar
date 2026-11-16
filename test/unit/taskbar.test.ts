@@ -127,34 +127,35 @@ composition(Composition.TEMPLATE, () => {
           taskbar.remove();
         });
 
-        then("taskbar.root contents contains template contents", () => {
-          expect(taskbar.root.innerHTML).toContain(template.innerHTML);
+        then("`taskbar.root` contains `div.bar`", () => {
+          const div = taskbar.root.querySelector("div.bar");
+          expect(div).not.toBeNull();
         });
 
-        and("`taskbar.root` contents contains template contents", () => {
-          then("`taskbar.root` contains `div.bar`", () => {
-            const div = taskbar.root.querySelector("div.bar");
-            expect(div).not.toBeNull();
+        when("`taskbar.root` contains `div.bar`", () => {
+          let div: HTMLDivElement;
+          beforeEach(() => {
+            div = taskbar.root.querySelector("div.bar") as HTMLDivElement;
           });
 
-          when("`taskbar.root` contains `div.bar`", () => {
-            let div: HTMLDivElement;
-            beforeEach(() => {
-              div = taskbar.root.querySelector("div.bar") as HTMLDivElement;
-            });
+          then(
+            "`div.bar` contains `div.start`, `div.center` and `div.end`, in that order",
+            () => {
+              const zones = [...div.children].map((zone) => zone.className);
+              expect(zones).toEqual(["start", "center", "end"]);
+            }
+          );
 
-            then(
-              "`div.bar` contains `div.start`, `div.center` and `div.end`, in that order",
-              () => {
-                const zones = [...div.children].map((zone) => zone.className);
-                expect(zones).toEqual(["start", "center", "end"]);
-              }
+          then("`div.start` contains `pin-button`, and nothing else", () => {
+            const controls = [...div.querySelectorAll("div.start > *")].map(
+              (control) => control.localName
             );
+            expect(controls).toEqual([Pin.Tag]);
+          });
 
-            then("`div.center` contains a `slot`", () => {
-              const slot = div.querySelector("div.center > slot");
-              expect(slot).not.toBeNull();
-            });
+          then("`div.center` contains a `slot`", () => {
+            const slot = div.querySelector("div.center > slot");
+            expect(slot).not.toBeNull();
           });
         });
 
