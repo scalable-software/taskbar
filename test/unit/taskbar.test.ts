@@ -349,6 +349,14 @@ composition(Composition.ELEMENT, () => {
             expect(taskbar["elements"].end.maximize).toBe(part);
           }
         );
+
+        then(
+          "`taskbar.elements.end.restore` is a cached reference to the `restore-button`",
+          () => {
+            const part = taskbar.root.querySelector(Restore.Tag) as Restore;
+            expect(taskbar["elements"].end.restore).toBe(part);
+          }
+        );
       });
     });
   });
