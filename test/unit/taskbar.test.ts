@@ -2165,6 +2165,40 @@ gesture(Gesture.SLOTCHANGE, () => {
             });
           });
         });
+        and("a pin is placed in a taskbar that is not in DOM yet", () => {
+          let later: Taskbar;
+          let pin: Pin;
+          beforeEach(async () => {
+            define(Pin.Tag, Pin);
+            await Pin.Template.load("pin.template.html");
+            later = create<Taskbar>(Taskbar.Tag);
+            pin = later.appendChild(create<Pin>(Pin.Tag));
+            await placed();
+          });
+          afterEach(() => {
+            later.remove();
+            remove(Pin.Tag);
+          });
+
+          and("the taskbar is added to DOM", () => {
+            beforeEach(() => {
+              document.body.appendChild(later);
+            });
+
+            when("the pin is pinned", () => {
+              let onpin: jasmine.Spy;
+              beforeEach(() => {
+                onpin = jasmine.createSpy("onpin");
+                later.onpin = onpin;
+                pin.pin();
+              });
+
+              then("`onpin` is called once", () => {
+                expect(onpin).toHaveBeenCalledTimes(1);
+              });
+            });
+          });
+        });
       });
     });
   });
