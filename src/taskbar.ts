@@ -14,7 +14,8 @@ import {
   Visibility,
   Orientation,
   Event,
-  Operation
+  Operation,
+  Gesture
 } from "./taskbar.meta.js";
 
 import { type Meta } from "./taskbar.meta.js";
@@ -401,14 +402,24 @@ export class Taskbar extends Component implements Meta {
    * @category Configuration
    * @hidden
    */
-  protected _addEventListeners = () => {};
+  protected _addEventListeners = () => {
+    this.elements.controls?.addEventListener(
+      Gesture.SLOTCHANGE,
+      this._handleControlsSlotchangeListen
+    );
+  };
 
   /**
    * Called by the disconnectedCallback prototypical method
    * @category Configuration
    * @hidden
    */
-  protected _removeEventListeners = () => {};
+  protected _removeEventListeners = () => {
+    this.elements.controls?.removeEventListener(
+      Gesture.SLOTCHANGE,
+      this._handleControlsSlotchangeListen
+    );
+  };
 
   /**
    * The controls placed in the taskbar: none until the taskbar is connected
@@ -429,4 +440,41 @@ export class Taskbar extends Component implements Meta {
       typeof act === "function" && act.call(control);
     });
   };
+
+  /**
+   * Listen to every control placed in the taskbar: reached only through a gesture
+   * @category Operations
+   * @hidden
+   */
+  private _listen = () => {
+    this._placed().forEach((control) => {
+      control.addEventListener(Gesture.ON_PIN, this._handleControlsOnpin);
+    });
+  };
+
+  /**
+   * Report what a control placed in the taskbar reported, as the taskbar's own event:
+   * reached only through a gesture
+   * @category Operations
+   * @hidden
+   */
+  private _report = (event: Event, detail?: unknown) => {
+    this._dispatch(event, detail);
+  };
+
+  /**
+   * Handles a control being placed in the taskbar or taken out: listens to the controls
+   * @category Gesture
+   * @hidden
+   */
+  private _handleControlsSlotchangeListen = () => this._listen();
+
+  /**
+   * Handles a pin placed in the taskbar reporting that it was pinned: reports it,
+   * with the status the pin gave
+   * @category Gesture
+   * @hidden
+   */
+  private _handleControlsOnpin = (event: globalThis.Event) =>
+    this._report(Event.ON_PIN, (event as CustomEvent).detail);
 }
