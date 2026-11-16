@@ -11,23 +11,37 @@ import {
   Operation,
   Event,
   Gesture,
-  Appearance,
   Zone
 } from "@scalable.software/taskbar";
-import { Pin, Status } from "@scalable.software/pin";
+import { Pin, Status, Appearance } from "@scalable.software/pin";
 import { Minimize } from "@scalable.software/minimize";
 import { Maximize } from "@scalable.software/maximize";
 import { Restore } from "@scalable.software/restore";
 import { Close } from "@scalable.software/close";
 
-// Creates an element that is not in DOM yet, for a zone of the taskbar
-const create = <T extends Element>(tag: string, zone?: Zone) => {
+// As the host does: the templates of the controls are loaded and the controls are
+// defined once, and both stay for every suite
+beforeAll(async () => {
+  await Pin.Template.load("pin.template.html");
+  await Minimize.Template.load("minimize.template.html");
+  await Maximize.Template.load("maximize.template.html");
+  await Restore.Template.load("restore.template.html");
+  await Close.Template.load("close.template.html");
+  define(Pin.Tag, Pin);
+  define(Minimize.Tag, Minimize);
+  define(Maximize.Tag, Maximize);
+  define(Restore.Tag, Restore);
+  define(Close.Tag, Close);
+});
+
+// Creates an element that is not in DOM yet, to be placed for the slot of that name
+const create = <T extends Element>(tag: string, slot?: string) => {
   const element = document.createElement(tag);
-  zone && element.setAttribute("slot", zone);
+  slot && element.setAttribute("slot", slot);
   return element as unknown as T;
 };
 
-// Waits until the taskbar has been told what was placed in it
+// Waits until the slots have reported what was placed for them
 const placed = () => new Promise((resolve) => setTimeout(resolve));
 
 // Configuration
