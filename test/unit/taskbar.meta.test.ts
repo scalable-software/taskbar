@@ -253,6 +253,13 @@ metadata(Metadata.EVENT, () => {
       });
 
       when("Event is an object", () => {
+        then("only `onclose` overrides an event name of the platform", () => {
+          const taken = Object.values(Event).filter(
+            (name) => name in HTMLElement.prototype
+          );
+          expect(taken).toEqual(["onclose"]);
+        });
+
         then("`Event.ON_HIDE` exists", () => {
           expect(Event.ON_HIDE).toBeDefined();
         });
