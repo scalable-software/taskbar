@@ -216,6 +216,12 @@ export class Taskbar extends Component implements Meta {
   public unpin = () => {};
 
   /**
+   * Ask each control placed in the taskbar that offers `minimize` to request minimizing
+   * @category Operations
+   */
+  public minimize = () => {};
+
+  /**
    * List operations to perform for selected attributes being observed in the DOM.
    * @category Configuration
    * @hidden
