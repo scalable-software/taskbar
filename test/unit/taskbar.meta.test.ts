@@ -4,6 +4,7 @@ import {
   State,
   Visibility,
   Orientation,
+  Control,
   Operation,
   Event,
   Gesture
@@ -146,6 +147,38 @@ metadata(State.ORIENTATION, () => {
 
         then("`Orientation.PORTRAIT` is `portrait`", () => {
           expect(Orientation.PORTRAIT).toBe("portrait");
+        });
+      });
+    });
+  });
+});
+
+// Control
+metadata(Metadata.CONTROL, () => {
+  and("Control imported", () => {
+    then("Control is defined", () => {
+      expect(Control).toBeDefined();
+    });
+
+    and("Control is defined", () => {
+      then("Control is an object", () => {
+        expect(typeof Control).toBe("object");
+      });
+
+      when("Control is an object", () => {
+        then("no control name is taken by the platform", () => {
+          const taken = Object.values(Control).filter(
+            (name) => name in HTMLElement.prototype
+          );
+          expect(taken).toEqual([]);
+        });
+
+        then("`Control.PIN` exists", () => {
+          expect(Control.PIN).toBeDefined();
+        });
+
+        then("`Control.PIN` is `pin`", () => {
+          expect(Control.PIN).toBe("pin");
         });
       });
     });

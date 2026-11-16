@@ -8,6 +8,7 @@ import {
   State,
   Visibility,
   Orientation,
+  Control,
   Operation,
   Event
 } from "@scalable.software/taskbar";
@@ -717,6 +718,49 @@ state(State.ORIENTATION, () => {
                 expect(error.message).toBe("Invalid orientation value: invalid");
               }
             );
+          });
+        });
+      });
+    });
+  });
+});
+
+// Control
+control(Control.PIN, () => {
+  and("Taskbar is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Taskbar.Tag, Taskbar);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Taskbar.Template.load("taskbar.template.html");
+      });
+      afterEach(() => {
+        remove(Taskbar.Tag);
+      });
+
+      and("a new taskbar is added to DOM", () => {
+        let taskbar: Taskbar;
+        beforeEach(() => {
+          taskbar = add<Taskbar>(Taskbar.Tag);
+        });
+        afterEach(() => {
+          taskbar.remove();
+        });
+
+        then("`taskbar.pin` getter exists", () => {
+          expect(taskbar.pin).toBeDefined();
+        });
+
+        and("a taskbar that is not in DOM", () => {
+          let detached: Taskbar;
+          beforeEach(() => {
+            detached = document.createElement(Taskbar.Tag) as Taskbar;
+          });
+
+          then("`detached.pin` is `null`", () => {
+            expect(detached.pin).toBeNull();
           });
         });
       });
