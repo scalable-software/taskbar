@@ -1810,6 +1810,16 @@ gesture(Gesture.ON_MINIMIZE, () => {
               then("`onminimize` is called with no detail", () => {
                 expect(onminimize.calls.mostRecent().args[0].detail).toBeNull();
               });
+
+              when("the minimize control requests minimizing again", () => {
+                beforeEach(() => {
+                  control.minimize();
+                });
+
+                then("`onminimize` is called twice", () => {
+                  expect(onminimize).toHaveBeenCalledTimes(2);
+                });
+              });
             });
           });
         });
