@@ -117,7 +117,8 @@ export type Event = (typeof Event)[keyof typeof Event];
  */
 export const Gesture = {
   SLOTCHANGE: "slotchange",
-  ON_PIN: "onpin"
+  ON_PIN: "onpin",
+  ON_UNPIN: "onunpin"
 } as const;
 /**
  * @category Metadata
