@@ -42,6 +42,15 @@
 }
 
 /* =======================
+  Zone Styles
+======================= */
+slot {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* =======================
   State Visibility
 ======================= */
 :host([visibility="hidden"]) {
