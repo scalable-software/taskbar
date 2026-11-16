@@ -403,7 +403,9 @@ export class Taskbar extends Component implements Meta {
    * @category Configuration
    * @hidden
    */
-  protected _initialize = () => {};
+  protected _initialize = () => {
+    this._flatten();
+  };
 
   /**
    * Called by the connectedCallback prototypical method
