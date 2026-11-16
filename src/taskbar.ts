@@ -127,6 +127,9 @@ export class Taskbar extends Component implements Meta {
     return this._orientation;
   }
   public set orientation(orientation: Orientation) {
+    // Validate
+    orientation = Validate.orientation(orientation);
+
     // Mutate
     this._orientation = orientation;
   }
