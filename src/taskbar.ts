@@ -6,6 +6,10 @@
 import { Component, Template } from "@scalable.software/component";
 import { type Configuration } from "@scalable.software/component";
 
+// The controls the taskbar holds in its template: the host defines them, and the
+// taskbar finds each by the tag its class gives
+import { Pin } from "@scalable.software/pin";
+
 // Taskbar Metadata
 import {
   Tag,
@@ -96,7 +100,7 @@ export class Taskbar extends Component implements Meta {
    * @category State
    * @hidden
    */
-  protected elements: {} = {};
+  protected elements: { start: { pin: Pin | null } } = { start: { pin: null } };
 
   /**
    * @hidden
@@ -218,7 +222,9 @@ export class Taskbar extends Component implements Meta {
    * @category Configuration
    * @hidden
    */
-  protected _cache = () => {};
+  protected _cache = () => {
+    this.elements.start.pin = this.root.querySelector<Pin>(Pin.Tag);
+  };
 
   /**
    * Initialize taskbar attributes with default values
