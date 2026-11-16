@@ -1954,6 +1954,16 @@ gesture(Gesture.ON_RESTORE, () => {
               then("`onrestore` is called with no detail", () => {
                 expect(onrestore.calls.mostRecent().args[0].detail).toBeNull();
               });
+
+              when("the restore control requests restoring again", () => {
+                beforeEach(() => {
+                  control.restore();
+                });
+
+                then("`onrestore` is called twice", () => {
+                  expect(onrestore).toHaveBeenCalledTimes(2);
+                });
+              });
             });
           });
         });
