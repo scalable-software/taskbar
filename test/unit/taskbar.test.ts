@@ -584,6 +584,19 @@ operation(Operation.HIDE, () => {
         then("`taskbar.hide` method exists", () => {
           expect(taskbar.hide).toBeDefined();
         });
+
+        and("`taskbar.hide` method exists", () => {
+          when("invoking `taskbar.hide`", () => {
+            let result: unknown;
+            beforeEach(() => {
+              result = taskbar.hide();
+            });
+
+            then("`taskbar.visibility` is `Visibility.HIDDEN`", () => {
+              expect(taskbar.visibility).toBe(Visibility.HIDDEN);
+            });
+          });
+        });
       });
     });
   });
