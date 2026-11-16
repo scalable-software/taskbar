@@ -157,6 +157,13 @@ composition(Composition.TEMPLATE, () => {
             const slot = div.querySelector("div.center > slot");
             expect(slot).not.toBeNull();
           });
+
+          then("`div.end` contains `minimize-button`, and nothing else", () => {
+            const controls = [...div.querySelectorAll("div.end > *")].map(
+              (control) => control.localName
+            );
+            expect(controls).toEqual([Minimize.Tag]);
+          });
         });
 
         and(
