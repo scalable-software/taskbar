@@ -1886,3 +1886,61 @@ gesture(Gesture.ON_RESTORE, () => {
     });
   });
 });
+
+gesture(Gesture.ON_CLOSE, () => {
+  and("Taskbar is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Taskbar.Tag, Taskbar);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Taskbar.Template.load("taskbar.template.html");
+      });
+      afterEach(() => {
+        remove(Taskbar.Tag);
+      });
+
+      and("a new taskbar is added to DOM", () => {
+        let taskbar: Taskbar;
+        beforeEach(() => {
+          taskbar = add<Taskbar>(Taskbar.Tag);
+        });
+        afterEach(() => {
+          taskbar.remove();
+        });
+
+        and("a close control is placed in the taskbar", () => {
+          let control: Close;
+          beforeEach(async () => {
+            define(Close.Tag, Close);
+            await Close.Template.load("close.template.html");
+            control = taskbar.appendChild(create<Close>(Close.Tag));
+            await placed();
+          });
+          afterEach(() => {
+            remove(Close.Tag);
+          });
+
+          and("`taskbar.onclose` is set to a listener", () => {
+            let onclose: jasmine.Spy;
+            beforeEach(() => {
+              onclose = jasmine.createSpy("onclose");
+              taskbar.onclose = onclose;
+            });
+
+            when("the close control requests closing", () => {
+              beforeEach(() => {
+                control.close();
+              });
+
+              then("`onclose` is called once", () => {
+                expect(onclose).toHaveBeenCalledTimes(1);
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+});
