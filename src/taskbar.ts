@@ -426,11 +426,11 @@ export class Taskbar extends Component implements Meta {
   protected _addEventListeners = () => {
     this.elements.bar?.addEventListener(
       Gesture.SLOTCHANGE,
-      this._handleControlsSlotchangeListen
+      this._handleBarSlotchangeListen
     );
     this.elements.bar?.addEventListener(
       Gesture.SLOTCHANGE,
-      this._handleControlsSlotchangeFlatten
+      this._handleBarSlotchangeFlatten
     );
     this._listen();
   };
@@ -443,11 +443,11 @@ export class Taskbar extends Component implements Meta {
   protected _removeEventListeners = () => {
     this.elements.bar?.removeEventListener(
       Gesture.SLOTCHANGE,
-      this._handleControlsSlotchangeListen
+      this._handleBarSlotchangeListen
     );
     this.elements.bar?.removeEventListener(
       Gesture.SLOTCHANGE,
-      this._handleControlsSlotchangeFlatten
+      this._handleBarSlotchangeFlatten
     );
     this._ignore();
   };
@@ -485,21 +485,21 @@ export class Taskbar extends Component implements Meta {
     this._ignore();
     this._controls = this._placed();
     this._controls.forEach((control) => {
-      control.addEventListener(Gesture.ON_PIN, this._handleControlsOnpin);
-      control.addEventListener(Gesture.ON_UNPIN, this._handleControlsOnunpin);
+      control.addEventListener(Gesture.ON_PIN, this._handleBarOnpin);
+      control.addEventListener(Gesture.ON_UNPIN, this._handleBarOnunpin);
       control.addEventListener(
         Gesture.ON_MINIMIZE,
-        this._handleControlsOnminimize
+        this._handleBarOnminimize
       );
       control.addEventListener(
         Gesture.ON_MAXIMIZE,
-        this._handleControlsOnmaximize
+        this._handleBarOnmaximize
       );
       control.addEventListener(
         Gesture.ON_RESTORE,
-        this._handleControlsOnrestore
+        this._handleBarOnrestore
       );
-      control.addEventListener(Gesture.ON_CLOSE, this._handleControlsOnclose);
+      control.addEventListener(Gesture.ON_CLOSE, this._handleBarOnclose);
     });
   };
 
@@ -510,26 +510,26 @@ export class Taskbar extends Component implements Meta {
    */
   private _ignore = () => {
     this._controls.forEach((control) => {
-      control.removeEventListener(Gesture.ON_PIN, this._handleControlsOnpin);
+      control.removeEventListener(Gesture.ON_PIN, this._handleBarOnpin);
       control.removeEventListener(
         Gesture.ON_UNPIN,
-        this._handleControlsOnunpin
+        this._handleBarOnunpin
       );
       control.removeEventListener(
         Gesture.ON_MINIMIZE,
-        this._handleControlsOnminimize
+        this._handleBarOnminimize
       );
       control.removeEventListener(
         Gesture.ON_MAXIMIZE,
-        this._handleControlsOnmaximize
+        this._handleBarOnmaximize
       );
       control.removeEventListener(
         Gesture.ON_RESTORE,
-        this._handleControlsOnrestore
+        this._handleBarOnrestore
       );
       control.removeEventListener(
         Gesture.ON_CLOSE,
-        this._handleControlsOnclose
+        this._handleBarOnclose
       );
     });
     this._controls = [];
@@ -564,14 +564,14 @@ export class Taskbar extends Component implements Meta {
    * @category Gesture
    * @hidden
    */
-  private _handleControlsSlotchangeListen = () => this._listen();
+  private _handleBarSlotchangeListen = () => this._listen();
 
   /**
    * Handles a control being placed in the taskbar or taken out: makes the controls flat
    * @category Gesture
    * @hidden
    */
-  private _handleControlsSlotchangeFlatten = () => this._flatten();
+  private _handleBarSlotchangeFlatten = () => this._flatten();
 
   /**
    * Handles a pin placed in the taskbar reporting that it was pinned: reports it,
@@ -579,7 +579,7 @@ export class Taskbar extends Component implements Meta {
    * @category Gesture
    * @hidden
    */
-  private _handleControlsOnpin = (event: globalThis.Event) =>
+  private _handleBarOnpin = (event: globalThis.Event) =>
     this._report(Event.ON_PIN, (event as CustomEvent).detail);
 
   /**
@@ -588,7 +588,7 @@ export class Taskbar extends Component implements Meta {
    * @category Gesture
    * @hidden
    */
-  private _handleControlsOnunpin = (event: globalThis.Event) =>
+  private _handleBarOnunpin = (event: globalThis.Event) =>
     this._report(Event.ON_UNPIN, (event as CustomEvent).detail);
 
   /**
@@ -597,7 +597,7 @@ export class Taskbar extends Component implements Meta {
    * @category Gesture
    * @hidden
    */
-  private _handleControlsOnminimize = () => this._report(Event.ON_MINIMIZE);
+  private _handleBarOnminimize = () => this._report(Event.ON_MINIMIZE);
 
   /**
    * Handles a control placed in the taskbar reporting that maximizing is requested:
@@ -605,7 +605,7 @@ export class Taskbar extends Component implements Meta {
    * @category Gesture
    * @hidden
    */
-  private _handleControlsOnmaximize = () => this._report(Event.ON_MAXIMIZE);
+  private _handleBarOnmaximize = () => this._report(Event.ON_MAXIMIZE);
 
   /**
    * Handles a control placed in the taskbar reporting that restoring is requested:
@@ -613,7 +613,7 @@ export class Taskbar extends Component implements Meta {
    * @category Gesture
    * @hidden
    */
-  private _handleControlsOnrestore = () => this._report(Event.ON_RESTORE);
+  private _handleBarOnrestore = () => this._report(Event.ON_RESTORE);
 
   /**
    * Handles a control placed in the taskbar reporting that closing is requested:
@@ -621,5 +621,5 @@ export class Taskbar extends Component implements Meta {
    * @category Gesture
    * @hidden
    */
-  private _handleControlsOnclose = () => this._report(Event.ON_CLOSE);
+  private _handleBarOnclose = () => this._report(Event.ON_CLOSE);
 }
