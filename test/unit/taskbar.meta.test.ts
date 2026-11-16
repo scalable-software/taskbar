@@ -364,6 +364,14 @@ metadata(Metadata.GESTURE, () => {
         then("`Gesture.ON_UNPIN` is `onunpin`", () => {
           expect(Gesture.ON_UNPIN).toBe("onunpin");
         });
+
+        then("`Gesture.ON_MINIMIZE` exists", () => {
+          expect(Gesture.ON_MINIMIZE).toBeDefined();
+        });
+
+        then("`Gesture.ON_MINIMIZE` is `onminimize`", () => {
+          expect(Gesture.ON_MINIMIZE).toBe("onminimize");
+        });
       });
     });
   });
