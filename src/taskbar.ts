@@ -462,6 +462,7 @@ export class Taskbar extends Component implements Meta {
         Gesture.ON_RESTORE,
         this._handleControlsOnrestore
       );
+      control.addEventListener(Gesture.ON_CLOSE, this._handleControlsOnclose);
     });
   };
 
@@ -523,4 +524,12 @@ export class Taskbar extends Component implements Meta {
    * @hidden
    */
   private _handleControlsOnrestore = () => this._report(Event.ON_RESTORE);
+
+  /**
+   * Handles a control placed in the taskbar reporting that closing is requested:
+   * reports it
+   * @category Gesture
+   * @hidden
+   */
+  private _handleControlsOnclose = () => this._report(Event.ON_CLOSE);
 }
