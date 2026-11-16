@@ -1030,6 +1030,19 @@ operation(Operation.RESTORE, () => {
               });
             });
           });
+
+          and("no control is placed in the taskbar", () => {
+            when("invoking `taskbar.restore`", () => {
+              let result: unknown;
+              beforeEach(() => {
+                result = taskbar.restore();
+              });
+
+              then("`taskbar.restore` returns nothing", () => {
+                expect(result).toBeUndefined();
+              });
+            });
+          });
         });
       });
     });
