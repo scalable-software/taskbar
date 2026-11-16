@@ -1107,6 +1107,19 @@ operation(Operation.CLOSE, () => {
               });
             });
           });
+
+          and("no control is placed in the taskbar", () => {
+            when("invoking `taskbar.close`", () => {
+              let result: unknown;
+              beforeEach(() => {
+                result = taskbar.close();
+              });
+
+              then("`taskbar.close` returns nothing", () => {
+                expect(result).toBeUndefined();
+              });
+            });
+          });
         });
       });
     });
