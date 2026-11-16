@@ -120,11 +120,15 @@ export class Taskbar extends Component implements Meta {
   }
 
   /**
-   * Get the orientation of the taskbar
+   * Get and set the orientation of the taskbar
    * @category State
    */
   public get orientation(): Orientation {
     return this._orientation;
+  }
+  public set orientation(orientation: Orientation) {
+    // Mutate
+    this._orientation = orientation;
   }
 
   /**
