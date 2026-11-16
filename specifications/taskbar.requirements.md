@@ -31,6 +31,8 @@ and wiring each of them itself.
 - Providing the controls — the host application places the ones its window offers.
 - Showing or hiding a single control — the host application does this on the control it
   placed.
+- Reporting what any other component placed in the bar does — the host application listens
+  to that component itself.
 - Announcing the bar as a group to assistive technology; each control announces itself.
 - Application-level theme switching; the bar follows the device colour scheme only.
 
@@ -43,6 +45,12 @@ I always find them in the same place.
 
 As a **host application**, I want to decide which controls the bar holds and in which order,
 so that the bar shows only the controls my window offers.
+
+### STORY: One Place to Listen
+
+As a **host application**, I want to be told by the bar each time the end user pins, unpins,
+or asks to minimize, maximize, restore or close, so that I listen in one place instead of to
+each control.
 
 ### STORY: Visibility Control
 
