@@ -4,8 +4,8 @@
 
 **Benefit** — Product teams get one bar that holds the controls of a window — such as pin,
 minimize, maximize, restore and close — and reports what the end user does with them in one
-place. The host application decides which controls the bar holds, without laying them out
-and wiring each of them itself.
+place. The host application decides which controls the bar holds, and asks the bar when its
+own code needs a control to act, without laying them out and wiring each of them itself.
 
 **Personas**
 
@@ -17,6 +17,7 @@ and wiring each of them itself.
 
 - Holding the controls the host application places in the bar, in the order they were placed.
 - Reporting every pin, unpin and request of a control as an event of the bar itself.
+- Passing a request of the host application on to the control that carries it out.
 - Showing or hiding the bar depending on context.
 - Laying the controls out in landscape or in portrait.
 - Consistency with the device colour theme.
@@ -26,7 +27,8 @@ and wiring each of them itself.
 - Actually moving, resizing, hiding or removing the window — the host application does this
   in response to the bar's events. A panel that embeds the bar removes itself when closing is
   requested; the bar never removes anything.
-- Keeping the condition of the window, such as minimized or maximized.
+- Keeping the condition of the window, such as minimized, maximized or pinned; whether it
+  is pinned is held by the pin, and everything else by the host application.
 - Deciding whether a pinned window can be moved; the bar only reports the pin.
 - Providing the controls — the host application places the ones its window offers.
 - Showing or hiding a single control — the host application does this on the control it
@@ -51,6 +53,12 @@ so that the bar shows only the controls my window offers.
 As a **host application**, I want to be told by the bar each time the end user pins, unpins,
 or asks to minimize, maximize, restore or close, so that I listen in one place instead of to
 each control.
+
+### STORY: One Place to Ask
+
+As a **host application**, when my own code needs a control to act, I want to ask the bar to
+pin, unpin, minimize, maximize, restore or close, so that I work with the bar and not with
+each control inside it.
 
 ### STORY: Visibility Control
 
