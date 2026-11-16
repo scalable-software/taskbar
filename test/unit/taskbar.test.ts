@@ -2133,6 +2133,21 @@ gesture(Gesture.SLOTCHANGE, () => {
                 });
               });
             });
+            and("the taskbar is removed from DOM", () => {
+              beforeEach(() => {
+                taskbar.remove();
+              });
+
+              when("the pin is pinned", () => {
+                beforeEach(() => {
+                  pin.pin();
+                });
+
+                then("`onpin` is not called", () => {
+                  expect(onpin).not.toHaveBeenCalled();
+                });
+              });
+            });
           });
         });
       });
