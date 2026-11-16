@@ -205,6 +205,14 @@ metadata(Metadata.EVENT, () => {
         then("`Event.ON_HIDE` is `onhide`", () => {
           expect(Event.ON_HIDE).toBe("onhide");
         });
+
+        then("`Event.ON_SHOW` exists", () => {
+          expect(Event.ON_SHOW).toBeDefined();
+        });
+
+        then("`Event.ON_SHOW` is `onshow`", () => {
+          expect(Event.ON_SHOW).toBe("onshow");
+        });
       });
     });
   });
