@@ -859,6 +859,20 @@ events(Event.ON_SHOW, () => {
                   );
                 }
               );
+
+              when(
+                "`taskbar.visibility` is set to `Visibility.VISIBLE` twice",
+                () => {
+                  beforeEach(() => {
+                    taskbar.visibility = Visibility.VISIBLE;
+                    taskbar.visibility = Visibility.VISIBLE;
+                  });
+
+                  then("`taskbar.onshow` is called once", () => {
+                    expect(onshow).toHaveBeenCalledTimes(1);
+                  });
+                }
+              );
             });
           });
         });
