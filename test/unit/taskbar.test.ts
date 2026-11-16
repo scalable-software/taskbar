@@ -11,6 +11,14 @@ import {
   Operation,
   Event
 } from "@scalable.software/taskbar";
+import { Pin, Status } from "@scalable.software/pin";
+
+// Creates an element that is not in DOM yet
+const create = <T extends Element>(tag: string) =>
+  document.createElement(tag) as unknown as T;
+
+// Waits until the taskbar has been told what was placed in it
+const placed = () => new Promise((resolve) => setTimeout(resolve));
 
 // Configuration
 configuration(Configuration.TAG, () => {
@@ -686,6 +694,31 @@ operation(Operation.PIN, () => {
 
         then("`taskbar.pin` method exists", () => {
           expect(taskbar.pin).toBeDefined();
+        });
+
+        and("`taskbar.pin` method exists", () => {
+          and("a pin is placed in the taskbar", () => {
+            let pin: Pin;
+            beforeEach(async () => {
+              define(Pin.Tag, Pin);
+              await Pin.Template.load("pin.template.html");
+              pin = taskbar.appendChild(create<Pin>(Pin.Tag));
+              await placed();
+            });
+            afterEach(() => {
+              remove(Pin.Tag);
+            });
+
+            when("invoking `taskbar.pin`", () => {
+              beforeEach(() => {
+                taskbar.pin();
+              });
+
+              then("`pin.status` is `Status.PINNED`", () => {
+                expect(pin.status).toBe(Status.PINNED);
+              });
+            });
+          });
         });
       });
     });
