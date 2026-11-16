@@ -292,6 +292,14 @@ metadata(Metadata.EVENT, () => {
         then("`Event.ON_MINIMIZE` is `onminimize`", () => {
           expect(Event.ON_MINIMIZE).toBe("onminimize");
         });
+
+        then("`Event.ON_MAXIMIZE` exists", () => {
+          expect(Event.ON_MAXIMIZE).toBeDefined();
+        });
+
+        then("`Event.ON_MAXIMIZE` is `onmaximize`", () => {
+          expect(Event.ON_MAXIMIZE).toBe("onmaximize");
+        });
       });
     });
   });
