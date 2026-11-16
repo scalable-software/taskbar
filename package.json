@@ -1,6 +1,6 @@
 {
   "name": "@scalable.software/taskbar",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A theme-aware web component that holds the controls of a window in one bar, and reports what the end user asks of them as its own events.",
   "keywords": [
     "web component"
