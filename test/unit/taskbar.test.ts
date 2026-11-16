@@ -15,6 +15,7 @@ import { Pin, Status } from "@scalable.software/pin";
 import { Minimize } from "@scalable.software/minimize";
 import { Maximize } from "@scalable.software/maximize";
 import { Restore } from "@scalable.software/restore";
+import { Close } from "@scalable.software/close";
 
 // Creates an element that is not in DOM yet
 const create = <T extends Element>(tag: string) =>
@@ -1008,6 +1009,39 @@ operation(Operation.CLOSE, () => {
 
         then("`taskbar.close` method exists", () => {
           expect(taskbar.close).toBeDefined();
+        });
+
+        and("`taskbar.close` method exists", () => {
+          and("a close control is placed in the taskbar", () => {
+            let control: Close;
+            beforeEach(async () => {
+              define(Close.Tag, Close);
+              await Close.Template.load("close.template.html");
+              control = taskbar.appendChild(create<Close>(Close.Tag));
+              await placed();
+            });
+            afterEach(() => {
+              remove(Close.Tag);
+            });
+
+            and("the close control has a listener for `onclose`", () => {
+              let onclose: jasmine.Spy;
+              beforeEach(() => {
+                onclose = jasmine.createSpy("onclose");
+                control.onclose = onclose;
+              });
+
+              when("invoking `taskbar.close`", () => {
+                beforeEach(() => {
+                  taskbar.close();
+                });
+
+                then("the close control's `onclose` is called once", () => {
+                  expect(onclose).toHaveBeenCalledTimes(1);
+                });
+              });
+            });
+          });
         });
       });
     });
