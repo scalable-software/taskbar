@@ -157,13 +157,11 @@ export class Taskbar extends Component implements Meta {
    * @hidden
    */
   protected elements: {
-    controls: HTMLSlotElement | null;
     bar: HTMLDivElement | null;
     start: HTMLSlotElement | null;
     center: HTMLSlotElement | null;
     end: HTMLSlotElement | null;
   } = {
-    controls: null,
     bar: null,
     start: null,
     center: null,
@@ -405,7 +403,6 @@ export class Taskbar extends Component implements Meta {
    * @hidden
    */
   protected _cache = () => {
-    this.elements.controls = this.root.querySelector(".controls");
     this.elements.bar = this.root.querySelector(".bar");
     this.elements.start = this.root.querySelector(".start");
     this.elements.center = this.root.querySelector(".center");
@@ -464,8 +461,7 @@ export class Taskbar extends Component implements Meta {
     [
       this.elements.start,
       this.elements.center,
-      this.elements.end,
-      this.elements.controls
+      this.elements.end
     ].flatMap((slot) => slot?.assignedElements() ?? []) as Control[];
 
   /**
