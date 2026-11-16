@@ -54,6 +54,16 @@ globalThis.state = (state, spec) => {
     spec();
   });
 };
+globalThis.control = (control, spec) => {
+  describe(`Control.${control} test`, () => {
+    beforeEach(() => {
+      setSpecProperty("type", "Control");
+      setSpecProperty("spec", control);
+    });
+
+    spec();
+  });
+};
 globalThis.operation = (operation, spec) => {
   describe(`Operation.${operation} test`, () => {
     beforeEach(() => {
@@ -111,11 +121,10 @@ globalThis.Metadata = {
   CSS: "css",
   ATTRIBUTES: "attributes",
   STATE: "state",
+  CONTROL: "control",
   OPERATION: "operation",
   EVENT: "event",
-  GESTURE: "gesture",
-  APPEARANCE: "appearance",
-  ZONE: "zone"
+  GESTURE: "gesture"
 };
 
 globalThis.Configuration = {

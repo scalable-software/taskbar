@@ -3,16 +3,27 @@ import {
   State,
   Visibility,
   Orientation,
+  Control,
   Operation
 } from "@scalable.software/taskbar";
 
-import { Pin } from "@scalable.software/pin";
-import { Minimize } from "@scalable.software/minimize";
-import { Maximize } from "@scalable.software/maximize";
-import { Restore } from "@scalable.software/restore";
-import { Close } from "@scalable.software/close";
+import { Pin, Operation as PinOperation } from "@scalable.software/pin";
+import {
+  Minimize,
+  Operation as MinimizeOperation
+} from "@scalable.software/minimize";
+import {
+  Maximize,
+  Operation as MaximizeOperation
+} from "@scalable.software/maximize";
+import {
+  Restore,
+  Operation as RestoreOperation
+} from "@scalable.software/restore";
+import { Close, Operation as CloseOperation } from "@scalable.software/close";
 
-// The controls the page places in the taskbar: a host defines the ones it uses.
+// The controls the taskbar holds in its template: the host loads their templates and
+// defines them, before the taskbar.
 const controls = {
   "pin.template.html": Pin,
   "minimize.template.html": Minimize,
@@ -90,15 +101,35 @@ follow();
 
 const operations = document.querySelector("#operations");
 
-Object.values(Operation).forEach((operation) => {
+const addOperation = (label, invoke) => {
   const button = document.createElement("button");
   button.type = "button";
-  button.textContent = operation;
-  button.addEventListener("click", () =>
-    taskbars.forEach((each) => each[operation]())
-  );
+  button.textContent = label;
+  button.addEventListener("click", () => taskbars.forEach(invoke));
   operations.append(button);
-});
+};
+
+// The taskbar's own operations.
+Object.values(Operation).forEach((operation) =>
+  addOperation(operation, (each) => each[operation]())
+);
+
+// The operations of each control, reached through its member: `taskbar.pin.pin()`.
+const offered = {
+  [Control.PIN]: PinOperation,
+  [Control.MINIMIZE]: MinimizeOperation,
+  [Control.MAXIMIZE]: MaximizeOperation,
+  [Control.RESTORE]: RestoreOperation,
+  [Control.CLOSE]: CloseOperation
+};
+
+Object.entries(offered).forEach(([control, list]) =>
+  Object.values(list).forEach((operation) =>
+    addOperation(`${control}.${operation}`, (each) =>
+      each[control][operation]()
+    )
+  )
+);
 
 /* ───────────────────────────── Events ───────────────────────────── */
 
@@ -127,11 +158,17 @@ const log = (event, source) => {
   events.append(entry);
 };
 
-// `onevent` receives every event, and leaves the `on…` properties free.
-taskbars.forEach(
-  (each, index) =>
-    (each.onevent = (event) => log(event, index === 0 ? "first" : "wide"))
-);
+// `onevent` receives every event, and leaves the `on…` properties free. The taskbar
+// dispatches its own events only: what a control reports is heard on the control itself,
+// reached through its member.
+taskbars.forEach((each, index) => {
+  const source = index === 0 ? "first" : "wide";
+  each.onevent = (event) => log(event, source);
+  Object.values(Control).forEach(
+    (control) =>
+      (each[control].onevent = (event) => log(event, `${source} ${control}`))
+  );
+});
 
 document
   .querySelector("#clear")

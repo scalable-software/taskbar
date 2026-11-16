@@ -10,36 +10,64 @@
 <h1>Taskbar</h1></div>
 <div class="tsd-panel tsd-typography"><p><img src="https://flat.badgen.net/static/license/CC-BY-NC-SA-4.0/green" alt="License: CC BY-NC-SA 4.0"></p>
 <h1 id="taskbar" class="tsd-anchor-link">Taskbar<a href="#taskbar" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h1>
-<p>A lightweight, self-contained web component that holds the controls of a window in one bar. The host application places the controls it wants inside the bar, such as pin, minimize, maximize, restore and close. The bar lays them out as one surface, in landscape or in portrait, reports what the end user asks of them as its own events, and passes the host's own requests on to them. It can be shown or hidden on demand, and adapts automatically to light and dark themes.</p>
-<p>The component does not move, resize, hide or remove anything itself, and holds no condition of the window: the host application, or the panel that embeds the bar, acts on what the bar reports.</p>
+<p>A lightweight, self-contained web component that brings the controls of a window in one bar: the pin at its start, and the minimize, maximize, restore and close controls at its end. The bar lays them out as one surface, in landscape or in portrait, and offers each control to the host application as a read-only member, such as <code>taskbar.pin</code>. It can be shown or hidden on demand, and adapts automatically to light and dark themes.</p>
+<p>The component does not move, resize, hide or remove anything itself, holds no condition of the window, and repeats no event of a control: the host application, or the panel that embeds the bar, listens to each control through the bar and acts on what it reports.</p>
 <hr>
 <h2 id="1-introduction" class="tsd-anchor-link">1. Introduction<a href="#1-introduction" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<p>The <strong>Taskbar</strong> component is a bridge between a host application and the controls of a window. The host works with one bar instead of with each control: it listens to the bar, and it asks the bar.</p>
-<pre><code class="html"><span class="hl-0">&lt;</span><span class="hl-1">task-bar</span><span class="hl-0">&gt;</span><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">pin-button</span><span class="hl-2"> </span><span class="hl-3">slot</span><span class="hl-2">=</span><span class="hl-4">&quot;start&quot;</span><span class="hl-0">&gt;&lt;/</span><span class="hl-1">pin-button</span><span class="hl-0">&gt;</span><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">minimize-button</span><span class="hl-2"> </span><span class="hl-3">slot</span><span class="hl-2">=</span><span class="hl-4">&quot;end&quot;</span><span class="hl-0">&gt;&lt;/</span><span class="hl-1">minimize-button</span><span class="hl-0">&gt;</span><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">maximize-button</span><span class="hl-2"> </span><span class="hl-3">slot</span><span class="hl-2">=</span><span class="hl-4">&quot;end&quot;</span><span class="hl-0">&gt;&lt;/</span><span class="hl-1">maximize-button</span><span class="hl-0">&gt;</span><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">restore-button</span><span class="hl-2"> </span><span class="hl-3">slot</span><span class="hl-2">=</span><span class="hl-4">&quot;end&quot;</span><span class="hl-0">&gt;&lt;/</span><span class="hl-1">restore-button</span><span class="hl-0">&gt;</span><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">close-button</span><span class="hl-2"> </span><span class="hl-3">slot</span><span class="hl-2">=</span><span class="hl-4">&quot;end&quot;</span><span class="hl-0">&gt;&lt;/</span><span class="hl-1">close-button</span><span class="hl-0">&gt;</span><br/><span class="hl-0">&lt;/</span><span class="hl-1">task-bar</span><span class="hl-0">&gt;</span>
+<p>The <strong>Taskbar</strong> component gives a host application the controls of a window with one element. The host places the bar, and reaches each control through it.</p>
+<pre><code class="html"><span class="hl-0">&lt;</span><span class="hl-1">task-bar</span><span class="hl-0">&gt;&lt;/</span><span class="hl-1">task-bar</span><span class="hl-0">&gt;</span>
 </code><button type="button">Copy</button></pre>
 
-<pre><code class="js"><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">taskbar</span><span class="hl-2"> = </span><span class="hl-7">document</span><span class="hl-2">.</span><span class="hl-8">querySelector</span><span class="hl-2">(</span><span class="hl-9">&quot;task-bar&quot;</span><span class="hl-2">);</span><br/><br/><span class="hl-7">taskbar</span><span class="hl-2">.</span><span class="hl-8">onclose</span><span class="hl-2"> = () </span><span class="hl-5">=&gt;</span><span class="hl-2"> </span><span class="hl-7">console</span><span class="hl-2">.</span><span class="hl-8">log</span><span class="hl-2">(</span><span class="hl-9">&quot;Closing was requested&quot;</span><span class="hl-2">);</span><br/><span class="hl-7">taskbar</span><span class="hl-2">.</span><span class="hl-8">pin</span><span class="hl-2">();</span>
+<pre><code class="js"><span class="hl-2">const</span><span class="hl-3"> </span><span class="hl-4">taskbar</span><span class="hl-3"> = </span><span class="hl-5">document</span><span class="hl-3">.</span><span class="hl-6">querySelector</span><span class="hl-3">(</span><span class="hl-7">&quot;task-bar&quot;</span><span class="hl-3">);</span><br/><br/><span class="hl-5">taskbar</span><span class="hl-3">.</span><span class="hl-5">close</span><span class="hl-3">.</span><span class="hl-6">onclose</span><span class="hl-3"> = () </span><span class="hl-2">=&gt;</span><span class="hl-3"> </span><span class="hl-5">console</span><span class="hl-3">.</span><span class="hl-6">log</span><span class="hl-3">(</span><span class="hl-7">&quot;Closing was requested&quot;</span><span class="hl-3">);</span><br/><span class="hl-5">taskbar</span><span class="hl-3">.</span><span class="hl-5">pin</span><span class="hl-3">.</span><span class="hl-6">pin</span><span class="hl-3">();</span><br/><span class="hl-5">taskbar</span><span class="hl-3">.</span><span class="hl-5">maximize</span><span class="hl-3">.</span><span class="hl-6">hide</span><span class="hl-3">();</span>
 </code><button type="button">Copy</button></pre>
 
-<p>The bar has three zones, and the host says where each control sits with the <code>slot</code> attribute: <code>start</code>, <code>center</code> or <code>end</code>. The centre takes the room the other two leave, so in a wide bar the pin sits at one end and the window controls at the other, with open space, or a title, between them. A control placed without one of the three names is not shown.</p>
-<p>The bar brings no controls of its own. The host application installs, defines and places the ones its window offers: <code>@scalable.software/pin</code>, <code>@scalable.software/minimize</code>, <code>@scalable.software/maximize</code>, <code>@scalable.software/restore</code> and <code>@scalable.software/close</code>, or any other component.</p>
-<h3 id="11-installation-setup" class="tsd-anchor-link">1.1 Installation &amp; Setup<a href="#11-installation-setup" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>Each member is the control itself, with the states, operations and events of its own package. The five controls and their places are fixed. Content the host places inside <code>&lt;task-bar&gt;</code>, such as a title, is shown in the centre of the bar, between the pin and the window controls; the bar neither listens to it nor changes it.</p>
+<p>The bar depends on <code>@scalable.software/pin</code>, <code>@scalable.software/minimize</code>, <code>@scalable.software/maximize</code>, <code>@scalable.software/restore</code> and <code>@scalable.software/close</code>. The host application still defines these five controls and loads their templates, before the bar.</p>
+<h3 id="11-upgrading-from-010" class="tsd-anchor-link">1.1 Upgrading from 0.1.0<a href="#11-upgrading-from-010" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>This version changes how a host works with the bar.</p>
+<table>
+<thead>
+<tr>
+<th>In 0.1.0</th>
+<th>Now</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>the host places the controls inside <code>&lt;task-bar&gt;</code>, with <code>slot=&quot;start&quot;</code>, <code>&quot;center&quot;</code> or <code>&quot;end&quot;</code></td>
+<td>the bar brings the five controls; a control placed for <code>start</code> or <code>end</code> is no longer shown</td>
+</tr>
+<tr>
+<td><code>taskbar.pin()</code>, <code>unpin()</code>, <code>minimize()</code>, <code>maximize()</code>, <code>restore()</code>, <code>close()</code></td>
+<td><code>taskbar.pin.pin()</code>, <code>taskbar.pin.unpin()</code>, <code>taskbar.minimize.minimize()</code>, and so on</td>
+</tr>
+<tr>
+<td><code>taskbar.onpin</code>, <code>onunpin</code>, <code>onminimize</code>, <code>onmaximize</code>, <code>onrestore</code>, <code>onclose</code></td>
+<td><code>taskbar.pin.onpin</code>, <code>taskbar.pin.onunpin</code>, <code>taskbar.minimize.onminimize</code>, and so on</td>
+</tr>
+<tr>
+<td>the lists <code>Zone</code> and <code>Appearance</code></td>
+<td>gone; the list <code>Control</code> names the five members</td>
+</tr>
+</tbody>
+</table>
+<h3 id="12-installation-setup" class="tsd-anchor-link">1.2 Installation &amp; Setup<a href="#12-installation-setup" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ol>
 <li>
 <p><strong>Clone the Repository</strong></p>
-<pre><code class="bash"><span class="hl-8">git</span><span class="hl-2"> </span><span class="hl-9">clone</span><span class="hl-2"> </span><span class="hl-9">https://github.com/scalable-software/taskbar.git</span><br/><span class="hl-8">cd</span><span class="hl-2"> </span><span class="hl-9">taskbar</span>
+<pre><code class="bash"><span class="hl-6">git</span><span class="hl-3"> </span><span class="hl-7">clone</span><span class="hl-3"> </span><span class="hl-7">https://github.com/scalable-software/taskbar.git</span><br/><span class="hl-6">cd</span><span class="hl-3"> </span><span class="hl-7">taskbar</span>
 </code><button type="button">Copy</button></pre>
 
 </li>
 <li>
 <p><strong>Install Dependencies</strong></p>
-<pre><code class="bash"><span class="hl-8">npm</span><span class="hl-2"> </span><span class="hl-9">install</span>
+<pre><code class="bash"><span class="hl-6">npm</span><span class="hl-3"> </span><span class="hl-7">install</span>
 </code><button type="button">Copy</button></pre>
 
 </li>
 <li>
 <p><strong>Run Tests (Optional)</strong></p>
-<pre><code class="bash"><span class="hl-8">npm</span><span class="hl-2"> </span><span class="hl-9">test</span>
+<pre><code class="bash"><span class="hl-6">npm</span><span class="hl-3"> </span><span class="hl-7">test</span>
 </code><button type="button">Copy</button></pre>
 
 <ul>
@@ -48,11 +76,11 @@
 </li>
 <li>
 <p><strong>Start Local Server</strong></p>
-<pre><code class="bash"><span class="hl-8">npm</span><span class="hl-2"> </span><span class="hl-9">run</span><span class="hl-2"> </span><span class="hl-9">serve</span>
+<pre><code class="bash"><span class="hl-6">npm</span><span class="hl-3"> </span><span class="hl-7">run</span><span class="hl-3"> </span><span class="hl-7">serve</span>
 </code><button type="button">Copy</button></pre>
 
 <ul>
-<li>This builds the component and opens the demo page, with a <code>&lt;task-bar&gt;</code> holding the five controls at the top and its controls below it.</li>
+<li>This builds the component and opens the demo page, with two <code>&lt;task-bar&gt;</code> elements at the top and their controls below them.</li>
 </ul>
 </li>
 </ol>
@@ -63,33 +91,33 @@
 <li>
 <p><strong>Click</strong> the pin in the bar.</p>
 <ul>
-<li>The pin becomes pinned, and the <strong>Events</strong> log shows <code>onpin</code> with <code>{&quot;status&quot;:&quot;pinned&quot;}</code>. The event comes from the bar, not from the pin.</li>
+<li>The pin becomes pinned, and the <strong>Events</strong> log shows <code>onpin</code> with <code>{&quot;status&quot;:&quot;pinned&quot;}</code>, from the pin of that bar. The bar itself sends nothing.</li>
 <li>Click it again: the log shows <code>onunpin</code>.</li>
 </ul>
 </li>
 <li>
 <p><strong>Click</strong> the minimize, maximize, restore and close controls.</p>
 <ul>
-<li>The log shows <code>onminimize</code>, <code>onmaximize</code>, <code>onrestore</code> and <code>onclose</code>, one for each request. Nothing is minimized or removed: the bar only reports.</li>
+<li>The log shows <code>onminimize</code>, <code>onmaximize</code>, <code>onrestore</code> and <code>onclose</code>, each from its own control. Nothing is minimized or removed: a control only reports.</li>
 </ul>
 </li>
 <li>
-<p><strong>Click</strong> <code>pin</code> in the <strong>Operations</strong> group.</p>
+<p><strong>Click</strong> <code>pin.pin</code> in the <strong>Operations</strong> group.</p>
 <ul>
-<li>The host application makes the same request from code: the pin in the bar becomes pinned and the log shows <code>onpin</code>.</li>
-<li>Click <code>pin</code> again: the pin is already pinned, so nothing is logged.</li>
+<li>The host application makes the same request from code, with <code>taskbar.pin.pin()</code>: the pin becomes pinned and the log shows <code>onpin</code>.</li>
+<li>Click <code>pin.pin</code> again: the pin is already pinned, so nothing is logged.</li>
 </ul>
 </li>
 <li>
-<p><strong>Click</strong> <code>minimize</code>, <code>maximize</code>, <code>restore</code> and <code>close</code> in the <strong>Operations</strong> group.</p>
+<p><strong>Click</strong> <code>maximize.hide</code>, then <code>maximize.show</code>.</p>
 <ul>
-<li>Each asks the matching control to make its request, and the bar reports it.</li>
+<li>Only the maximize control disappears and comes back. The log shows its own <code>onhide</code> and <code>onshow</code>; the bar stays visible and sends nothing.</li>
 </ul>
 </li>
 <li>
 <p><strong>Click</strong> <code>hide</code>, then <code>show</code>.</p>
 <ul>
-<li>The bar disappears and comes back. The log shows <code>onhide</code> and <code>onshow</code>, each with its <code>detail</code>.</li>
+<li>The bar disappears and comes back. The log shows the bar's <code>onhide</code> and <code>onshow</code>, each with its <code>detail</code>.</li>
 </ul>
 </li>
 <li>
@@ -97,53 +125,45 @@
 <ul>
 <li>The controls sit one above the other, in the same order.</li>
 </ul>
-<p>The page shows two bars. The second is half as wide as the window: its pin stays at the start, its window controls at the end, and the centre between them is empty. Narrow the window: the bar stops shrinking once it is as wide as its controls.</p>
+<p>The page shows two bars. The second is half as wide as the window and holds a title the page placed in it: its pin stays at the start, its window controls at the end, and the title sits in the centre between them. Narrow the window: the bar stops shrinking once it is as wide as its controls.</p>
 </li>
 <li>
-<p><strong>Inspect</strong> the <code>&lt;task-bar&gt;</code> in the <strong>Elements</strong> tab.</p>
-<ul>
-<li>Every control inside it carries <code>appearance=&quot;flat&quot;</code>: the bar gave it that, so that the bar reads as one surface.</li>
-</ul>
-</li>
-<li>
-<p><strong>Open the Developer Tools</strong>, select the <strong>Console</strong>, and take a control out:</p>
-<pre><code class="js"><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">taskbar</span><span class="hl-2"> = </span><span class="hl-7">document</span><span class="hl-2">.</span><span class="hl-8">querySelector</span><span class="hl-2">(</span><span class="hl-9">&quot;task-bar&quot;</span><span class="hl-2">);</span><br/><br/><span class="hl-7">taskbar</span><span class="hl-2">.</span><span class="hl-8">querySelector</span><span class="hl-2">(</span><span class="hl-9">&quot;restore-button&quot;</span><span class="hl-2">).</span><span class="hl-8">remove</span><span class="hl-2">();</span><br/><span class="hl-7">taskbar</span><span class="hl-2">.</span><span class="hl-8">restore</span><span class="hl-2">();</span>
+<p><strong>Open the Developer Tools</strong>, select the <strong>Console</strong>, and reach a control:</p>
+<pre><code class="js"><span class="hl-2">const</span><span class="hl-3"> </span><span class="hl-4">taskbar</span><span class="hl-3"> = </span><span class="hl-5">document</span><span class="hl-3">.</span><span class="hl-6">querySelector</span><span class="hl-3">(</span><span class="hl-7">&quot;task-bar&quot;</span><span class="hl-3">);</span><br/><br/><span class="hl-5">taskbar</span><span class="hl-3">.</span><span class="hl-5">pin</span><span class="hl-3">.</span><span class="hl-5">status</span><span class="hl-3">;</span><br/><span class="hl-5">taskbar</span><span class="hl-3">.</span><span class="hl-5">restore</span><span class="hl-3">.</span><span class="hl-6">hide</span><span class="hl-3">();</span>
 </code><button type="button">Copy</button></pre>
 
 <ul>
-<li>Nothing happens and no error is reported: the bar holds no control for that request.</li>
+<li><code>taskbar.pin</code> is the pin itself, so its <code>status</code> reads <code>pinned</code> or <code>unpinned</code>, and the restore control disappears from the bar.</li>
 </ul>
 </li>
 </ol>
-<p>For more details on <strong>States</strong>, <strong>Operations</strong>, and <strong>Events</strong>, consult the sections below or check the generated <strong>API documentation</strong> (see <code>npm run document</code>).</p>
+<p>For more details on <strong>States</strong>, <strong>Controls</strong>, <strong>Operations</strong>, and <strong>Events</strong>, consult the sections below or check the generated <strong>API documentation</strong> (see <code>npm run document</code>).</p>
 <hr>
 <h2 id="3-architectural-overview" class="tsd-anchor-link">3. Architectural Overview<a href="#3-architectural-overview" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <h3 id="31-composition" class="tsd-anchor-link">3.1 Composition<a href="#31-composition" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
-<li><strong>Template</strong> (<code>taskbar.template.html</code>): Defines DOM structure — a <code>.bar</code> surface holding three slots, <code>start</code>, <code>center</code> and <code>end</code>, where the controls the host places inside <code>&lt;task-bar&gt;</code> are shown.</li>
-<li><strong>Style</strong> (<code>taskbar.style.css</code>): Encapsulates the surface of the bar, its three zones, the two orientations, and light/dark theme adaptation. The bar is as high as its controls, leaves no space between them, and is never narrower than the controls it holds.</li>
-<li><strong>Class</strong> (<code>taskbar.ts</code>): Extends the base component class to handle lifecycle hooks, attribute reflection, listening to the controls, and event dispatch.</li>
+<li><strong>Template</strong> (<code>taskbar.template.html</code>): Defines DOM structure — a <code>.bar</code> surface holding three zones: <code>.start</code> with the pin, <code>.center</code> with a slot for the host's own content, and <code>.end</code> with the minimize, maximize, restore and close controls. Every control carries <code>appearance=&quot;flat&quot;</code>.</li>
+<li><strong>Style</strong> (<code>taskbar.style.css</code>): Encapsulates the surface of the bar, its three zones, the two orientations, and light/dark theme adaptation. The bar is as high as its controls, leaves no space between them, and is never narrower than its controls.</li>
+<li><strong>Class</strong> (<code>taskbar.ts</code>): Extends the base component class to handle lifecycle hooks, attribute reflection, the five control members, and the dispatch of its own two events.</li>
 </ul>
-<p>The controls are the host's own elements. They are not part of the bar's template, and the host can still reach them: to hide the maximize control while the window is maximized, for instance, the host calls <code>hide()</code> on that control.</p>
 <h3 id="32-class-lifecycle" class="tsd-anchor-link">3.2 Class Lifecycle<a href="#32-class-lifecycle" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>
 <p><strong><code>connectedCallback()</code></strong></p>
-<ol>
-<li>Caches the bar and its three slots.</li>
-<li>Makes every control already placed in the bar flat.</li>
-<li>Listens to the bar for controls being placed in a slot or taken out, and to every control already placed.</li>
-</ol>
+<ul>
+<li>Caches the five controls. From here each member returns its control; before, it returns <code>null</code>.</li>
+</ul>
 </li>
 <li>
 <p><strong><code>disconnectedCallback()</code></strong></p>
 <ul>
-<li>Stops listening to the bar and to every control.</li>
+<li>Nothing to release: the bar listens to nothing.</li>
 </ul>
 </li>
 </ul>
+<p>A host component that holds the bar in its own template reaches the members once the bar is connected, which is after the host's own <code>connectedCallback</code>.</p>
 <hr>
-<h2 id="4-core-concepts-state-operations-events-and-gestures" class="tsd-anchor-link">4. Core Concepts: State, Operations, Events, and Gestures<a href="#4-core-concepts-state-operations-events-and-gestures" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<h2 id="4-core-concepts-state-controls-operations-events-and-gestures" class="tsd-anchor-link">4. Core Concepts: State, Controls, Operations, Events, and Gestures<a href="#4-core-concepts-state-controls-operations-events-and-gestures" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <h3 id="41-state" class="tsd-anchor-link">4.1 State<a href="#41-state" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>
@@ -164,7 +184,50 @@
 </ul>
 <p>Any other value is rejected: assigning it to the property throws, and writing it to the attribute puts the current state back.</p>
 <p>The bar holds nothing else. Whether the window is pinned is held by the pin; whether it is minimized or maximized is held by the host application.</p>
-<h3 id="42-operations" class="tsd-anchor-link">4.2 Operations<a href="#42-operations" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="42-controls" class="tsd-anchor-link">4.2 Controls<a href="#42-controls" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Returns</th>
+<th>Its package</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pin</code></td>
+<td>the <code>&lt;pin-button&gt;</code> of the bar</td>
+<td><code>@scalable.software/pin</code></td>
+</tr>
+<tr>
+<td><code>minimize</code></td>
+<td>the <code>&lt;minimize-button&gt;</code> of the bar</td>
+<td><code>@scalable.software/minimize</code></td>
+</tr>
+<tr>
+<td><code>maximize</code></td>
+<td>the <code>&lt;maximize-button&gt;</code> of the bar</td>
+<td><code>@scalable.software/maximize</code></td>
+</tr>
+<tr>
+<td><code>restore</code></td>
+<td>the <code>&lt;restore-button&gt;</code> of the bar</td>
+<td><code>@scalable.software/restore</code></td>
+</tr>
+<tr>
+<td><code>close</code></td>
+<td>the <code>&lt;close-button&gt;</code> of the bar</td>
+<td><code>@scalable.software/close</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Each member is read-only, and <code>null</code> until the bar is connected.</li>
+<li>The host works with a control through its own states, operations and events: <code>taskbar.pin.status</code>, <code>taskbar.pin.pin()</code>, <code>taskbar.pin.onpin = handler</code>.</li>
+<li>The host hides a control that does not apply to the window as it is now, such as <code>taskbar.restore.hide()</code> while the window is not maximized. The bar stays visible.</li>
+<li>The names are exported as <code>Control.PIN</code>, <code>Control.MINIMIZE</code>, <code>Control.MAXIMIZE</code>, <code>Control.RESTORE</code> and <code>Control.CLOSE</code>.</li>
+</ul>
+<h3 id="43-operations" class="tsd-anchor-link">4.3 Operations<a href="#43-operations" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <table>
 <thead>
 <tr>
@@ -181,34 +244,9 @@
 <td><code>show()</code></td>
 <td>shows the bar</td>
 </tr>
-<tr>
-<td><code>pin()</code></td>
-<td>asks each control in the bar that offers <code>pin</code> to pin</td>
-</tr>
-<tr>
-<td><code>unpin()</code></td>
-<td>asks each control in the bar that offers <code>unpin</code> to unpin</td>
-</tr>
-<tr>
-<td><code>minimize()</code></td>
-<td>asks each control in the bar that offers <code>minimize</code> to request minimizing</td>
-</tr>
-<tr>
-<td><code>maximize()</code></td>
-<td>asks each control in the bar that offers <code>maximize</code> to request maximizing</td>
-</tr>
-<tr>
-<td><code>restore()</code></td>
-<td>asks each control in the bar that offers <code>restore</code> to request restoring</td>
-</tr>
-<tr>
-<td><code>close()</code></td>
-<td>asks each control in the bar that offers <code>close</code> to request closing</td>
-</tr>
 </tbody>
 </table>
-<p>The last six change no state of the bar, and do nothing when no control in the bar offers the operation. A control is recognised by the operation it offers, not by its tag, so a host can place a control of its own that offers <code>minimize()</code>.</p>
-<h3 id="43-events" class="tsd-anchor-link">4.3 Events<a href="#43-events" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="44-events" class="tsd-anchor-link">4.4 Events<a href="#44-events" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <table>
 <thead>
 <tr>
@@ -228,74 +266,36 @@
 <td>the bar becomes visible</td>
 <td><code>{ visibility: &quot;visible&quot; }</code></td>
 </tr>
-<tr>
-<td><code>onpin</code></td>
-<td>a pin in the bar reports that it was pinned</td>
-<td><code>{ status: &quot;pinned&quot; }</code></td>
-</tr>
-<tr>
-<td><code>onunpin</code></td>
-<td>a pin in the bar reports that it was unpinned</td>
-<td><code>{ status: &quot;unpinned&quot; }</code></td>
-</tr>
-<tr>
-<td><code>onminimize</code></td>
-<td>a control in the bar reports that minimizing is requested</td>
-<td>—</td>
-</tr>
-<tr>
-<td><code>onmaximize</code></td>
-<td>a control in the bar reports that maximizing is requested</td>
-<td>—</td>
-</tr>
-<tr>
-<td><code>onrestore</code></td>
-<td>a control in the bar reports that restoring is requested</td>
-<td>—</td>
-</tr>
-<tr>
-<td><code>onclose</code></td>
-<td>a control in the bar reports that closing is requested</td>
-<td>—</td>
-</tr>
 </tbody>
 </table>
 <ul>
-<li>Subscribe with the property of the same name, such as <code>taskbar.onpin = handler</code>, or with <code>addEventListener(&quot;onpin&quot;, handler)</code>. <code>onevent</code> receives every event.</li>
+<li>Subscribe with the property of the same name, such as <code>taskbar.onhide = handler</code>, or with <code>addEventListener(&quot;onhide&quot;, handler)</code>. <code>onevent</code> receives every event.</li>
+<li>The bar repeats no event of a control. A pin, an unpin or a request is heard on the control itself: <code>taskbar.pin.onpin</code>, <code>taskbar.close.onclose</code>.</li>
 <li>A control that is hidden or shown on its own does not make the bar dispatch <code>onhide</code> or <code>onshow</code>.</li>
-<li>Any other event of a component placed in the bar is not repeated: the host listens to that component itself.</li>
-<li><code>onclose</code> overrides the property of the same name that every HTML element has.</li>
 </ul>
-<h3 id="44-gestures" class="tsd-anchor-link">4.4 Gestures<a href="#44-gestures" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
-<ul>
-<li><strong><code>slotchange</code></strong>: when a control is placed in one of the three slots or taken out, the bar listens to every control it now holds, stops listening to one that was taken out, and gives every control that has an <code>appearance</code> the value <code>flat</code>.</li>
-<li><strong><code>onpin</code>, <code>onunpin</code>, <code>onminimize</code>, <code>onmaximize</code>, <code>onrestore</code>, <code>onclose</code></strong>: heard on each control through <code>addEventListener</code>, so the control's own <code>on…</code> properties stay free for the host. Each leads to the bar's event of the same name.</li>
-</ul>
+<h3 id="45-gestures" class="tsd-anchor-link">4.5 Gestures<a href="#45-gestures" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>The bar has none: it listens to nothing. Each control handles its own clicks and keys.</p>
 <hr>
 <h2 id="5-development-workflow" class="tsd-anchor-link">5. Development Workflow<a href="#5-development-workflow" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <h3 id="51-testing" class="tsd-anchor-link">5.1 Testing<a href="#51-testing" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
-<p>Unit tests run with Karma + Jasmine. The specification is checked first, then the suite covers composition, states, validation, operations, events, and gestures. The suite places the real controls in the bar, which is why they are development dependencies.</p>
-<pre><code class="bash"><span class="hl-8">npm</span><span class="hl-2"> </span><span class="hl-9">test</span>
+<p>Unit tests run with Karma + Jasmine. The specification is checked first, then the suite covers composition, states, validation, the controls, operations and events. The suite defines the five controls once, as a host does.</p>
+<pre><code class="bash"><span class="hl-6">npm</span><span class="hl-3"> </span><span class="hl-7">test</span>
 </code><button type="button">Copy</button></pre>
 
 <h3 id="52-documentation-typedoc" class="tsd-anchor-link">5.2 Documentation (Typedoc)<a href="#52-documentation-typedoc" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
-<pre><code class="bash"><span class="hl-8">npm</span><span class="hl-2"> </span><span class="hl-9">run</span><span class="hl-2"> </span><span class="hl-9">document</span>
+<pre><code class="bash"><span class="hl-6">npm</span><span class="hl-3"> </span><span class="hl-7">run</span><span class="hl-3"> </span><span class="hl-7">document</span>
 </code><button type="button">Copy</button></pre>
 
 <p>Auto-generates API docs from TypeScript annotations.</p>
 <h3 id="53-import-maps" class="tsd-anchor-link">5.3 Import Maps<a href="#53-import-maps" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
-<p>The host maps the bar, the base component, and each control it places:</p>
-<pre><code class="html"><span class="hl-0">&lt;</span><span class="hl-1">script</span><span class="hl-10"> </span><span class="hl-3">type</span><span class="hl-10">=</span><span class="hl-4">&quot;importmap&quot;</span><span class="hl-0">&gt;</span><br/><span class="hl-10">  {</span><br/><span class="hl-10">    &quot;imports&quot;: {</span><br/><span class="hl-10">      &quot;@scalable.software/taskbar&quot;: &quot;./node_modules/@scalable.software/taskbar/dist/index.js&quot;,</span><br/><span class="hl-10">      &quot;@scalable.software/component&quot;: &quot;./node_modules/@scalable.software/component/dist/index.js&quot;,</span><br/><span class="hl-10">      &quot;@scalable.software/pin&quot;: &quot;./node_modules/@scalable.software/pin/dist/index.js&quot;</span><br/><span class="hl-10">    }</span><br/><span class="hl-10">  }</span><br/><span class="hl-0">&lt;/</span><span class="hl-1">script</span><span class="hl-0">&gt;</span>
+<p>The host maps the bar, the base component, and the five controls:</p>
+<pre><code class="html"><span class="hl-0">&lt;</span><span class="hl-1">script</span><span class="hl-8"> </span><span class="hl-9">type</span><span class="hl-8">=</span><span class="hl-10">&quot;importmap&quot;</span><span class="hl-0">&gt;</span><br/><span class="hl-8">  {</span><br/><span class="hl-8">    &quot;imports&quot;: {</span><br/><span class="hl-8">      &quot;@scalable.software/taskbar&quot;: &quot;./node_modules/@scalable.software/taskbar/dist/index.js&quot;,</span><br/><span class="hl-8">      &quot;@scalable.software/component&quot;: &quot;./node_modules/@scalable.software/component/dist/index.js&quot;,</span><br/><span class="hl-8">      &quot;@scalable.software/pin&quot;: &quot;./node_modules/@scalable.software/pin/dist/index.js&quot;,</span><br/><span class="hl-8">      &quot;@scalable.software/minimize&quot;: &quot;./node_modules/@scalable.software/minimize/dist/index.js&quot;,</span><br/><span class="hl-8">      &quot;@scalable.software/maximize&quot;: &quot;./node_modules/@scalable.software/maximize/dist/index.js&quot;,</span><br/><span class="hl-8">      &quot;@scalable.software/restore&quot;: &quot;./node_modules/@scalable.software/restore/dist/index.js&quot;,</span><br/><span class="hl-8">      &quot;@scalable.software/close&quot;: &quot;./node_modules/@scalable.software/close/dist/index.js&quot;</span><br/><span class="hl-8">    }</span><br/><span class="hl-8">  }</span><br/><span class="hl-0">&lt;/</span><span class="hl-1">script</span><span class="hl-0">&gt;</span>
 </code><button type="button">Copy</button></pre>
 
-<pre><code class="js"><span class="hl-11">import</span><span class="hl-2"> { </span><span class="hl-7">Taskbar</span><span class="hl-2">, </span><span class="hl-7">Zone</span><span class="hl-2"> } </span><span class="hl-11">from</span><span class="hl-2"> </span><span class="hl-9">&quot;@scalable.software/taskbar&quot;</span><span class="hl-2">;</span><br/><span class="hl-11">import</span><span class="hl-2"> { </span><span class="hl-7">Pin</span><span class="hl-2"> } </span><span class="hl-11">from</span><span class="hl-2"> </span><span class="hl-9">&quot;@scalable.software/pin&quot;</span><span class="hl-2">;</span><br/><br/><span class="hl-11">await</span><span class="hl-2"> </span><span class="hl-7">Pin</span><span class="hl-2">.</span><span class="hl-7">Template</span><span class="hl-2">.</span><span class="hl-8">load</span><span class="hl-2">(</span><span class="hl-9">&quot;pin.template.html&quot;</span><span class="hl-2">);</span><br/><span class="hl-7">customElements</span><span class="hl-2">.</span><span class="hl-8">define</span><span class="hl-2">(</span><span class="hl-7">Pin</span><span class="hl-2">.</span><span class="hl-7">Tag</span><span class="hl-2">, </span><span class="hl-7">Pin</span><span class="hl-2">);</span><br/><br/><span class="hl-11">await</span><span class="hl-2"> </span><span class="hl-7">Taskbar</span><span class="hl-2">.</span><span class="hl-7">Template</span><span class="hl-2">.</span><span class="hl-8">load</span><span class="hl-2">(</span><span class="hl-9">&quot;taskbar.template.html&quot;</span><span class="hl-2">);</span><br/><span class="hl-7">customElements</span><span class="hl-2">.</span><span class="hl-8">define</span><span class="hl-2">(</span><span class="hl-7">Taskbar</span><span class="hl-2">.</span><span class="hl-7">Tag</span><span class="hl-2">, </span><span class="hl-7">Taskbar</span><span class="hl-2">);</span>
+<pre><code class="js"><span class="hl-11">import</span><span class="hl-3"> { </span><span class="hl-5">Taskbar</span><span class="hl-3"> } </span><span class="hl-11">from</span><span class="hl-3"> </span><span class="hl-7">&quot;@scalable.software/taskbar&quot;</span><span class="hl-3">;</span><br/><span class="hl-11">import</span><span class="hl-3"> { </span><span class="hl-5">Pin</span><span class="hl-3"> } </span><span class="hl-11">from</span><span class="hl-3"> </span><span class="hl-7">&quot;@scalable.software/pin&quot;</span><span class="hl-3">;</span><br/><span class="hl-11">import</span><span class="hl-3"> { </span><span class="hl-5">Minimize</span><span class="hl-3"> } </span><span class="hl-11">from</span><span class="hl-3"> </span><span class="hl-7">&quot;@scalable.software/minimize&quot;</span><span class="hl-3">;</span><br/><span class="hl-11">import</span><span class="hl-3"> { </span><span class="hl-5">Maximize</span><span class="hl-3"> } </span><span class="hl-11">from</span><span class="hl-3"> </span><span class="hl-7">&quot;@scalable.software/maximize&quot;</span><span class="hl-3">;</span><br/><span class="hl-11">import</span><span class="hl-3"> { </span><span class="hl-5">Restore</span><span class="hl-3"> } </span><span class="hl-11">from</span><span class="hl-3"> </span><span class="hl-7">&quot;@scalable.software/restore&quot;</span><span class="hl-3">;</span><br/><span class="hl-11">import</span><span class="hl-3"> { </span><span class="hl-5">Close</span><span class="hl-3"> } </span><span class="hl-11">from</span><span class="hl-3"> </span><span class="hl-7">&quot;@scalable.software/close&quot;</span><span class="hl-3">;</span><br/><br/><span class="hl-11">await</span><span class="hl-3"> </span><span class="hl-5">Pin</span><span class="hl-3">.</span><span class="hl-5">Template</span><span class="hl-3">.</span><span class="hl-6">load</span><span class="hl-3">(</span><span class="hl-7">&quot;pin.template.html&quot;</span><span class="hl-3">);</span><br/><span class="hl-11">await</span><span class="hl-3"> </span><span class="hl-5">Minimize</span><span class="hl-3">.</span><span class="hl-5">Template</span><span class="hl-3">.</span><span class="hl-6">load</span><span class="hl-3">(</span><span class="hl-7">&quot;minimize.template.html&quot;</span><span class="hl-3">);</span><br/><span class="hl-11">await</span><span class="hl-3"> </span><span class="hl-5">Maximize</span><span class="hl-3">.</span><span class="hl-5">Template</span><span class="hl-3">.</span><span class="hl-6">load</span><span class="hl-3">(</span><span class="hl-7">&quot;maximize.template.html&quot;</span><span class="hl-3">);</span><br/><span class="hl-11">await</span><span class="hl-3"> </span><span class="hl-5">Restore</span><span class="hl-3">.</span><span class="hl-5">Template</span><span class="hl-3">.</span><span class="hl-6">load</span><span class="hl-3">(</span><span class="hl-7">&quot;restore.template.html&quot;</span><span class="hl-3">);</span><br/><span class="hl-11">await</span><span class="hl-3"> </span><span class="hl-5">Close</span><span class="hl-3">.</span><span class="hl-5">Template</span><span class="hl-3">.</span><span class="hl-6">load</span><span class="hl-3">(</span><span class="hl-7">&quot;close.template.html&quot;</span><span class="hl-3">);</span><br/><br/><span class="hl-3">[</span><span class="hl-5">Pin</span><span class="hl-3">, </span><span class="hl-5">Minimize</span><span class="hl-3">, </span><span class="hl-5">Maximize</span><span class="hl-3">, </span><span class="hl-5">Restore</span><span class="hl-3">, </span><span class="hl-5">Close</span><span class="hl-3">].</span><span class="hl-6">forEach</span><span class="hl-3">((</span><span class="hl-5">Control</span><span class="hl-3">) </span><span class="hl-2">=&gt;</span><br/><span class="hl-3">  </span><span class="hl-5">customElements</span><span class="hl-3">.</span><span class="hl-6">define</span><span class="hl-3">(</span><span class="hl-5">Control</span><span class="hl-3">.</span><span class="hl-5">Tag</span><span class="hl-3">, </span><span class="hl-5">Control</span><span class="hl-3">)</span><br/><span class="hl-3">);</span><br/><br/><span class="hl-11">await</span><span class="hl-3"> </span><span class="hl-5">Taskbar</span><span class="hl-3">.</span><span class="hl-5">Template</span><span class="hl-3">.</span><span class="hl-6">load</span><span class="hl-3">(</span><span class="hl-7">&quot;taskbar.template.html&quot;</span><span class="hl-3">);</span><br/><span class="hl-5">customElements</span><span class="hl-3">.</span><span class="hl-6">define</span><span class="hl-3">(</span><span class="hl-5">Taskbar</span><span class="hl-3">.</span><span class="hl-5">Tag</span><span class="hl-3">, </span><span class="hl-5">Taskbar</span><span class="hl-3">);</span>
 </code><button type="button">Copy</button></pre>
 
-<p>The names of the zones are exported as <code>Zone.START</code>, <code>Zone.CENTER</code> and <code>Zone.END</code>, for a host that places controls from code:</p>
-<pre><code class="js"><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">pin</span><span class="hl-2"> = </span><span class="hl-7">document</span><span class="hl-2">.</span><span class="hl-8">createElement</span><span class="hl-2">(</span><span class="hl-7">Pin</span><span class="hl-2">.</span><span class="hl-7">Tag</span><span class="hl-2">);</span><br/><span class="hl-7">pin</span><span class="hl-2">.</span><span class="hl-7">slot</span><span class="hl-2"> = </span><span class="hl-7">Zone</span><span class="hl-2">.</span><span class="hl-6">START</span><span class="hl-2">;</span><br/><span class="hl-7">document</span><span class="hl-2">.</span><span class="hl-8">querySelector</span><span class="hl-2">(</span><span class="hl-7">Taskbar</span><span class="hl-2">.</span><span class="hl-7">Tag</span><span class="hl-2">).</span><span class="hl-8">append</span><span class="hl-2">(</span><span class="hl-7">pin</span><span class="hl-2">);</span>
-</code><button type="button">Copy</button></pre>
-
-<p>Define the controls before the bar, so that a control already in the markup can be made flat the moment the bar is connected.</p>
+<p>Define the controls and load their templates before the bar, so that each control in the bar is complete the moment the bar is connected.</p>
 <h2 id="license" class="tsd-anchor-link">License<a href="#license" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <blockquote>
 <p>This software and its documentation are released under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License (CC BY-NC-SA 4.0). This means you are free to share, copy, distribute, and transmit the work, and to adapt it, but only under the following conditions:</p>
@@ -323,20 +323,22 @@
 <li><a href="#1-introduction"><span>1. <wbr/>Introduction</span></a></li>
 <li>
 <ul>
-<li><a href="#11-installation-setup"><span>1.1 <wbr/>Installation &amp; <wbr/>Setup</span></a></li></ul></li>
+<li><a href="#11-upgrading-from-010"><span>1.1 <wbr/>Upgrading from 0.1.0</span></a></li>
+<li><a href="#12-installation-setup"><span>1.2 <wbr/>Installation &amp; <wbr/>Setup</span></a></li></ul></li>
 <li><a href="#2-quick-start-usage-walkthrough"><span>2. <wbr/>Quick <wbr/>Start <wbr/>Usage <wbr/>Walkthrough</span></a></li>
 <li><a href="#3-architectural-overview"><span>3. <wbr/>Architectural <wbr/>Overview</span></a></li>
 <li>
 <ul>
 <li><a href="#31-composition"><span>3.1 <wbr/>Composition</span></a></li>
 <li><a href="#32-class-lifecycle"><span>3.2 <wbr/>Class <wbr/>Lifecycle</span></a></li></ul></li>
-<li><a href="#4-core-concepts-state-operations-events-and-gestures"><span>4. <wbr/>Core <wbr/>Concepts: <wbr/>State, <wbr/>Operations, <wbr/>Events, and <wbr/>Gestures</span></a></li>
+<li><a href="#4-core-concepts-state-controls-operations-events-and-gestures"><span>4. <wbr/>Core <wbr/>Concepts: <wbr/>State, <wbr/>Controls, <wbr/>Operations, <wbr/>Events, and <wbr/>Gestures</span></a></li>
 <li>
 <ul>
 <li><a href="#41-state"><span>4.1 <wbr/>State</span></a></li>
-<li><a href="#42-operations"><span>4.2 <wbr/>Operations</span></a></li>
-<li><a href="#43-events"><span>4.3 <wbr/>Events</span></a></li>
-<li><a href="#44-gestures"><span>4.4 <wbr/>Gestures</span></a></li></ul></li>
+<li><a href="#42-controls"><span>4.2 <wbr/>Controls</span></a></li>
+<li><a href="#43-operations"><span>4.3 <wbr/>Operations</span></a></li>
+<li><a href="#44-events"><span>4.4 <wbr/>Events</span></a></li>
+<li><a href="#45-gestures"><span>4.5 <wbr/>Gestures</span></a></li></ul></li>
 <li><a href="#5-development-workflow"><span>5. <wbr/>Development <wbr/>Workflow</span></a></li>
 <li>
 <ul>

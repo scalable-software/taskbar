@@ -44,7 +44,9 @@
 /* =======================
   Zone Styles
 ======================= */
-slot {
+.start,
+.center,
+.end {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -57,7 +59,8 @@ slot {
 /* =======================
   Control Styles
 ======================= */
-::slotted(*) {
+.start > *,
+.end > * {
   flex-shrink: 0;
   --icon-margin: 0;
 }
@@ -76,6 +79,8 @@ slot {
   flex-direction: column;
 }
 
-:host([orientation="portrait"]) slot {
+:host([orientation="portrait"]) .start,
+:host([orientation="portrait"]) .center,
+:host([orientation="portrait"]) .end {
   flex-direction: column;
 }

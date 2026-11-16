@@ -2,38 +2,44 @@
 
 # Taskbar
 
-A lightweight, self-contained web component that holds the controls of a window in one bar. The host application places the controls it wants inside the bar, such as pin, minimize, maximize, restore and close. The bar lays them out as one surface, in landscape or in portrait, reports what the end user asks of them as its own events, and passes the host's own requests on to them. It can be shown or hidden on demand, and adapts automatically to light and dark themes.
+A lightweight, self-contained web component that brings the controls of a window in one bar: the pin at its start, and the minimize, maximize, restore and close controls at its end. The bar lays them out as one surface, in landscape or in portrait, and offers each control to the host application as a read-only member, such as `taskbar.pin`. It can be shown or hidden on demand, and adapts automatically to light and dark themes.
 
-The component does not move, resize, hide or remove anything itself, and holds no condition of the window: the host application, or the panel that embeds the bar, acts on what the bar reports.
+The component does not move, resize, hide or remove anything itself, holds no condition of the window, and repeats no event of a control: the host application, or the panel that embeds the bar, listens to each control through the bar and acts on what it reports.
 
 ---
 
 ## 1. Introduction
 
-The **Taskbar** component is a bridge between a host application and the controls of a window. The host works with one bar instead of with each control: it listens to the bar, and it asks the bar.
+The **Taskbar** component gives a host application the controls of a window with one element. The host places the bar, and reaches each control through it.
 
 ```html
-<task-bar>
-  <pin-button slot="start"></pin-button>
-  <minimize-button slot="end"></minimize-button>
-  <maximize-button slot="end"></maximize-button>
-  <restore-button slot="end"></restore-button>
-  <close-button slot="end"></close-button>
-</task-bar>
+<task-bar></task-bar>
 ```
 
 ```js
 const taskbar = document.querySelector("task-bar");
 
-taskbar.onclose = () => console.log("Closing was requested");
-taskbar.pin();
+taskbar.close.onclose = () => console.log("Closing was requested");
+taskbar.pin.pin();
+taskbar.maximize.hide();
 ```
 
-The bar has three zones, and the host says where each control sits with the `slot` attribute: `start`, `center` or `end`. The centre takes the room the other two leave, so in a wide bar the pin sits at one end and the window controls at the other, with open space, or a title, between them. A control placed without one of the three names is not shown.
+Each member is the control itself, with the states, operations and events of its own package. The five controls and their places are fixed. Content the host places inside `<task-bar>`, such as a title, is shown in the centre of the bar, between the pin and the window controls; the bar neither listens to it nor changes it.
 
-The bar brings no controls of its own. The host application installs, defines and places the ones its window offers: `@scalable.software/pin`, `@scalable.software/minimize`, `@scalable.software/maximize`, `@scalable.software/restore` and `@scalable.software/close`, or any other component.
+The bar depends on `@scalable.software/pin`, `@scalable.software/minimize`, `@scalable.software/maximize`, `@scalable.software/restore` and `@scalable.software/close`. The host application still defines these five controls and loads their templates, before the bar.
 
-### 1.1 Installation & Setup
+### 1.1 Upgrading from 0.1.0
+
+This version changes how a host works with the bar.
+
+| In 0.1.0 | Now |
+|---|---|
+| the host places the controls inside `<task-bar>`, with `slot="start"`, `"center"` or `"end"` | the bar brings the five controls; a control placed for `start` or `end` is no longer shown |
+| `taskbar.pin()`, `unpin()`, `minimize()`, `maximize()`, `restore()`, `close()` | `taskbar.pin.pin()`, `taskbar.pin.unpin()`, `taskbar.minimize.minimize()`, and so on |
+| `taskbar.onpin`, `onunpin`, `onminimize`, `onmaximize`, `onrestore`, `onclose` | `taskbar.pin.onpin`, `taskbar.pin.onunpin`, `taskbar.minimize.onminimize`, and so on |
+| the lists `Zone` and `Appearance` | gone; the list `Control` names the five members |
+
+### 1.2 Installation & Setup
 
 1. **Clone the Repository**
 
@@ -62,7 +68,7 @@ The bar brings no controls of its own. The host application installs, defines an
    npm run serve
    ```
 
-   - This builds the component and opens the demo page, with a `<task-bar>` holding the five controls at the top and its controls below it.
+   - This builds the component and opens the demo page, with two `<task-bar>` elements at the top and their controls below them.
 
 ---
 
@@ -71,42 +77,39 @@ The bar brings no controls of its own. The host application installs, defines an
 This walkthrough uses the demo page to show how `<task-bar>` behaves. The page has the component in a band across the top, and three groups below it: **States**, **Operations** and **Events**.
 
 1. **Click** the pin in the bar.
-   - The pin becomes pinned, and the **Events** log shows `onpin` with `{"status":"pinned"}`. The event comes from the bar, not from the pin.
+   - The pin becomes pinned, and the **Events** log shows `onpin` with `{"status":"pinned"}`, from the pin of that bar. The bar itself sends nothing.
    - Click it again: the log shows `onunpin`.
 
 2. **Click** the minimize, maximize, restore and close controls.
-   - The log shows `onminimize`, `onmaximize`, `onrestore` and `onclose`, one for each request. Nothing is minimized or removed: the bar only reports.
+   - The log shows `onminimize`, `onmaximize`, `onrestore` and `onclose`, each from its own control. Nothing is minimized or removed: a control only reports.
 
-3. **Click** `pin` in the **Operations** group.
-   - The host application makes the same request from code: the pin in the bar becomes pinned and the log shows `onpin`.
-   - Click `pin` again: the pin is already pinned, so nothing is logged.
+3. **Click** `pin.pin` in the **Operations** group.
+   - The host application makes the same request from code, with `taskbar.pin.pin()`: the pin becomes pinned and the log shows `onpin`.
+   - Click `pin.pin` again: the pin is already pinned, so nothing is logged.
 
-4. **Click** `minimize`, `maximize`, `restore` and `close` in the **Operations** group.
-   - Each asks the matching control to make its request, and the bar reports it.
+4. **Click** `maximize.hide`, then `maximize.show`.
+   - Only the maximize control disappears and comes back. The log shows its own `onhide` and `onshow`; the bar stays visible and sends nothing.
 
 5. **Click** `hide`, then `show`.
-   - The bar disappears and comes back. The log shows `onhide` and `onshow`, each with its `detail`.
+   - The bar disappears and comes back. The log shows the bar's `onhide` and `onshow`, each with its `detail`.
 
 6. **Choose** `portrait` for `orientation` in the **States** group.
    - The controls sit one above the other, in the same order.
 
-   The page shows two bars. The second is half as wide as the window: its pin stays at the start, its window controls at the end, and the centre between them is empty. Narrow the window: the bar stops shrinking once it is as wide as its controls.
+   The page shows two bars. The second is half as wide as the window and holds a title the page placed in it: its pin stays at the start, its window controls at the end, and the title sits in the centre between them. Narrow the window: the bar stops shrinking once it is as wide as its controls.
 
-7. **Inspect** the `<task-bar>` in the **Elements** tab.
-   - Every control inside it carries `appearance="flat"`: the bar gave it that, so that the bar reads as one surface.
-
-8. **Open the Developer Tools**, select the **Console**, and take a control out:
+7. **Open the Developer Tools**, select the **Console**, and reach a control:
 
    ```js
    const taskbar = document.querySelector("task-bar");
 
-   taskbar.querySelector("restore-button").remove();
-   taskbar.restore();
+   taskbar.pin.status;
+   taskbar.restore.hide();
    ```
 
-   - Nothing happens and no error is reported: the bar holds no control for that request.
+   - `taskbar.pin` is the pin itself, so its `status` reads `pinned` or `unpinned`, and the restore control disappears from the bar.
 
-For more details on **States**, **Operations**, and **Events**, consult the sections below or check the generated **API documentation** (see `npm run document`).
+For more details on **States**, **Controls**, **Operations**, and **Events**, consult the sections below or check the generated **API documentation** (see `npm run document`).
 
 ---
 
@@ -114,25 +117,23 @@ For more details on **States**, **Operations**, and **Events**, consult the sect
 
 ### 3.1 Composition
 
-- **Template** (`taskbar.template.html`): Defines DOM structure — a `.bar` surface holding three slots, `start`, `center` and `end`, where the controls the host places inside `<task-bar>` are shown.
-- **Style** (`taskbar.style.css`): Encapsulates the surface of the bar, its three zones, the two orientations, and light/dark theme adaptation. The bar is as high as its controls, leaves no space between them, and is never narrower than the controls it holds.
-- **Class** (`taskbar.ts`): Extends the base component class to handle lifecycle hooks, attribute reflection, listening to the controls, and event dispatch.
-
-The controls are the host's own elements. They are not part of the bar's template, and the host can still reach them: to hide the maximize control while the window is maximized, for instance, the host calls `hide()` on that control.
+- **Template** (`taskbar.template.html`): Defines DOM structure — a `.bar` surface holding three zones: `.start` with the pin, `.center` with a slot for the host's own content, and `.end` with the minimize, maximize, restore and close controls. Every control carries `appearance="flat"`.
+- **Style** (`taskbar.style.css`): Encapsulates the surface of the bar, its three zones, the two orientations, and light/dark theme adaptation. The bar is as high as its controls, leaves no space between them, and is never narrower than its controls.
+- **Class** (`taskbar.ts`): Extends the base component class to handle lifecycle hooks, attribute reflection, the five control members, and the dispatch of its own two events.
 
 ### 3.2 Class Lifecycle
 
 - **`connectedCallback()`**
-  1. Caches the bar and its three slots.
-  2. Makes every control already placed in the bar flat.
-  3. Listens to the bar for controls being placed in a slot or taken out, and to every control already placed.
+  - Caches the five controls. From here each member returns its control; before, it returns `null`.
 
 - **`disconnectedCallback()`**
-  - Stops listening to the bar and to every control.
+  - Nothing to release: the bar listens to nothing.
+
+A host component that holds the bar in its own template reaches the members once the bar is connected, which is after the host's own `connectedCallback`.
 
 ---
 
-## 4. Core Concepts: State, Operations, Events, and Gestures
+## 4. Core Concepts: State, Controls, Operations, Events, and Gestures
 
 ### 4.1 State
 
@@ -149,43 +150,42 @@ Any other value is rejected: assigning it to the property throws, and writing it
 
 The bar holds nothing else. Whether the window is pinned is held by the pin; whether it is minimized or maximized is held by the host application.
 
-### 4.2 Operations
+### 4.2 Controls
+
+| Member | Returns | Its package |
+|---|---|---|
+| `pin` | the `<pin-button>` of the bar | `@scalable.software/pin` |
+| `minimize` | the `<minimize-button>` of the bar | `@scalable.software/minimize` |
+| `maximize` | the `<maximize-button>` of the bar | `@scalable.software/maximize` |
+| `restore` | the `<restore-button>` of the bar | `@scalable.software/restore` |
+| `close` | the `<close-button>` of the bar | `@scalable.software/close` |
+
+- Each member is read-only, and `null` until the bar is connected.
+- The host works with a control through its own states, operations and events: `taskbar.pin.status`, `taskbar.pin.pin()`, `taskbar.pin.onpin = handler`.
+- The host hides a control that does not apply to the window as it is now, such as `taskbar.restore.hide()` while the window is not maximized. The bar stays visible.
+- The names are exported as `Control.PIN`, `Control.MINIMIZE`, `Control.MAXIMIZE`, `Control.RESTORE` and `Control.CLOSE`.
+
+### 4.3 Operations
 
 | Operation | What it does |
 |---|---|
 | `hide()` | hides the bar |
 | `show()` | shows the bar |
-| `pin()` | asks each control in the bar that offers `pin` to pin |
-| `unpin()` | asks each control in the bar that offers `unpin` to unpin |
-| `minimize()` | asks each control in the bar that offers `minimize` to request minimizing |
-| `maximize()` | asks each control in the bar that offers `maximize` to request maximizing |
-| `restore()` | asks each control in the bar that offers `restore` to request restoring |
-| `close()` | asks each control in the bar that offers `close` to request closing |
 
-The last six change no state of the bar, and do nothing when no control in the bar offers the operation. A control is recognised by the operation it offers, not by its tag, so a host can place a control of its own that offers `minimize()`.
-
-### 4.3 Events
+### 4.4 Events
 
 | Event | Dispatched when | `detail` |
 |---|---|---|
 | `onhide` | the bar becomes hidden | `{ visibility: "hidden" }` |
 | `onshow` | the bar becomes visible | `{ visibility: "visible" }` |
-| `onpin` | a pin in the bar reports that it was pinned | `{ status: "pinned" }` |
-| `onunpin` | a pin in the bar reports that it was unpinned | `{ status: "unpinned" }` |
-| `onminimize` | a control in the bar reports that minimizing is requested | — |
-| `onmaximize` | a control in the bar reports that maximizing is requested | — |
-| `onrestore` | a control in the bar reports that restoring is requested | — |
-| `onclose` | a control in the bar reports that closing is requested | — |
 
-- Subscribe with the property of the same name, such as `taskbar.onpin = handler`, or with `addEventListener("onpin", handler)`. `onevent` receives every event.
+- Subscribe with the property of the same name, such as `taskbar.onhide = handler`, or with `addEventListener("onhide", handler)`. `onevent` receives every event.
+- The bar repeats no event of a control. A pin, an unpin or a request is heard on the control itself: `taskbar.pin.onpin`, `taskbar.close.onclose`.
 - A control that is hidden or shown on its own does not make the bar dispatch `onhide` or `onshow`.
-- Any other event of a component placed in the bar is not repeated: the host listens to that component itself.
-- `onclose` overrides the property of the same name that every HTML element has.
 
-### 4.4 Gestures
+### 4.5 Gestures
 
-- **`slotchange`**: when a control is placed in one of the three slots or taken out, the bar listens to every control it now holds, stops listening to one that was taken out, and gives every control that has an `appearance` the value `flat`.
-- **`onpin`, `onunpin`, `onminimize`, `onmaximize`, `onrestore`, `onclose`**: heard on each control through `addEventListener`, so the control's own `on…` properties stay free for the host. Each leads to the bar's event of the same name.
+The bar has none: it listens to nothing. Each control handles its own clicks and keys.
 
 ---
 
@@ -193,7 +193,7 @@ The last six change no state of the bar, and do nothing when no control in the b
 
 ### 5.1 Testing
 
-Unit tests run with Karma + Jasmine. The specification is checked first, then the suite covers composition, states, validation, operations, events, and gestures. The suite places the real controls in the bar, which is why they are development dependencies.
+Unit tests run with Karma + Jasmine. The specification is checked first, then the suite covers composition, states, validation, the controls, operations and events. The suite defines the five controls once, as a host does.
 
 ```bash
 npm test
@@ -209,7 +209,7 @@ Auto-generates API docs from TypeScript annotations.
 
 ### 5.3 Import Maps
 
-The host maps the bar, the base component, and each control it places:
+The host maps the bar, the base component, and the five controls:
 
 ```html
 <script type="importmap">
@@ -217,32 +217,39 @@ The host maps the bar, the base component, and each control it places:
     "imports": {
       "@scalable.software/taskbar": "./node_modules/@scalable.software/taskbar/dist/index.js",
       "@scalable.software/component": "./node_modules/@scalable.software/component/dist/index.js",
-      "@scalable.software/pin": "./node_modules/@scalable.software/pin/dist/index.js"
+      "@scalable.software/pin": "./node_modules/@scalable.software/pin/dist/index.js",
+      "@scalable.software/minimize": "./node_modules/@scalable.software/minimize/dist/index.js",
+      "@scalable.software/maximize": "./node_modules/@scalable.software/maximize/dist/index.js",
+      "@scalable.software/restore": "./node_modules/@scalable.software/restore/dist/index.js",
+      "@scalable.software/close": "./node_modules/@scalable.software/close/dist/index.js"
     }
   }
 </script>
 ```
 
 ```js
-import { Taskbar, Zone } from "@scalable.software/taskbar";
+import { Taskbar } from "@scalable.software/taskbar";
 import { Pin } from "@scalable.software/pin";
+import { Minimize } from "@scalable.software/minimize";
+import { Maximize } from "@scalable.software/maximize";
+import { Restore } from "@scalable.software/restore";
+import { Close } from "@scalable.software/close";
 
 await Pin.Template.load("pin.template.html");
-customElements.define(Pin.Tag, Pin);
+await Minimize.Template.load("minimize.template.html");
+await Maximize.Template.load("maximize.template.html");
+await Restore.Template.load("restore.template.html");
+await Close.Template.load("close.template.html");
+
+[Pin, Minimize, Maximize, Restore, Close].forEach((Control) =>
+  customElements.define(Control.Tag, Control)
+);
 
 await Taskbar.Template.load("taskbar.template.html");
 customElements.define(Taskbar.Tag, Taskbar);
 ```
 
-The names of the zones are exported as `Zone.START`, `Zone.CENTER` and `Zone.END`, for a host that places controls from code:
-
-```js
-const pin = document.createElement(Pin.Tag);
-pin.slot = Zone.START;
-document.querySelector(Taskbar.Tag).append(pin);
-```
-
-Define the controls before the bar, so that a control already in the markup can be made flat the moment the bar is connected.
+Define the controls and load their templates before the bar, so that each control in the bar is complete the moment the bar is connected.
 
 ## License
 

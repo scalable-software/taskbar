@@ -5,11 +5,10 @@ export {
   State,
   Visibility,
   Orientation,
+  Control,
   Operation,
   Event,
-  Gesture,
-  Appearance,
-  Zone
+  Gesture
 } from "./taskbar.meta.js";
 
 export { Validate } from "./taskbar.validation.js";

@@ -73,18 +73,30 @@ export const Orientation = {
 export type Orientation = (typeof Orientation)[keyof typeof Orientation];
 
 /**
+ * The controls of the taskbar
+ * @category Metadata
+ * @enum
+ */
+export const Control = {
+  PIN: "pin",
+  MINIMIZE: "minimize",
+  MAXIMIZE: "maximize",
+  RESTORE: "restore",
+  CLOSE: "close"
+} as const;
+/**
+ * The controls of the taskbar
+ * @category Metadata
+ */
+export type Control = (typeof Control)[keyof typeof Control];
+
+/**
  * @category Metadata
  * @enum
  */
 export const Operation = {
   HIDE: "hide",
-  SHOW: "show",
-  PIN: "pin",
-  UNPIN: "unpin",
-  MINIMIZE: "minimize",
-  MAXIMIZE: "maximize",
-  RESTORE: "restore",
-  CLOSE: "close"
+  SHOW: "show"
 } as const;
 
 /**
@@ -98,13 +110,7 @@ export type Operation = (typeof Operation)[keyof typeof Operation];
  */
 export const Event = {
   ON_HIDE: "onhide",
-  ON_SHOW: "onshow",
-  ON_PIN: "onpin",
-  ON_UNPIN: "onunpin",
-  ON_MINIMIZE: "onminimize",
-  ON_MAXIMIZE: "onmaximize",
-  ON_RESTORE: "onrestore",
-  ON_CLOSE: "onclose"
+  ON_SHOW: "onshow"
 } as const;
 /**
  * @category Metadata
@@ -115,55 +121,23 @@ export type Event = (typeof Event)[keyof typeof Event];
  * @category Metadata
  * @enum
  */
-export const Gesture = {
-  SLOTCHANGE: "slotchange",
-  ON_PIN: "onpin",
-  ON_UNPIN: "onunpin",
-  ON_MINIMIZE: "onminimize",
-  ON_MAXIMIZE: "onmaximize",
-  ON_RESTORE: "onrestore",
-  ON_CLOSE: "onclose"
-} as const;
+export const Gesture = {} as const;
 /**
  * @category Metadata
  */
 export type Gesture = (typeof Gesture)[keyof typeof Gesture];
 
 /**
- * The zones of the taskbar: the name of the slot a control is placed in
- * @category Metadata
- * @enum
- */
-export const Zone = {
-  START: "start",
-  CENTER: "center",
-  END: "end"
-} as const;
-/**
- * The zones of the taskbar: the name of the slot a control is placed in
- * @category Metadata
- */
-export type Zone = (typeof Zone)[keyof typeof Zone];
-
-/**
- * The appearance the taskbar gives each control placed in it that has one
- * @category Metadata
- * @enum
- */
-export const Appearance = {
-  FLAT: "flat"
-} as const;
-/**
- * The appearance the taskbar gives each control placed in it that has one
- * @category Metadata
- */
-export type Appearance = (typeof Appearance)[keyof typeof Appearance];
-
-/**
  * Every state the component must have
  * @category Metadata
  */
 export type States = Record<State, unknown>;
+
+/**
+ * Every control the component must offer
+ * @category Metadata
+ */
+export type Controls = Record<Control, unknown>;
 
 /**
  * Every operation the component must have
@@ -181,4 +155,4 @@ export type Events = Record<Event, EventListener | null>;
  * Everything the metadata says the component has: implemented by the component
  * @category Metadata
  */
-export type Meta = States & Operations & Events;
+export type Meta = States & Controls & Operations & Events;

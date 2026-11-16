@@ -9,6 +9,7 @@ declare function utility(utility: string, fn: () => void): void;
 declare function composition(composition: string, fn: () => void): void;
 declare function element(element: string, fn: () => void): void;
 declare function state(state: string, fn: () => void): void;
+declare function control(control: string, fn: () => void): void;
 declare function operation(operation: string, fn: () => void): void;
 declare function events(event: string, fn: () => void): void;
 declare function gesture(gesture: string, fn: () => void): void;
@@ -20,11 +21,10 @@ declare const Metadata: {
   CSS: string;
   ATTRIBUTES: string;
   STATE: string;
+  CONTROL: string;
   OPERATION: string;
   EVENT: string;
   GESTURE: string;
-  APPEARANCE: string;
-  ZONE: string;
 };
 
 declare const Configuration: {

@@ -57,6 +57,19 @@ body {
   height: 50vh;
 }
 
+/* The content the page places in the centre of the second taskbar */
+.title {
+  padding: 0 12px;
+  color: var(--muted-color);
+  white-space: nowrap;
+}
+
+/* In portrait the content turns with the bar: it reads from top to bottom */
+.wide[orientation="portrait"] .title {
+  padding: 12px 0;
+  writing-mode: vertical-rl;
+}
+
 /* The controls: one column for each group, stacked on a narrow window */
 .controls {
   display: grid;

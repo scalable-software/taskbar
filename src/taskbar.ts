@@ -6,6 +6,13 @@
 import { Component, Template } from "@scalable.software/component";
 import { type Configuration } from "@scalable.software/component";
 
+// Controls
+import { Pin } from "@scalable.software/pin";
+import { Minimize } from "@scalable.software/minimize";
+import { Maximize } from "@scalable.software/maximize";
+import { Restore } from "@scalable.software/restore";
+import { Close } from "@scalable.software/close";
+
 // Taskbar Metadata
 import {
   Tag,
@@ -13,10 +20,7 @@ import {
   Attributes,
   Visibility,
   Orientation,
-  Event,
-  Operation,
-  Gesture,
-  Appearance
+  Event
 } from "./taskbar.meta.js";
 
 import { type Meta } from "./taskbar.meta.js";
@@ -37,14 +41,6 @@ export const configuration: Configuration = {
     name: CSS
   }
 } as const;
-
-/**
- * A control placed in the taskbar: any element. It may offer the operations the taskbar
- * passes on, and it may have an appearance.
- * @category Configuration
- */
-type Control = Element &
-  Partial<Record<Operation, () => unknown>> & { appearance?: string };
 
 /**
  * @category Taskbar
@@ -103,69 +99,21 @@ export class Taskbar extends Component implements Meta {
   private _onshow: EventListener | null = null;
 
   /**
-   * onpin triggered when a pin placed in the taskbar is pinned
-   * @category Events
-   * @hidden
-   */
-  private _onpin: EventListener | null = null;
-
-  /**
-   * onunpin triggered when a pin placed in the taskbar is unpinned
-   * @category Events
-   * @hidden
-   */
-  private _onunpin: EventListener | null = null;
-
-  /**
-   * onminimize triggered when a control placed in the taskbar requests minimizing
-   * @category Events
-   * @hidden
-   */
-  private _onminimize: EventListener | null = null;
-
-  /**
-   * onmaximize triggered when a control placed in the taskbar requests maximizing
-   * @category Events
-   * @hidden
-   */
-  private _onmaximize: EventListener | null = null;
-
-  /**
-   * onrestore triggered when a control placed in the taskbar requests restoring
-   * @category Events
-   * @hidden
-   */
-  private _onrestore: EventListener | null = null;
-
-  /**
-   * onclose triggered when a control placed in the taskbar requests closing
-   * @category Events
-   * @hidden
-   */
-  private _onclose: EventListener | null = null;
-
-  /**
-   * The controls the taskbar listens to
-   * @category Gesture
-   * @hidden
-   */
-  private _controls: Control[] = [];
-
-  /**
    * Cache element references to improve performance
    * @category State
    * @hidden
    */
   protected elements: {
-    bar: HTMLDivElement | null;
-    start: HTMLSlotElement | null;
-    center: HTMLSlotElement | null;
-    end: HTMLSlotElement | null;
+    start: { pin: Pin | null };
+    end: {
+      minimize: Minimize | null;
+      maximize: Maximize | null;
+      restore: Restore | null;
+      close: Close | null;
+    };
   } = {
-    bar: null,
-    start: null,
-    center: null,
-    end: null
+    start: { pin: null },
+    end: { minimize: null, maximize: null, restore: null, close: null }
   };
 
   /**
@@ -238,6 +186,46 @@ export class Taskbar extends Component implements Meta {
   }
 
   /**
+   * The pin of the taskbar: `null` until the taskbar is connected
+   * @category Controls
+   */
+  public get pin(): Pin | null {
+    return this.elements.start.pin;
+  }
+
+  /**
+   * The minimize control of the taskbar: `null` until the taskbar is connected
+   * @category Controls
+   */
+  public get minimize(): Minimize | null {
+    return this.elements.end.minimize;
+  }
+
+  /**
+   * The maximize control of the taskbar: `null` until the taskbar is connected
+   * @category Controls
+   */
+  public get maximize(): Maximize | null {
+    return this.elements.end.maximize;
+  }
+
+  /**
+   * The restore control of the taskbar: `null` until the taskbar is connected
+   * @category Controls
+   */
+  public get restore(): Restore | null {
+    return this.elements.end.restore;
+  }
+
+  /**
+   * The close control of the taskbar: `null` until the taskbar is connected
+   * @category Controls
+   */
+  public get close(): Close | null {
+    return this.elements.end.close;
+  }
+
+  /**
    * Triggered via `.hide()`
    * @event
    * @category Events
@@ -256,72 +244,6 @@ export class Taskbar extends Component implements Meta {
   }
 
   /**
-   * Triggered when a pin placed in the taskbar is pinned
-   * @event
-   * @category Events
-   */
-  public set onpin(handler: EventListener | null) {
-    this._onpin = this._subscribe(Event.ON_PIN, this._onpin, handler);
-  }
-
-  /**
-   * Triggered when a pin placed in the taskbar is unpinned
-   * @event
-   * @category Events
-   */
-  public set onunpin(handler: EventListener | null) {
-    this._onunpin = this._subscribe(Event.ON_UNPIN, this._onunpin, handler);
-  }
-
-  /**
-   * Triggered when a control placed in the taskbar requests minimizing
-   * @event
-   * @category Events
-   */
-  public set onminimize(handler: EventListener | null) {
-    this._onminimize = this._subscribe(
-      Event.ON_MINIMIZE,
-      this._onminimize,
-      handler
-    );
-  }
-
-  /**
-   * Triggered when a control placed in the taskbar requests maximizing
-   * @event
-   * @category Events
-   */
-  public set onmaximize(handler: EventListener | null) {
-    this._onmaximize = this._subscribe(
-      Event.ON_MAXIMIZE,
-      this._onmaximize,
-      handler
-    );
-  }
-
-  /**
-   * Triggered when a control placed in the taskbar requests restoring
-   * @event
-   * @category Events
-   */
-  public set onrestore(handler: EventListener | null) {
-    this._onrestore = this._subscribe(
-      Event.ON_RESTORE,
-      this._onrestore,
-      handler
-    );
-  }
-
-  /**
-   * Triggered when a control placed in the taskbar requests closing
-   * @event
-   * @category Events
-   */
-  public set onclose(handler: EventListener | null) {
-    this._onclose = this._subscribe(Event.ON_CLOSE, this._onclose, handler);
-  }
-
-  /**
    * Hide the taskbar when it is visible
    * @category Operations
    */
@@ -335,54 +257,6 @@ export class Taskbar extends Component implements Meta {
    */
   public show = () => {
     this.visibility = Visibility.VISIBLE;
-  };
-
-  /**
-   * Ask each control placed in the taskbar that offers `pin` to pin
-   * @category Operations
-   */
-  public pin = () => {
-    this._ask(Operation.PIN);
-  };
-
-  /**
-   * Ask each control placed in the taskbar that offers `unpin` to unpin
-   * @category Operations
-   */
-  public unpin = () => {
-    this._ask(Operation.UNPIN);
-  };
-
-  /**
-   * Ask each control placed in the taskbar that offers `minimize` to request minimizing
-   * @category Operations
-   */
-  public minimize = () => {
-    this._ask(Operation.MINIMIZE);
-  };
-
-  /**
-   * Ask each control placed in the taskbar that offers `maximize` to request maximizing
-   * @category Operations
-   */
-  public maximize = () => {
-    this._ask(Operation.MAXIMIZE);
-  };
-
-  /**
-   * Ask each control placed in the taskbar that offers `restore` to request restoring
-   * @category Operations
-   */
-  public restore = () => {
-    this._ask(Operation.RESTORE);
-  };
-
-  /**
-   * Ask each control placed in the taskbar that offers `close` to request closing: the taskbar removes nothing
-   * @category Operations
-   */
-  public close = () => {
-    this._ask(Operation.CLOSE);
   };
 
   /**
@@ -403,10 +277,15 @@ export class Taskbar extends Component implements Meta {
    * @hidden
    */
   protected _cache = () => {
-    this.elements.bar = this.root.querySelector(".bar");
-    this.elements.start = this.root.querySelector(".start");
-    this.elements.center = this.root.querySelector(".center");
-    this.elements.end = this.root.querySelector(".end");
+    this.elements.start.pin = this.root.querySelector<Pin>(Pin.Tag);
+    this.elements.end.minimize = this.root.querySelector<Minimize>(
+      Minimize.Tag
+    );
+    this.elements.end.maximize = this.root.querySelector<Maximize>(
+      Maximize.Tag
+    );
+    this.elements.end.restore = this.root.querySelector<Restore>(Restore.Tag);
+    this.elements.end.close = this.root.querySelector<Close>(Close.Tag);
   };
 
   /**
@@ -414,212 +293,19 @@ export class Taskbar extends Component implements Meta {
    * @category Configuration
    * @hidden
    */
-  protected _initialize = () => {
-    this._flatten();
-  };
+  protected _initialize = () => {};
 
   /**
    * Called by the connectedCallback prototypical method
    * @category Configuration
    * @hidden
    */
-  protected _addEventListeners = () => {
-    this.elements.bar?.addEventListener(
-      Gesture.SLOTCHANGE,
-      this._handleBarSlotchangeListen
-    );
-    this.elements.bar?.addEventListener(
-      Gesture.SLOTCHANGE,
-      this._handleBarSlotchangeFlatten
-    );
-    this._listen();
-  };
+  protected _addEventListeners = () => {};
 
   /**
    * Called by the disconnectedCallback prototypical method
    * @category Configuration
    * @hidden
    */
-  protected _removeEventListeners = () => {
-    this.elements.bar?.removeEventListener(
-      Gesture.SLOTCHANGE,
-      this._handleBarSlotchangeListen
-    );
-    this.elements.bar?.removeEventListener(
-      Gesture.SLOTCHANGE,
-      this._handleBarSlotchangeFlatten
-    );
-    this._ignore();
-  };
-
-  /**
-   * The controls placed in the taskbar: none until the taskbar is connected
-   * @category Operations
-   * @hidden
-   */
-  private _placed = () =>
-    [
-      this.elements.start,
-      this.elements.center,
-      this.elements.end
-    ].flatMap((slot) => slot?.assignedElements() ?? []) as Control[];
-
-  /**
-   * Ask each control placed in the taskbar that offers the operation to carry it out
-   * @category Operations
-   * @hidden
-   */
-  private _ask = (operation: Operation) => {
-    this._placed().forEach((control) => {
-      const act = control[operation];
-      typeof act === "function" && act.call(control);
-    });
-  };
-
-  /**
-   * Listen to every control placed in the taskbar: reached only through a gesture
-   * @category Operations
-   * @hidden
-   */
-  private _listen = () => {
-    this._ignore();
-    this._controls = this._placed();
-    this._controls.forEach((control) => {
-      control.addEventListener(Gesture.ON_PIN, this._handleBarOnpin);
-      control.addEventListener(Gesture.ON_UNPIN, this._handleBarOnunpin);
-      control.addEventListener(
-        Gesture.ON_MINIMIZE,
-        this._handleBarOnminimize
-      );
-      control.addEventListener(
-        Gesture.ON_MAXIMIZE,
-        this._handleBarOnmaximize
-      );
-      control.addEventListener(
-        Gesture.ON_RESTORE,
-        this._handleBarOnrestore
-      );
-      control.addEventListener(Gesture.ON_CLOSE, this._handleBarOnclose);
-    });
-  };
-
-  /**
-   * Stop listening to every control the taskbar listens to: reached only through a gesture
-   * @category Operations
-   * @hidden
-   */
-  private _ignore = () => {
-    this._controls.forEach((control) => {
-      control.removeEventListener(Gesture.ON_PIN, this._handleBarOnpin);
-      control.removeEventListener(
-        Gesture.ON_UNPIN,
-        this._handleBarOnunpin
-      );
-      control.removeEventListener(
-        Gesture.ON_MINIMIZE,
-        this._handleBarOnminimize
-      );
-      control.removeEventListener(
-        Gesture.ON_MAXIMIZE,
-        this._handleBarOnmaximize
-      );
-      control.removeEventListener(
-        Gesture.ON_RESTORE,
-        this._handleBarOnrestore
-      );
-      control.removeEventListener(
-        Gesture.ON_CLOSE,
-        this._handleBarOnclose
-      );
-    });
-    this._controls = [];
-  };
-
-  /**
-   * Make every control placed in the taskbar that has an appearance flat: reached only
-   * through a gesture
-   * @category Operations
-   * @hidden
-   */
-  private _flatten = () => {
-    this._placed().forEach(
-      (control) =>
-        control.appearance !== undefined &&
-        (control.appearance = Appearance.FLAT)
-    );
-  };
-
-  /**
-   * Report what a control placed in the taskbar reported, as the taskbar's own event:
-   * reached only through a gesture
-   * @category Operations
-   * @hidden
-   */
-  private _report = (event: Event, detail?: unknown) => {
-    this._dispatch(event, detail);
-  };
-
-  /**
-   * Handles a control being placed in the taskbar or taken out: listens to the controls
-   * @category Gesture
-   * @hidden
-   */
-  private _handleBarSlotchangeListen = () => this._listen();
-
-  /**
-   * Handles a control being placed in the taskbar or taken out: makes the controls flat
-   * @category Gesture
-   * @hidden
-   */
-  private _handleBarSlotchangeFlatten = () => this._flatten();
-
-  /**
-   * Handles a pin placed in the taskbar reporting that it was pinned: reports it,
-   * with the status the pin gave
-   * @category Gesture
-   * @hidden
-   */
-  private _handleBarOnpin = (event: globalThis.Event) =>
-    this._report(Event.ON_PIN, (event as CustomEvent).detail);
-
-  /**
-   * Handles a pin placed in the taskbar reporting that it was unpinned: reports it,
-   * with the status the pin gave
-   * @category Gesture
-   * @hidden
-   */
-  private _handleBarOnunpin = (event: globalThis.Event) =>
-    this._report(Event.ON_UNPIN, (event as CustomEvent).detail);
-
-  /**
-   * Handles a control placed in the taskbar reporting that minimizing is requested:
-   * reports it
-   * @category Gesture
-   * @hidden
-   */
-  private _handleBarOnminimize = () => this._report(Event.ON_MINIMIZE);
-
-  /**
-   * Handles a control placed in the taskbar reporting that maximizing is requested:
-   * reports it
-   * @category Gesture
-   * @hidden
-   */
-  private _handleBarOnmaximize = () => this._report(Event.ON_MAXIMIZE);
-
-  /**
-   * Handles a control placed in the taskbar reporting that restoring is requested:
-   * reports it
-   * @category Gesture
-   * @hidden
-   */
-  private _handleBarOnrestore = () => this._report(Event.ON_RESTORE);
-
-  /**
-   * Handles a control placed in the taskbar reporting that closing is requested:
-   * reports it
-   * @category Gesture
-   * @hidden
-   */
-  private _handleBarOnclose = () => this._report(Event.ON_CLOSE);
+  protected _removeEventListeners = () => {};
 }

@@ -4,11 +4,10 @@ import {
   State,
   Visibility,
   Orientation,
+  Control,
   Operation,
   Event,
-  Gesture,
-  Appearance,
-  Zone
+  Gesture
 } from "@scalable.software/taskbar";
 
 // Tag
@@ -154,6 +153,70 @@ metadata(State.ORIENTATION, () => {
   });
 });
 
+// Control
+metadata(Metadata.CONTROL, () => {
+  and("Control imported", () => {
+    then("Control is defined", () => {
+      expect(Control).toBeDefined();
+    });
+
+    and("Control is defined", () => {
+      then("Control is an object", () => {
+        expect(typeof Control).toBe("object");
+      });
+
+      when("Control is an object", () => {
+        then("no control name is taken by the platform", () => {
+          const taken = Object.values(Control).filter(
+            (name) => name in HTMLElement.prototype
+          );
+          expect(taken).toEqual([]);
+        });
+
+        then("`Control.PIN` exists", () => {
+          expect(Control.PIN).toBeDefined();
+        });
+
+        then("`Control.PIN` is `pin`", () => {
+          expect(Control.PIN).toBe("pin");
+        });
+
+        then("`Control.MINIMIZE` exists", () => {
+          expect(Control.MINIMIZE).toBeDefined();
+        });
+
+        then("`Control.MINIMIZE` is `minimize`", () => {
+          expect(Control.MINIMIZE).toBe("minimize");
+        });
+
+        then("`Control.MAXIMIZE` exists", () => {
+          expect(Control.MAXIMIZE).toBeDefined();
+        });
+
+        then("`Control.MAXIMIZE` is `maximize`", () => {
+          expect(Control.MAXIMIZE).toBe("maximize");
+        });
+
+        then("`Control.RESTORE` exists", () => {
+          expect(Control.RESTORE).toBeDefined();
+        });
+
+        then("`Control.RESTORE` is `restore`", () => {
+          expect(Control.RESTORE).toBe("restore");
+        });
+
+        then("`Control.CLOSE` exists", () => {
+          expect(Control.CLOSE).toBeDefined();
+        });
+
+        then("`Control.CLOSE` is `close`", () => {
+          expect(Control.CLOSE).toBe("close");
+        });
+      });
+    });
+  });
+});
+
 // Operation
 metadata(Metadata.OPERATION, () => {
   and("Operation imported", () => {
@@ -167,6 +230,10 @@ metadata(Metadata.OPERATION, () => {
       });
 
       when("Operation is an object", () => {
+        then("`Operation` holds `hide` and `show` only", () => {
+          expect(Object.values(Operation)).toEqual(["hide", "show"]);
+        });
+
         then("no operation name is taken by the platform", () => {
           const taken = Object.values(Operation).filter(
             (name) => name in HTMLElement.prototype
@@ -189,54 +256,6 @@ metadata(Metadata.OPERATION, () => {
         then("`Operation.SHOW` is `show`", () => {
           expect(Operation.SHOW).toBe("show");
         });
-
-        then("`Operation.PIN` exists", () => {
-          expect(Operation.PIN).toBeDefined();
-        });
-
-        then("`Operation.PIN` is `pin`", () => {
-          expect(Operation.PIN).toBe("pin");
-        });
-
-        then("`Operation.UNPIN` exists", () => {
-          expect(Operation.UNPIN).toBeDefined();
-        });
-
-        then("`Operation.UNPIN` is `unpin`", () => {
-          expect(Operation.UNPIN).toBe("unpin");
-        });
-
-        then("`Operation.MINIMIZE` exists", () => {
-          expect(Operation.MINIMIZE).toBeDefined();
-        });
-
-        then("`Operation.MINIMIZE` is `minimize`", () => {
-          expect(Operation.MINIMIZE).toBe("minimize");
-        });
-
-        then("`Operation.MAXIMIZE` exists", () => {
-          expect(Operation.MAXIMIZE).toBeDefined();
-        });
-
-        then("`Operation.MAXIMIZE` is `maximize`", () => {
-          expect(Operation.MAXIMIZE).toBe("maximize");
-        });
-
-        then("`Operation.RESTORE` exists", () => {
-          expect(Operation.RESTORE).toBeDefined();
-        });
-
-        then("`Operation.RESTORE` is `restore`", () => {
-          expect(Operation.RESTORE).toBe("restore");
-        });
-
-        then("`Operation.CLOSE` exists", () => {
-          expect(Operation.CLOSE).toBeDefined();
-        });
-
-        then("`Operation.CLOSE` is `close`", () => {
-          expect(Operation.CLOSE).toBe("close");
-        });
       });
     });
   });
@@ -255,11 +274,15 @@ metadata(Metadata.EVENT, () => {
       });
 
       when("Event is an object", () => {
-        then("only `onclose` overrides an event name of the platform", () => {
+        then("`Event` holds `onhide` and `onshow` only", () => {
+          expect(Object.values(Event)).toEqual(["onhide", "onshow"]);
+        });
+
+        then("no event name is taken by the platform", () => {
           const taken = Object.values(Event).filter(
             (name) => name in HTMLElement.prototype
           );
-          expect(taken).toEqual(["onclose"]);
+          expect(taken).toEqual([]);
         });
 
         then("`Event.ON_HIDE` exists", () => {
@@ -276,54 +299,6 @@ metadata(Metadata.EVENT, () => {
 
         then("`Event.ON_SHOW` is `onshow`", () => {
           expect(Event.ON_SHOW).toBe("onshow");
-        });
-
-        then("`Event.ON_PIN` exists", () => {
-          expect(Event.ON_PIN).toBeDefined();
-        });
-
-        then("`Event.ON_PIN` is `onpin`", () => {
-          expect(Event.ON_PIN).toBe("onpin");
-        });
-
-        then("`Event.ON_UNPIN` exists", () => {
-          expect(Event.ON_UNPIN).toBeDefined();
-        });
-
-        then("`Event.ON_UNPIN` is `onunpin`", () => {
-          expect(Event.ON_UNPIN).toBe("onunpin");
-        });
-
-        then("`Event.ON_MINIMIZE` exists", () => {
-          expect(Event.ON_MINIMIZE).toBeDefined();
-        });
-
-        then("`Event.ON_MINIMIZE` is `onminimize`", () => {
-          expect(Event.ON_MINIMIZE).toBe("onminimize");
-        });
-
-        then("`Event.ON_MAXIMIZE` exists", () => {
-          expect(Event.ON_MAXIMIZE).toBeDefined();
-        });
-
-        then("`Event.ON_MAXIMIZE` is `onmaximize`", () => {
-          expect(Event.ON_MAXIMIZE).toBe("onmaximize");
-        });
-
-        then("`Event.ON_RESTORE` exists", () => {
-          expect(Event.ON_RESTORE).toBeDefined();
-        });
-
-        then("`Event.ON_RESTORE` is `onrestore`", () => {
-          expect(Event.ON_RESTORE).toBe("onrestore");
-        });
-
-        then("`Event.ON_CLOSE` exists", () => {
-          expect(Event.ON_CLOSE).toBeDefined();
-        });
-
-        then("`Event.ON_CLOSE` is `onclose`", () => {
-          expect(Event.ON_CLOSE).toBe("onclose");
         });
       });
     });
@@ -343,124 +318,8 @@ metadata(Metadata.GESTURE, () => {
       });
 
       when("Gesture is an object", () => {
-        then("`Gesture.SLOTCHANGE` exists", () => {
-          expect(Gesture.SLOTCHANGE).toBeDefined();
-        });
-
-        then("`Gesture.SLOTCHANGE` is `slotchange`", () => {
-          expect(Gesture.SLOTCHANGE).toBe("slotchange");
-        });
-
-        then("`Gesture.ON_PIN` exists", () => {
-          expect(Gesture.ON_PIN).toBeDefined();
-        });
-
-        then("`Gesture.ON_PIN` is `onpin`", () => {
-          expect(Gesture.ON_PIN).toBe("onpin");
-        });
-
-        then("`Gesture.ON_UNPIN` exists", () => {
-          expect(Gesture.ON_UNPIN).toBeDefined();
-        });
-
-        then("`Gesture.ON_UNPIN` is `onunpin`", () => {
-          expect(Gesture.ON_UNPIN).toBe("onunpin");
-        });
-
-        then("`Gesture.ON_MINIMIZE` exists", () => {
-          expect(Gesture.ON_MINIMIZE).toBeDefined();
-        });
-
-        then("`Gesture.ON_MINIMIZE` is `onminimize`", () => {
-          expect(Gesture.ON_MINIMIZE).toBe("onminimize");
-        });
-
-        then("`Gesture.ON_MAXIMIZE` exists", () => {
-          expect(Gesture.ON_MAXIMIZE).toBeDefined();
-        });
-
-        then("`Gesture.ON_MAXIMIZE` is `onmaximize`", () => {
-          expect(Gesture.ON_MAXIMIZE).toBe("onmaximize");
-        });
-
-        then("`Gesture.ON_RESTORE` exists", () => {
-          expect(Gesture.ON_RESTORE).toBeDefined();
-        });
-
-        then("`Gesture.ON_RESTORE` is `onrestore`", () => {
-          expect(Gesture.ON_RESTORE).toBe("onrestore");
-        });
-
-        then("`Gesture.ON_CLOSE` exists", () => {
-          expect(Gesture.ON_CLOSE).toBeDefined();
-        });
-
-        then("`Gesture.ON_CLOSE` is `onclose`", () => {
-          expect(Gesture.ON_CLOSE).toBe("onclose");
-        });
-      });
-    });
-  });
-});
-
-metadata(Metadata.APPEARANCE, () => {
-  and("Appearance imported", () => {
-    then("Appearance is defined", () => {
-      expect(Appearance).toBeDefined();
-    });
-
-    and("Appearance is defined", () => {
-      then("Appearance is an object", () => {
-        expect(typeof Appearance).toBe("object");
-      });
-
-      when("Appearance is an object", () => {
-        then("`Appearance.FLAT` exists", () => {
-          expect(Appearance.FLAT).toBeDefined();
-        });
-
-        then("`Appearance.FLAT` is `flat`", () => {
-          expect(Appearance.FLAT).toBe("flat");
-        });
-      });
-    });
-  });
-});
-
-metadata(Metadata.ZONE, () => {
-  and("Zone imported", () => {
-    then("Zone is defined", () => {
-      expect(Zone).toBeDefined();
-    });
-
-    and("Zone is defined", () => {
-      then("Zone is an object", () => {
-        expect(typeof Zone).toBe("object");
-      });
-
-      when("Zone is an object", () => {
-        then("`Zone.START` exists", () => {
-          expect(Zone.START).toBeDefined();
-        });
-
-        then("`Zone.START` is `start`", () => {
-          expect(Zone.START).toBe("start");
-        });
-
-        then("`Zone.CENTER` exists", () => {
-          expect(Zone.CENTER).toBeDefined();
-        });
-
-        then("`Zone.CENTER` is `center`", () => {
-          expect(Zone.CENTER).toBe("center");
-        });
-
-        then("`Zone.END` exists", () => {
-          expect(Zone.END).toBeDefined();
-        });
-
-        then("`Zone.END` is `end`", () => {
-          expect(Zone.END).toBe("end");
+        then("`Gesture` holds no gesture", () => {
+          expect(Object.values(Gesture)).toEqual([]);
         });
       });
     });
