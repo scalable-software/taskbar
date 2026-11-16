@@ -191,6 +191,10 @@ composition(Composition.TEMPLATE, () => {
             const classes = controls.filter((control) => control.className);
             expect(classes).toEqual([]);
           });
+
+          then("the taskbar holds no control of the host", () => {
+            expect(taskbar.children.length).toBe(0);
+          });
         });
 
         and(
