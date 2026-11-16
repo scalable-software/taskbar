@@ -45,3 +45,10 @@
 :host([visibility="hidden"]) {
   display: none;
 }
+
+/* =======================
+  State Orientation: Portrait
+======================= */
+:host([orientation="portrait"]) .bar {
+  flex-direction: column;
+}
