@@ -2168,6 +2168,22 @@ gesture(Gesture.SLOTCHANGE, () => {
           then("`pin.appearance` is `Appearance.FLAT`", () => {
             expect(pin.appearance).toBe(Appearance.FLAT);
           });
+          and("a minimize control is placed in the taskbar as well", () => {
+            let control: Minimize;
+            beforeEach(async () => {
+              define(Minimize.Tag, Minimize);
+              await Minimize.Template.load("minimize.template.html");
+              control = taskbar.appendChild(create<Minimize>(Minimize.Tag));
+              await placed();
+            });
+            afterEach(() => {
+              remove(Minimize.Tag);
+            });
+
+            then("`control.appearance` is `Appearance.FLAT`", () => {
+              expect(control.appearance).toBe(Appearance.FLAT);
+            });
+          });
         });
         and("a pin is placed in a taskbar that is not in DOM yet", () => {
           let later: Taskbar;
