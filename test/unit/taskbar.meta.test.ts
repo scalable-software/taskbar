@@ -196,6 +196,14 @@ metadata(Metadata.CONTROL, () => {
         then("`Control.MAXIMIZE` is `maximize`", () => {
           expect(Control.MAXIMIZE).toBe("maximize");
         });
+
+        then("`Control.RESTORE` exists", () => {
+          expect(Control.RESTORE).toBeDefined();
+        });
+
+        then("`Control.RESTORE` is `restore`", () => {
+          expect(Control.RESTORE).toBe("restore");
+        });
       });
     });
   });
