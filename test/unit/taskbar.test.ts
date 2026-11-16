@@ -11,7 +11,8 @@ import {
   Operation,
   Event,
   Gesture,
-  Appearance
+  Appearance,
+  Zone
 } from "@scalable.software/taskbar";
 import { Pin, Status } from "@scalable.software/pin";
 import { Minimize } from "@scalable.software/minimize";
@@ -130,6 +131,16 @@ composition(Composition.TEMPLATE, () => {
             then("`div.bar` contains `slot.controls`", () => {
               const slot = div.querySelector("slot.controls");
               expect(slot).not.toBeNull();
+            });
+
+            then("`div.bar` contains `slot.start`", () => {
+              const slot = div.querySelector("slot.start");
+              expect(slot).not.toBeNull();
+            });
+
+            then("`slot.start` has `name` `Zone.START`", () => {
+              const slot = div.querySelector("slot.start");
+              expect(slot?.getAttribute("name")).toBe(Zone.START);
             });
           });
         });
