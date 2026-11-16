@@ -108,7 +108,10 @@ export class Taskbar extends Component implements Meta {
    * @category Configuration
    * @hidden
    */
-  protected _attributeHandlers = {};
+  protected _attributeHandlers = {
+    [Attributes.VISIBILITY]: (value: Visibility | null) =>
+      (this.visibility = value)
+  };
 
   /**
    * Cache element references to improve performance
