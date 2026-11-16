@@ -308,6 +308,14 @@ metadata(Metadata.EVENT, () => {
         then("`Event.ON_RESTORE` is `onrestore`", () => {
           expect(Event.ON_RESTORE).toBe("onrestore");
         });
+
+        then("`Event.ON_CLOSE` exists", () => {
+          expect(Event.ON_CLOSE).toBeDefined();
+        });
+
+        then("`Event.ON_CLOSE` is `onclose`", () => {
+          expect(Event.ON_CLOSE).toBe("onclose");
+        });
       });
     });
   });
