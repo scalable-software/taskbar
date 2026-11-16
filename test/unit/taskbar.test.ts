@@ -1653,3 +1653,62 @@ gesture(Gesture.ON_PIN, () => {
     });
   });
 });
+
+gesture(Gesture.ON_UNPIN, () => {
+  and("Taskbar is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Taskbar.Tag, Taskbar);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Taskbar.Template.load("taskbar.template.html");
+      });
+      afterEach(() => {
+        remove(Taskbar.Tag);
+      });
+
+      and("a new taskbar is added to DOM", () => {
+        let taskbar: Taskbar;
+        beforeEach(() => {
+          taskbar = add<Taskbar>(Taskbar.Tag);
+        });
+        afterEach(() => {
+          taskbar.remove();
+        });
+
+        and("a pin is placed in the taskbar", () => {
+          let pin: Pin;
+          beforeEach(async () => {
+            define(Pin.Tag, Pin);
+            await Pin.Template.load("pin.template.html");
+            pin = taskbar.appendChild(create<Pin>(Pin.Tag));
+            await placed();
+            pin.pin();
+          });
+          afterEach(() => {
+            remove(Pin.Tag);
+          });
+
+          and("`taskbar.onunpin` is set to a listener", () => {
+            let onunpin: jasmine.Spy;
+            beforeEach(() => {
+              onunpin = jasmine.createSpy("onunpin");
+              taskbar.onunpin = onunpin;
+            });
+
+            when("the pin is unpinned", () => {
+              beforeEach(() => {
+                pin.unpin();
+              });
+
+              then("`onunpin` is called once", () => {
+                expect(onunpin).toHaveBeenCalledTimes(1);
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+});
