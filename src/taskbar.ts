@@ -96,17 +96,7 @@ export class Taskbar extends Component implements Meta {
    * @category State
    * @hidden
    */
-  protected elements: {
-    bar: HTMLDivElement | null;
-    start: HTMLSlotElement | null;
-    center: HTMLSlotElement | null;
-    end: HTMLSlotElement | null;
-  } = {
-    bar: null,
-    start: null,
-    center: null,
-    end: null
-  };
+  protected elements: {} = {};
 
   /**
    * @hidden
@@ -228,12 +218,7 @@ export class Taskbar extends Component implements Meta {
    * @category Configuration
    * @hidden
    */
-  protected _cache = () => {
-    this.elements.bar = this.root.querySelector(".bar");
-    this.elements.start = this.root.querySelector(".start");
-    this.elements.center = this.root.querySelector(".center");
-    this.elements.end = this.root.querySelector(".end");
-  };
+  protected _cache = () => {};
 
   /**
    * Initialize taskbar attributes with default values
