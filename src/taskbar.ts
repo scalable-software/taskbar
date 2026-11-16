@@ -449,6 +449,7 @@ export class Taskbar extends Component implements Meta {
   private _listen = () => {
     this._placed().forEach((control) => {
       control.addEventListener(Gesture.ON_PIN, this._handleControlsOnpin);
+      control.addEventListener(Gesture.ON_UNPIN, this._handleControlsOnunpin);
     });
   };
 
@@ -477,4 +478,13 @@ export class Taskbar extends Component implements Meta {
    */
   private _handleControlsOnpin = (event: globalThis.Event) =>
     this._report(Event.ON_PIN, (event as CustomEvent).detail);
+
+  /**
+   * Handles a pin placed in the taskbar reporting that it was unpinned: reports it,
+   * with the status the pin gave
+   * @category Gesture
+   * @hidden
+   */
+  private _handleControlsOnunpin = (event: globalThis.Event) =>
+    this._report(Event.ON_UNPIN, (event as CustomEvent).detail);
 }
