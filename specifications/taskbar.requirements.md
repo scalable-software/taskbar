@@ -2,23 +2,24 @@
 
 ## FEATURE: Window Controls
 
-**Benefit** — Product teams get one bar that holds the controls of a window — such as pin,
-minimize, maximize, restore and close — and reports what the end user does with them in one
-place. The host application decides which controls the bar holds, and asks the bar when its
-own code needs a control to act, without laying them out and wiring each of them itself.
+**Benefit** — Product teams get one bar that brings the controls of a window — pin, minimize,
+maximize, restore and close — in their usual places, without placing five controls themselves.
+The host application reaches each control through the bar: to hear what the end user does
+with it, and to work with it when its own code needs to.
 
 **Personas**
 
 - **End user** — the person who sees the bar and uses its controls on the window it belongs to.
-- **Host application** — the application, or the panel, that embeds the bar, places its
-  controls in it, and acts on what it reports.
+- **Host application** — the application, or the panel, that embeds the bar, reaches its
+  controls through it, and acts on what they report.
 
 **In scope**
 
-- Holding the controls the host application places in the bar, each at the start, in the
-  centre or at the end of the bar, in the order they were placed.
-- Reporting every pin, unpin and request of a control as an event of the bar itself.
-- Passing a request of the host application on to the control that carries it out.
+- Bringing the five controls: the pin at the start of the bar, and minimize, maximize,
+  restore and close at its end.
+- Showing content the host application places in the bar, such as a title, in its centre.
+- Letting the host application reach each control through the bar: to hear what it reports,
+  to make it act, to read its state, and to hide it while it does not apply.
 - Showing the controls as one surface, as high as the controls, without their own borders
   and shadows and without space between them.
 - Showing or hiding the bar depending on context.
@@ -28,16 +29,18 @@ own code needs a control to act, without laying them out and wiring each of them
 **Out of scope**
 
 - Actually moving, resizing, hiding or removing the window — the host application does this
-  in response to the bar's events. A panel that embeds the bar removes itself when closing is
-  requested; the bar never removes anything.
+  in response to the events of the controls. A panel that embeds the bar removes itself when
+  closing is requested; the bar never removes anything.
+- Reporting what a control reports as an event of the bar itself — the host application
+  listens to each control, through the bar.
 - Keeping the condition of the window, such as minimized, maximized or pinned; whether it
   is pinned is held by the pin, and everything else by the host application.
-- Deciding whether a pinned window can be moved; the bar only reports the pin.
-- Providing the controls — the host application places the ones its window offers.
-- Showing or hiding a single control — the host application does this on the control it
-  placed.
-- Reporting what any other component placed in the bar does — the host application listens
-  to that component itself.
+- Deciding which controls apply to the window as it is now — the host application hides and
+  shows each control through the bar.
+- Deciding whether a pinned window can be moved; the bar only brings the pin.
+- Other controls, or another order — the bar brings these five, in these places.
+- Listening to the content the host application places in the centre, or changing it — the
+  host application does this itself.
 - Announcing the bar as a group to assistive technology; each control announces itself.
 - Application-level theme switching; the bar follows the device colour scheme only.
 
@@ -48,21 +51,11 @@ own code needs a control to act, without laying them out and wiring each of them
 As an **end user**, when I work in a window, I want its controls together in one bar, so that
 I always find them in the same place.
 
-As a **host application**, I want to decide which controls the bar holds, in which order, and
-whether each sits at the start, in the centre or at the end of the bar, so that the bar shows
-only the controls my window offers, where the end user expects them.
+### STORY: Built-in Controls
 
-### STORY: One Place to Listen
-
-As a **host application**, I want to be told by the bar each time the end user pins, unpins,
-or asks to minimize, maximize, restore or close, so that I listen in one place instead of to
-each control.
-
-### STORY: One Place to Ask
-
-As a **host application**, when my own code needs a control to act, I want to ask the bar to
-pin, unpin, minimize, maximize, restore or close, so that I work with the bar and not with
-each control inside it.
+As a **host application**, when I give a window its bar, I want the bar to bring the window's
+controls itself and to let me reach each of them through it, so that I place one bar and hold
+nothing else.
 
 ### STORY: Flat Controls
 
