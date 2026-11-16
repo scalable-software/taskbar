@@ -1877,6 +1877,51 @@ events(Event.ON_RESTORE, () => {
         then("`taskbar.onrestore` setter exists", () => {
           expect(hasSetter(taskbar, Event.ON_RESTORE)).toBeTrue();
         });
+
+        and("`taskbar.onrestore` setter exists", () => {
+          and("a restore control is placed in the taskbar", () => {
+            let control: Restore;
+            beforeEach(async () => {
+              define(Restore.Tag, Restore);
+              await Restore.Template.load("restore.template.html");
+              control = taskbar.appendChild(create<Restore>(Restore.Tag));
+              await placed();
+            });
+            afterEach(() => {
+              remove(Restore.Tag);
+            });
+
+            and("`taskbar.onrestore` is set to a listener", () => {
+              let first: jasmine.Spy;
+              beforeEach(() => {
+                first = jasmine.createSpy("first");
+                taskbar.onrestore = first;
+              });
+
+              and("`taskbar.onrestore` is set to a new listener", () => {
+                let second: jasmine.Spy;
+                beforeEach(() => {
+                  second = jasmine.createSpy("second");
+                  taskbar.onrestore = second;
+                });
+
+                when("the restore control reports", () => {
+                  beforeEach(() => {
+                    control.restore();
+                  });
+
+                  then("old `taskbar.onrestore` is not called", () => {
+                    expect(first).not.toHaveBeenCalled();
+                  });
+
+                  then("new `taskbar.onrestore` is called", () => {
+                    expect(second).toHaveBeenCalledTimes(1);
+                  });
+                });
+              });
+            });
+          });
+        });
       });
     });
   });
