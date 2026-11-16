@@ -43,7 +43,6 @@
   "devDependencies": {
     "@scalable.software/close": "^0.1.1",
     "@scalable.software/maximize": "^0.1.1",
-    "@scalable.software/minimize": "^0.1.1",
     "@scalable.software/restore": "^0.1.1",
     "@types/jasmine": "^5.1.4",
     "@web/dev-server": "^0.4.6",
@@ -61,6 +60,7 @@
   },
   "dependencies": {
     "@scalable.software/component": "^0.7.0",
+    "@scalable.software/minimize": "^0.1.1",
     "@scalable.software/pin": "^0.3.0"
   }
 }
