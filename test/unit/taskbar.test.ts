@@ -648,6 +648,10 @@ operation(Operation.SHOW, () => {
               then("`taskbar.visibility` is `Visibility.VISIBLE`", () => {
                 expect(taskbar.visibility).toBe(Visibility.VISIBLE);
               });
+
+              then("`taskbar.show` returns nothing", () => {
+                expect(result).toBeUndefined();
+              });
             });
           });
         });
