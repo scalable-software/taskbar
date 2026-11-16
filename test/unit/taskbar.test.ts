@@ -333,6 +333,14 @@ composition(Composition.ELEMENT, () => {
             expect(taskbar["elements"].start.pin).toBe(part);
           }
         );
+
+        then(
+          "`taskbar.elements.end.minimize` is a cached reference to the `minimize-button`",
+          () => {
+            const part = taskbar.root.querySelector(Minimize.Tag) as Minimize;
+            expect(taskbar["elements"].end.minimize).toBe(part);
+          }
+        );
       });
     });
   });
