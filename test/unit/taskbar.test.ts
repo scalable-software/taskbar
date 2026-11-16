@@ -303,6 +303,41 @@ composition(Composition.CSS, () => {
   });
 });
 
+composition(Composition.ELEMENT, () => {
+  and("Taskbar is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Taskbar.Tag, Taskbar);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Taskbar.Template.load("taskbar.template.html");
+      });
+      afterEach(() => {
+        remove(Taskbar.Tag);
+      });
+
+      and("a new taskbar is added to DOM", () => {
+        let taskbar: Taskbar;
+        beforeEach(() => {
+          taskbar = add<Taskbar>(Taskbar.Tag);
+        });
+        afterEach(() => {
+          taskbar.remove();
+        });
+
+        then(
+          "`taskbar.elements.start.pin` is a cached reference to the `pin-button`",
+          () => {
+            const part = taskbar.root.querySelector(Pin.Tag) as Pin;
+            expect(taskbar["elements"].start.pin).toBe(part);
+          }
+        );
+      });
+    });
+  });
+});
+
 // State
 state(State.VISIBILITY, () => {
   given("Taskbar is defined in custom element registry", () => {
