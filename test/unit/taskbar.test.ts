@@ -136,6 +136,21 @@ composition(Composition.TEMPLATE, () => {
             const div = taskbar.root.querySelector("div.bar");
             expect(div).not.toBeNull();
           });
+
+          when("`taskbar.root` contains `div.bar`", () => {
+            let div: HTMLDivElement;
+            beforeEach(() => {
+              div = taskbar.root.querySelector("div.bar") as HTMLDivElement;
+            });
+
+            then(
+              "`div.bar` contains `div.start`, `div.center` and `div.end`, in that order",
+              () => {
+                const zones = [...div.children].map((zone) => zone.className);
+                expect(zones).toEqual(["start", "center", "end"]);
+              }
+            );
+          });
         });
 
         and(
