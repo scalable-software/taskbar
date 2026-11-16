@@ -335,9 +335,19 @@ metadata(Metadata.GESTURE, () => {
       expect(Gesture).toBeDefined();
     });
 
-    when("Gesture is defined", () => {
+    and("Gesture is defined", () => {
       then("Gesture is an object", () => {
         expect(typeof Gesture).toBe("object");
+      });
+
+      when("Gesture is an object", () => {
+        then("`Gesture.SLOTCHANGE` exists", () => {
+          expect(Gesture.SLOTCHANGE).toBeDefined();
+        });
+
+        then("`Gesture.SLOTCHANGE` is `slotchange`", () => {
+          expect(Gesture.SLOTCHANGE).toBe("slotchange");
+        });
       });
     });
   });
