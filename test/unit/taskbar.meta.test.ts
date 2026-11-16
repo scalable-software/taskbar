@@ -348,6 +348,14 @@ metadata(Metadata.GESTURE, () => {
         then("`Gesture.SLOTCHANGE` is `slotchange`", () => {
           expect(Gesture.SLOTCHANGE).toBe("slotchange");
         });
+
+        then("`Gesture.ON_PIN` exists", () => {
+          expect(Gesture.ON_PIN).toBeDefined();
+        });
+
+        then("`Gesture.ON_PIN` is `onpin`", () => {
+          expect(Gesture.ON_PIN).toBe("onpin");
+        });
       });
     });
   });
