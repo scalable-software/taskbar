@@ -172,6 +172,14 @@ metadata(Metadata.OPERATION, () => {
         then("`Operation.HIDE` is `hide`", () => {
           expect(Operation.HIDE).toBe("hide");
         });
+
+        then("`Operation.SHOW` exists", () => {
+          expect(Operation.SHOW).toBeDefined();
+        });
+
+        then("`Operation.SHOW` is `show`", () => {
+          expect(Operation.SHOW).toBe("show");
+        });
       });
     });
   });
