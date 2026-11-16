@@ -79,7 +79,8 @@ export type Orientation = (typeof Orientation)[keyof typeof Orientation];
  * @enum
  */
 export const Control = {
-  PIN: "pin"
+  PIN: "pin",
+  MINIMIZE: "minimize"
 } as const;
 /**
  * The controls of the taskbar

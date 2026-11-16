@@ -197,6 +197,16 @@ export class Taskbar extends Component implements Meta {
   }
 
   /**
+   * The minimize control of the taskbar: `null` until the taskbar is connected. A host
+   * works with it through its own states, operations and events.
+   * The taskbar dispatches no event for it: a host listens on the control itself.
+   * @category Controls
+   */
+  public get minimize(): Minimize | null {
+    return this.elements.end.minimize;
+  }
+
+  /**
    * Triggered via `.hide()`
    * @event
    * @category Events
