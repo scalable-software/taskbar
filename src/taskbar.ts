@@ -450,6 +450,10 @@ export class Taskbar extends Component implements Meta {
     this._placed().forEach((control) => {
       control.addEventListener(Gesture.ON_PIN, this._handleControlsOnpin);
       control.addEventListener(Gesture.ON_UNPIN, this._handleControlsOnunpin);
+      control.addEventListener(
+        Gesture.ON_MINIMIZE,
+        this._handleControlsOnminimize
+      );
     });
   };
 
@@ -487,4 +491,12 @@ export class Taskbar extends Component implements Meta {
    */
   private _handleControlsOnunpin = (event: globalThis.Event) =>
     this._report(Event.ON_UNPIN, (event as CustomEvent).detail);
+
+  /**
+   * Handles a control placed in the taskbar reporting that minimizing is requested:
+   * reports it
+   * @category Gesture
+   * @hidden
+   */
+  private _handleControlsOnminimize = () => this._report(Event.ON_MINIMIZE);
 }
