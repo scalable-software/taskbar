@@ -874,6 +874,14 @@ control(Control.MAXIMIZE, () => {
           expect(taskbar.maximize).toBeDefined();
         });
 
+        then(
+          "`taskbar.maximize` is the `maximize-button` of the taskbar",
+          () => {
+            const part = taskbar.root.querySelector(Maximize.Tag) as Maximize;
+            expect(taskbar.maximize).toBe(part);
+          }
+        );
+
         and("a taskbar that is not in DOM", () => {
           let detached: Taskbar;
           beforeEach(() => {
