@@ -874,6 +874,18 @@ control(Control.MAXIMIZE, () => {
           expect(taskbar.maximize).toBeDefined();
         });
 
+        then("`taskbar.maximize` has no setter", () => {
+          expect(hasSetter(taskbar, Control.MAXIMIZE)).toBeFalse();
+        });
+
+        then("assigning `taskbar.maximize` does not compile", () => {
+          const assign = () => {
+            // @ts-expect-error: `maximize` is read-only
+            taskbar.maximize = null;
+          };
+          expect(assign).toEqual(jasmine.any(Function));
+        });
+
         then(
           "`taskbar.maximize` is the `maximize-button` of the taskbar",
           () => {
