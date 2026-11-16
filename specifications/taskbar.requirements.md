@@ -2,19 +2,20 @@
 
 ## FEATURE: Window Controls
 
-**Benefit** — Product teams get one bar that holds the controls of a window — pin, minimize,
-maximize, restore and close — and reports what the end user does with them in one place,
-without placing and wiring five controls themselves.
+**Benefit** — Product teams get one bar that holds the controls of a window — such as pin,
+minimize, maximize, restore and close — and reports what the end user does with them in one
+place. The host application decides which controls the bar holds, without laying them out
+and wiring each of them itself.
 
 **Personas**
 
 - **End user** — the person who sees the bar and uses its controls on the window it belongs to.
-- **Host application** — the application, or the panel, that embeds the bar and acts on what
-  it reports.
+- **Host application** — the application, or the panel, that embeds the bar, places its
+  controls in it, and acts on what it reports.
 
 **In scope**
 
-- Holding the five controls in one bar, in a fixed order.
+- Holding the controls the host application places in the bar, in the order they were placed.
 - Reporting every pin, unpin and request of a control as an event of the bar itself.
 - Showing or hiding the bar depending on context.
 - Laying the controls out in landscape or in portrait.
@@ -27,19 +28,21 @@ without placing and wiring five controls themselves.
   requested; the bar never removes anything.
 - Keeping the condition of the window, such as minimized or maximized.
 - Deciding whether a pinned window can be moved; the bar only reports the pin.
-- A title, a menu or any content other than the five controls.
+- Providing the controls — the host application places the ones its window offers.
+- Showing or hiding a single control — the host application does this on the control it
+  placed.
+- Announcing the bar as a group to assistive technology; each control announces itself.
 - Application-level theme switching; the bar follows the device colour scheme only.
 
 ---
 
-### STORY: Window Controls in One Place
+### STORY: Controls in One Bar
 
-As an **end user**, when I work in a window, I want its pin, minimize, maximize, restore and
-close controls together in one bar, so that I always find them in the same place.
+As an **end user**, when I work in a window, I want its controls together in one bar, so that
+I always find them in the same place.
 
-As a **host application**, I want to be told by the bar each time the end user pins, unpins,
-or asks to minimize, maximize, restore or close, so that I listen in one place instead of to
-five controls.
+As a **host application**, I want to decide which controls the bar holds and in which order,
+so that the bar shows only the controls my window offers.
 
 ### STORY: Visibility Control
 
