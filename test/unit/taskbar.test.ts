@@ -243,6 +243,20 @@ composition(Composition.ELEMENT, () => {
             }
           );
         });
+
+        then("`taskbar.elements.bar` is defined", () => {
+          expect(taskbar["elements"].bar).toBeDefined();
+        });
+
+        when("`taskbar.elements.bar` is defined", () => {
+          then(
+            "`taskbar.elements.bar` is a cached reference to the `div` with class `bar`",
+            () => {
+              const bar = taskbar.root.querySelector(".bar") as HTMLDivElement;
+              expect(taskbar["elements"].bar).toBe(bar);
+            }
+          );
+        });
       });
     });
   });
