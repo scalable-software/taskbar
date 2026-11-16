@@ -6,8 +6,7 @@
 import { Component, Template } from "@scalable.software/component";
 import { type Configuration } from "@scalable.software/component";
 
-// The controls the taskbar holds in its template: the host defines them, and the
-// taskbar finds each by the tag its class gives
+// Controls
 import { Pin } from "@scalable.software/pin";
 import { Minimize } from "@scalable.software/minimize";
 import { Maximize } from "@scalable.software/maximize";
@@ -187,9 +186,7 @@ export class Taskbar extends Component implements Meta {
   }
 
   /**
-   * The pin of the taskbar: `null` until the taskbar is connected. A host
-   * works with it through its own states, operations and events.
-   * The taskbar dispatches no event for it: a host listens on the control itself.
+   * The pin of the taskbar: `null` until the taskbar is connected
    * @category Controls
    */
   public get pin(): Pin | null {
@@ -197,9 +194,7 @@ export class Taskbar extends Component implements Meta {
   }
 
   /**
-   * The minimize control of the taskbar: `null` until the taskbar is connected. A host
-   * works with it through its own states, operations and events.
-   * The taskbar dispatches no event for it: a host listens on the control itself.
+   * The minimize control of the taskbar: `null` until the taskbar is connected
    * @category Controls
    */
   public get minimize(): Minimize | null {
@@ -207,9 +202,7 @@ export class Taskbar extends Component implements Meta {
   }
 
   /**
-   * The maximize control of the taskbar: `null` until the taskbar is connected. A host
-   * works with it through its own states, operations and events.
-   * The taskbar dispatches no event for it: a host listens on the control itself.
+   * The maximize control of the taskbar: `null` until the taskbar is connected
    * @category Controls
    */
   public get maximize(): Maximize | null {
@@ -217,9 +210,7 @@ export class Taskbar extends Component implements Meta {
   }
 
   /**
-   * The restore control of the taskbar: `null` until the taskbar is connected. A host
-   * works with it through its own states, operations and events.
-   * The taskbar dispatches no event for it: a host listens on the control itself.
+   * The restore control of the taskbar: `null` until the taskbar is connected
    * @category Controls
    */
   public get restore(): Restore | null {
@@ -227,9 +218,7 @@ export class Taskbar extends Component implements Meta {
   }
 
   /**
-   * The close control of the taskbar: `null` until the taskbar is connected. A host
-   * works with it through its own states, operations and events.
-   * The taskbar dispatches no event for it: a host listens on the control itself.
+   * The close control of the taskbar: `null` until the taskbar is connected
    * @category Controls
    */
   public get close(): Close | null {

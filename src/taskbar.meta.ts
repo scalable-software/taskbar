@@ -73,8 +73,7 @@ export const Orientation = {
 export type Orientation = (typeof Orientation)[keyof typeof Orientation];
 
 /**
- * The controls of the taskbar: each is a read-only member that returns the control,
- * with the states, operations and events of that control's own specification
+ * The controls of the taskbar
  * @category Metadata
  * @enum
  */
