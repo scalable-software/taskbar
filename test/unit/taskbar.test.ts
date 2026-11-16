@@ -1785,6 +1785,10 @@ gesture(Gesture.ON_MINIMIZE, () => {
               then("`onminimize` is called once", () => {
                 expect(onminimize).toHaveBeenCalledTimes(1);
               });
+
+              then("`onminimize` is called with no detail", () => {
+                expect(onminimize.calls.mostRecent().args[0].detail).toBeNull();
+              });
             });
           });
         });
