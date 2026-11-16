@@ -130,6 +130,20 @@ export const Gesture = {
 export type Gesture = (typeof Gesture)[keyof typeof Gesture];
 
 /**
+ * The appearance the taskbar gives each control placed in it that has one
+ * @category Metadata
+ * @enum
+ */
+export const Appearance = {
+  FLAT: "flat"
+} as const;
+/**
+ * The appearance the taskbar gives each control placed in it that has one
+ * @category Metadata
+ */
+export type Appearance = (typeof Appearance)[keyof typeof Appearance];
+
+/**
  * Every state the component must have
  * @category Metadata
  */

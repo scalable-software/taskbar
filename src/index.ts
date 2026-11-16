@@ -7,7 +7,8 @@ export {
   Orientation,
   Operation,
   Event,
-  Gesture
+  Gesture,
+  Appearance
 } from "./taskbar.meta.js";
 
 export { Validate } from "./taskbar.validation.js";
