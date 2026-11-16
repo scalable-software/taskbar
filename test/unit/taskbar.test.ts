@@ -845,6 +845,18 @@ events(Event.ON_SHOW, () => {
                   then("`taskbar.onshow` is called", () => {
                     expect(onshow).toHaveBeenCalled();
                   });
+
+                  then(
+                    "`taskbar.onshow` is called with `{ detail: { visibility: Visibility.VISIBLE } }`",
+                    () => {
+                      const message = {
+                        detail: { visibility: Visibility.VISIBLE }
+                      };
+                      expect(onshow).toHaveBeenCalledWith(
+                        jasmine.objectContaining(message)
+                      );
+                    }
+                  );
                 }
               );
             });
