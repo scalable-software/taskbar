@@ -18,6 +18,7 @@ own code needs a control to act, without laying them out and wiring each of them
 - Holding the controls the host application places in the bar, in the order they were placed.
 - Reporting every pin, unpin and request of a control as an event of the bar itself.
 - Passing a request of the host application on to the control that carries it out.
+- Showing the controls as one surface, without their own borders and shadows.
 - Showing or hiding the bar depending on context.
 - Laying the controls out in landscape or in portrait.
 - Consistency with the device colour theme.
@@ -59,6 +60,11 @@ each control.
 As a **host application**, when my own code needs a control to act, I want to ask the bar to
 pin, unpin, minimize, maximize, restore or close, so that I work with the bar and not with
 each control inside it.
+
+### STORY: Flat Controls
+
+As an **end user**, I want the controls in the bar to appear without their own borders and
+shadows, so that the bar reads as one surface.
 
 ### STORY: Visibility Control
 
