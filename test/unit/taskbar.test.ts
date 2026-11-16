@@ -291,15 +291,32 @@ state(State.VISIBILITY, () => {
           });
 
           when("`visibility` attribute is set to `invalid`", () => {
+            let error: Error;
             beforeEach(async () => {
-              await jasmine.spyOnGlobalErrorsAsync(async () => {
+              await jasmine.spyOnGlobalErrorsAsync(async (reported) => {
                 taskbar.setAttribute(Attributes.VISIBILITY, "invalid");
+                error = reported.calls.mostRecent()?.args[0];
               });
             });
 
             then("`visibility` attribute does not exist", () => {
               expect(taskbar.hasAttribute(Attributes.VISIBILITY)).toBeFalse();
             });
+
+            then("`taskbar.visibility` is `Visibility.VISIBLE`", () => {
+              expect(taskbar.visibility).toBe(Visibility.VISIBLE);
+            });
+
+            then("an error is reported", () => {
+              expect(error).toBeDefined();
+            });
+
+            then(
+              "error message contains 'Invalid visibility value: invalid'",
+              () => {
+                expect(error.message).toBe("Invalid visibility value: invalid");
+              }
+            );
           });
 
           and("`taskbar.visibility` is set to `Visibility.HIDDEN`", () => {
