@@ -144,6 +144,13 @@ export class Taskbar extends Component implements Meta {
   private _onclose: EventListener | null = null;
 
   /**
+   * The controls the taskbar listens to
+   * @category Gesture
+   * @hidden
+   */
+  private _controls: Control[] = [];
+
+  /**
    * Cache element references to improve performance
    * @category State
    * @hidden
@@ -447,7 +454,9 @@ export class Taskbar extends Component implements Meta {
    * @hidden
    */
   private _listen = () => {
-    this._placed().forEach((control) => {
+    this._ignore();
+    this._controls = this._placed();
+    this._controls.forEach((control) => {
       control.addEventListener(Gesture.ON_PIN, this._handleControlsOnpin);
       control.addEventListener(Gesture.ON_UNPIN, this._handleControlsOnunpin);
       control.addEventListener(
@@ -464,6 +473,38 @@ export class Taskbar extends Component implements Meta {
       );
       control.addEventListener(Gesture.ON_CLOSE, this._handleControlsOnclose);
     });
+  };
+
+  /**
+   * Stop listening to every control the taskbar listens to: reached only through a gesture
+   * @category Operations
+   * @hidden
+   */
+  private _ignore = () => {
+    this._controls.forEach((control) => {
+      control.removeEventListener(Gesture.ON_PIN, this._handleControlsOnpin);
+      control.removeEventListener(
+        Gesture.ON_UNPIN,
+        this._handleControlsOnunpin
+      );
+      control.removeEventListener(
+        Gesture.ON_MINIMIZE,
+        this._handleControlsOnminimize
+      );
+      control.removeEventListener(
+        Gesture.ON_MAXIMIZE,
+        this._handleControlsOnmaximize
+      );
+      control.removeEventListener(
+        Gesture.ON_RESTORE,
+        this._handleControlsOnrestore
+      );
+      control.removeEventListener(
+        Gesture.ON_CLOSE,
+        this._handleControlsOnclose
+      );
+    });
+    this._controls = [];
   };
 
   /**
