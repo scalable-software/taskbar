@@ -11,6 +11,9 @@ import { Tag, CSS, Attributes, Visibility } from "./taskbar.meta.js";
 
 import { type Meta } from "./taskbar.meta.js";
 
+// Validation
+import { Validate } from "./taskbar.validation.js";
+
 /**
  * Optional Configuration: required for taskbars with custom layout and style
  * @category Configuration
@@ -83,6 +86,9 @@ export class Taskbar extends Component implements Meta {
     return this._visibility;
   }
   public set visibility(visibility: Visibility) {
+    // Validate
+    visibility = Validate.visibility(visibility);
+
     // Mutate
     this._visibility = visibility;
   }
