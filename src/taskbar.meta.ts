@@ -81,7 +81,8 @@ export type Orientation = (typeof Orientation)[keyof typeof Orientation];
 export const Control = {
   PIN: "pin",
   MINIMIZE: "minimize",
-  MAXIMIZE: "maximize"
+  MAXIMIZE: "maximize",
+  RESTORE: "restore"
 } as const;
 /**
  * The controls of the taskbar
