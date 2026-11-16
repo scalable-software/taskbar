@@ -234,6 +234,12 @@ export class Taskbar extends Component implements Meta {
   public restore = () => {};
 
   /**
+   * Ask each control placed in the taskbar that offers `close` to request closing: the taskbar removes nothing
+   * @category Operations
+   */
+  public close = () => {};
+
+  /**
    * List operations to perform for selected attributes being observed in the DOM.
    * @category Configuration
    * @hidden
