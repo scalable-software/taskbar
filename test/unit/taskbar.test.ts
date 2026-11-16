@@ -2030,6 +2030,41 @@ events(Event.ON_CLOSE, () => {
                   });
                 });
               });
+
+              when("`taskbar.onclose` is set to `invalid`", () => {
+                let error: Error;
+                beforeEach(() => {
+                  try {
+                    // @ts-expect-error
+                    taskbar.onclose = "invalid";
+                  } catch (err) {
+                    error = err as Error;
+                  }
+                });
+
+                then("an error is thrown", () => {
+                  expect(error).toBeDefined();
+                });
+
+                then(
+                  "error message contains 'Invalid onclose value: invalid'",
+                  () => {
+                    expect(error.message).toBe(
+                      "Invalid onclose value: invalid"
+                    );
+                  }
+                );
+
+                when("the close control reports", () => {
+                  beforeEach(() => {
+                    control.close();
+                  });
+
+                  then("`taskbar.onclose` listener is still called", () => {
+                    expect(first).toHaveBeenCalledTimes(1);
+                  });
+                });
+              });
             });
           });
         });
