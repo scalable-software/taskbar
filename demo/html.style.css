@@ -51,6 +51,12 @@ body {
   width: 50%;
 }
 
+/* In portrait it is as high as half the window instead */
+.stage .wide[orientation="portrait"] {
+  width: auto;
+  height: 50vh;
+}
+
 /* The controls: one column for each group, stacked on a narrow window */
 .controls {
   display: grid;
