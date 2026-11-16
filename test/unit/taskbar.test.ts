@@ -780,6 +780,35 @@ control(Control.PIN, () => {
             expect(detached.pin).toBeNull();
           });
         });
+
+        and("`taskbar.pin.onpin` is set to a listener", () => {
+          let onpin: jasmine.Spy;
+          let onevent: jasmine.Spy;
+          beforeEach(() => {
+            onpin = jasmine.createSpy("onpin");
+            onevent = jasmine.createSpy("onevent");
+            (taskbar.pin as Pin).onpin = onpin;
+            taskbar.onevent = onevent;
+          });
+
+          when("invoking `taskbar.pin.pin`", () => {
+            beforeEach(() => {
+              taskbar.pin?.pin();
+            });
+
+            then("the pin is pinned", () => {
+              expect(taskbar.pin?.status).toBe(Status.PINNED);
+            });
+
+            then("`taskbar.pin.onpin` is called once", () => {
+              expect(onpin).toHaveBeenCalledTimes(1);
+            });
+
+            then("the taskbar dispatches no event", () => {
+              expect(onevent).not.toHaveBeenCalled();
+            });
+          });
+        });
       });
     });
   });
