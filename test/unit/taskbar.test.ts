@@ -1235,6 +1235,27 @@ control(Control.CLOSE, () => {
             });
           });
         });
+
+        when("invoking `taskbar.close.hide`", () => {
+          let onhide: jasmine.Spy;
+          beforeEach(() => {
+            onhide = jasmine.createSpy("onhide");
+            taskbar.onhide = onhide;
+            taskbar.close?.hide();
+          });
+
+          then("the close control is hidden", () => {
+            expect(taskbar.close?.visibility).toBe(Visibility.HIDDEN);
+          });
+
+          then("the taskbar is still visible", () => {
+            expect(taskbar.visibility).toBe(Visibility.VISIBLE);
+          });
+
+          then("`taskbar.onhide` is not called", () => {
+            expect(onhide).not.toHaveBeenCalled();
+          });
+        });
       });
     });
   });
