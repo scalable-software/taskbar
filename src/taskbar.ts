@@ -92,48 +92,6 @@ export class Taskbar extends Component implements Meta {
   private _onshow: EventListener | null = null;
 
   /**
-   * onpin triggered when a pin placed in the taskbar is pinned
-   * @category Events
-   * @hidden
-   */
-  private _onpin: EventListener | null = null;
-
-  /**
-   * onunpin triggered when a pin placed in the taskbar is unpinned
-   * @category Events
-   * @hidden
-   */
-  private _onunpin: EventListener | null = null;
-
-  /**
-   * onminimize triggered when a control placed in the taskbar requests minimizing
-   * @category Events
-   * @hidden
-   */
-  private _onminimize: EventListener | null = null;
-
-  /**
-   * onmaximize triggered when a control placed in the taskbar requests maximizing
-   * @category Events
-   * @hidden
-   */
-  private _onmaximize: EventListener | null = null;
-
-  /**
-   * onrestore triggered when a control placed in the taskbar requests restoring
-   * @category Events
-   * @hidden
-   */
-  private _onrestore: EventListener | null = null;
-
-  /**
-   * onclose triggered when a control placed in the taskbar requests closing
-   * @category Events
-   * @hidden
-   */
-  private _onclose: EventListener | null = null;
-
-  /**
    * Cache element references to improve performance
    * @category State
    * @hidden
@@ -235,72 +193,6 @@ export class Taskbar extends Component implements Meta {
    */
   public set onshow(handler: EventListener | null) {
     this._onshow = this._subscribe(Event.ON_SHOW, this._onshow, handler);
-  }
-
-  /**
-   * Triggered when a pin placed in the taskbar is pinned
-   * @event
-   * @category Events
-   */
-  public set onpin(handler: EventListener | null) {
-    this._onpin = this._subscribe(Event.ON_PIN, this._onpin, handler);
-  }
-
-  /**
-   * Triggered when a pin placed in the taskbar is unpinned
-   * @event
-   * @category Events
-   */
-  public set onunpin(handler: EventListener | null) {
-    this._onunpin = this._subscribe(Event.ON_UNPIN, this._onunpin, handler);
-  }
-
-  /**
-   * Triggered when a control placed in the taskbar requests minimizing
-   * @event
-   * @category Events
-   */
-  public set onminimize(handler: EventListener | null) {
-    this._onminimize = this._subscribe(
-      Event.ON_MINIMIZE,
-      this._onminimize,
-      handler
-    );
-  }
-
-  /**
-   * Triggered when a control placed in the taskbar requests maximizing
-   * @event
-   * @category Events
-   */
-  public set onmaximize(handler: EventListener | null) {
-    this._onmaximize = this._subscribe(
-      Event.ON_MAXIMIZE,
-      this._onmaximize,
-      handler
-    );
-  }
-
-  /**
-   * Triggered when a control placed in the taskbar requests restoring
-   * @event
-   * @category Events
-   */
-  public set onrestore(handler: EventListener | null) {
-    this._onrestore = this._subscribe(
-      Event.ON_RESTORE,
-      this._onrestore,
-      handler
-    );
-  }
-
-  /**
-   * Triggered when a control placed in the taskbar requests closing
-   * @event
-   * @category Events
-   */
-  public set onclose(handler: EventListener | null) {
-    this._onclose = this._subscribe(Event.ON_CLOSE, this._onclose, handler);
   }
 
   /**
