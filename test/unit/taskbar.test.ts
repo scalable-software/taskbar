@@ -95,6 +95,13 @@ composition(Composition.TEMPLATE, () => {
         then("taskbar.root contents contains template contents", () => {
           expect(taskbar.root.innerHTML).toContain(template.innerHTML);
         });
+
+        and("`taskbar.root` contents contains template contents", () => {
+          then("`taskbar.root` contains `div.bar`", () => {
+            const div = taskbar.root.querySelector("div.bar");
+            expect(div).not.toBeNull();
+          });
+        });
       });
     });
   });
