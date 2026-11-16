@@ -15,7 +15,8 @@ import {
   Orientation,
   Event,
   Operation,
-  Gesture
+  Gesture,
+  Appearance
 } from "./taskbar.meta.js";
 
 import { type Meta } from "./taskbar.meta.js";
@@ -414,6 +415,10 @@ export class Taskbar extends Component implements Meta {
       Gesture.SLOTCHANGE,
       this._handleControlsSlotchangeListen
     );
+    this.elements.controls?.addEventListener(
+      Gesture.SLOTCHANGE,
+      this._handleControlsSlotchangeFlatten
+    );
     this._listen();
   };
 
@@ -426,6 +431,10 @@ export class Taskbar extends Component implements Meta {
     this.elements.controls?.removeEventListener(
       Gesture.SLOTCHANGE,
       this._handleControlsSlotchangeListen
+    );
+    this.elements.controls?.removeEventListener(
+      Gesture.SLOTCHANGE,
+      this._handleControlsSlotchangeFlatten
     );
     this._ignore();
   };
@@ -510,6 +519,20 @@ export class Taskbar extends Component implements Meta {
   };
 
   /**
+   * Make every control placed in the taskbar that has an appearance flat: reached only
+   * through a gesture
+   * @category Operations
+   * @hidden
+   */
+  private _flatten = () => {
+    this._placed().forEach(
+      (control) =>
+        control.appearance !== undefined &&
+        (control.appearance = Appearance.FLAT)
+    );
+  };
+
+  /**
    * Report what a control placed in the taskbar reported, as the taskbar's own event:
    * reached only through a gesture
    * @category Operations
@@ -525,6 +548,13 @@ export class Taskbar extends Component implements Meta {
    * @hidden
    */
   private _handleControlsSlotchangeListen = () => this._listen();
+
+  /**
+   * Handles a control being placed in the taskbar or taken out: makes the controls flat
+   * @category Gesture
+   * @hidden
+   */
+  private _handleControlsSlotchangeFlatten = () => this._flatten();
 
   /**
    * Handles a pin placed in the taskbar reporting that it was pinned: reports it,
