@@ -753,6 +753,11 @@ control(Control.PIN, () => {
           expect(taskbar.pin).toBeDefined();
         });
 
+        then("`taskbar.pin` is the `pin-button` of the taskbar", () => {
+          const part = taskbar.root.querySelector(Pin.Tag) as Pin;
+          expect(taskbar.pin).toBe(part);
+        });
+
         and("a taskbar that is not in DOM", () => {
           let detached: Taskbar;
           beforeEach(() => {
