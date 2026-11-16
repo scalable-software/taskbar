@@ -73,6 +73,21 @@ export const Orientation = {
 export type Orientation = (typeof Orientation)[keyof typeof Orientation];
 
 /**
+ * The controls of the taskbar: each is a read-only member that returns the control,
+ * with the states, operations and events of that control's own specification
+ * @category Metadata
+ * @enum
+ */
+export const Control = {
+  PIN: "pin"
+} as const;
+/**
+ * The controls of the taskbar
+ * @category Metadata
+ */
+export type Control = (typeof Control)[keyof typeof Control];
+
+/**
  * @category Metadata
  * @enum
  */
@@ -116,6 +131,12 @@ export type Gesture = (typeof Gesture)[keyof typeof Gesture];
 export type States = Record<State, unknown>;
 
 /**
+ * Every control the component must offer
+ * @category Metadata
+ */
+export type Controls = Record<Control, unknown>;
+
+/**
  * Every operation the component must have
  * @category Metadata
  */
@@ -131,4 +152,4 @@ export type Events = Record<Event, EventListener | null>;
  * Everything the metadata says the component has: implemented by the component
  * @category Metadata
  */
-export type Meta = States & Operations & Events;
+export type Meta = States & Controls & Operations & Events;

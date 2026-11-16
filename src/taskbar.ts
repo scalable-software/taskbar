@@ -187,6 +187,16 @@ export class Taskbar extends Component implements Meta {
   }
 
   /**
+   * The pin of the taskbar: `null` until the taskbar is connected. A host
+   * works with it through its own states, operations and events.
+   * The taskbar dispatches no event for it: a host listens on the control itself.
+   * @category Controls
+   */
+  public get pin(): Pin | null {
+    return this.elements.start.pin;
+  }
+
+  /**
    * Triggered via `.hide()`
    * @event
    * @category Events
