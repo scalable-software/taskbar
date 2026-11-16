@@ -809,6 +809,27 @@ control(Control.PIN, () => {
             });
           });
         });
+
+        when("invoking `taskbar.pin.hide`", () => {
+          let onhide: jasmine.Spy;
+          beforeEach(() => {
+            onhide = jasmine.createSpy("onhide");
+            taskbar.onhide = onhide;
+            taskbar.pin?.hide();
+          });
+
+          then("the pin is hidden", () => {
+            expect(taskbar.pin?.visibility).toBe(Visibility.HIDDEN);
+          });
+
+          then("the taskbar is still visible", () => {
+            expect(taskbar.visibility).toBe(Visibility.VISIBLE);
+          });
+
+          then("`taskbar.onhide` is not called", () => {
+            expect(onhide).not.toHaveBeenCalled();
+          });
+        });
       });
     });
   });
