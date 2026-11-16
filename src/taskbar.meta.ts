@@ -103,33 +103,11 @@ export type Event = (typeof Event)[keyof typeof Event];
  * @category Metadata
  * @enum
  */
-export const Gesture = {
-  SLOTCHANGE: "slotchange",
-  ON_PIN: "onpin",
-  ON_UNPIN: "onunpin",
-  ON_MINIMIZE: "onminimize",
-  ON_MAXIMIZE: "onmaximize",
-  ON_RESTORE: "onrestore",
-  ON_CLOSE: "onclose"
-} as const;
+export const Gesture = {} as const;
 /**
  * @category Metadata
  */
 export type Gesture = (typeof Gesture)[keyof typeof Gesture];
-
-/**
- * The appearance the taskbar gives each control placed in it that has one
- * @category Metadata
- * @enum
- */
-export const Appearance = {
-  FLAT: "flat"
-} as const;
-/**
- * The appearance the taskbar gives each control placed in it that has one
- * @category Metadata
- */
-export type Appearance = (typeof Appearance)[keyof typeof Appearance];
 
 /**
  * Every state the component must have
