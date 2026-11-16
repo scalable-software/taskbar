@@ -1,7 +1,7 @@
 {
   "Component": "Taskbar",
   "Package": "taskbar",
-  "Description": "A theme-aware web component that groups the pin, minimize, maximize, restore and close controls of a window in one bar, and emits its own event for each event of a control.",
+  "Description": "A theme-aware web component that holds the controls of a window the host places in it, in one bar, and emits its own event for each pin, unpin and request of a control.",
   "Tag": "task-bar",
   "Composition": {
     "template": {
@@ -14,37 +14,12 @@
       "description": "The surface that lays out the controls in a row or in a column.",
       "type": "div",
       "class": "bar",
-      "contains": [
-        "pin-button",
-        "minimize-button",
-        "maximize-button",
-        "restore-button",
-        "close-button"
-      ]
+      "contains": ["slot.controls"]
     },
-    "pin-button": {
-      "description": "The control that pins and unpins.",
-      "type": "pin-button",
-      "cached": true
-    },
-    "minimize-button": {
-      "description": "The control that requests minimizing.",
-      "type": "minimize-button",
-      "cached": true
-    },
-    "maximize-button": {
-      "description": "The control that requests maximizing.",
-      "type": "maximize-button",
-      "cached": true
-    },
-    "restore-button": {
-      "description": "The control that requests restoring.",
-      "type": "restore-button",
-      "cached": true
-    },
-    "close-button": {
-      "description": "The control that requests closing.",
-      "type": "close-button",
+    "slot.controls": {
+      "description": "The place where the controls the host places inside the taskbar are shown, in the order they were placed. The controls are the host's own elements and are not parts of the taskbar; the taskbar reaches them through this slot.",
+      "type": "slot",
+      "class": "controls",
       "cached": true
     }
   },
