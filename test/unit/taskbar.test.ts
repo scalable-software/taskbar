@@ -873,6 +873,31 @@ events(Event.ON_SHOW, () => {
                   });
                 }
               );
+
+              and("`taskbar.onshow` is set to a new listener", () => {
+                let onshow2: jasmine.Spy;
+                beforeEach(() => {
+                  onshow2 = jasmine.createSpy("onshow2");
+                  taskbar.onshow = onshow2;
+                });
+
+                when(
+                  "`taskbar.visibility` is set to `Visibility.VISIBLE`",
+                  () => {
+                    beforeEach(() => {
+                      taskbar.visibility = Visibility.VISIBLE;
+                    });
+
+                    then("old `taskbar.onshow` is not called", () => {
+                      expect(onshow).not.toHaveBeenCalled();
+                    });
+
+                    then("new `taskbar.onshow` is called", () => {
+                      expect(onshow2).toHaveBeenCalled();
+                    });
+                  }
+                );
+              });
             });
           });
         });
