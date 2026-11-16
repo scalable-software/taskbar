@@ -115,6 +115,9 @@ export class Taskbar extends Component implements Meta {
       // Validate
       visibility = Validate.visibility(visibility);
 
+      // Guard
+      if (this._visibility === visibility) return;
+
       // Mutate
       this._visibility = visibility;
     } finally {
