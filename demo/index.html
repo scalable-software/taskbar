@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Taskbar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="html.style.css" />
 
@@ -11,6 +12,35 @@
 
   <body>
     <script src="index.js" type="module"></script>
-    <task-bar></task-bar>
+
+    <section class="stage">
+      <task-bar>
+        <pin-button></pin-button>
+        <minimize-button></minimize-button>
+        <maximize-button></maximize-button>
+        <restore-button></restore-button>
+        <close-button></close-button>
+      </task-bar>
+    </section>
+
+    <main class="controls">
+      <section class="group">
+        <h2>States</h2>
+        <dl id="states"></dl>
+      </section>
+
+      <section class="group">
+        <h2>Operations</h2>
+        <div id="operations" class="buttons"></div>
+      </section>
+
+      <section class="group">
+        <h2>Events</h2>
+        <div class="buttons">
+          <button id="clear" type="button">Clear</button>
+        </div>
+        <ol id="events"></ol>
+      </section>
+    </main>
   </body>
 </html>
