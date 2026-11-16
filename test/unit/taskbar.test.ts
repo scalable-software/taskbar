@@ -968,6 +968,48 @@ control(Control.RESTORE, () => {
   });
 });
 
+control(Control.CLOSE, () => {
+  and("Taskbar is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Taskbar.Tag, Taskbar);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Taskbar.Template.load("taskbar.template.html");
+      });
+      afterEach(() => {
+        remove(Taskbar.Tag);
+      });
+
+      and("a new taskbar is added to DOM", () => {
+        let taskbar: Taskbar;
+        beforeEach(() => {
+          taskbar = add<Taskbar>(Taskbar.Tag);
+        });
+        afterEach(() => {
+          taskbar.remove();
+        });
+
+        then("`taskbar.close` getter exists", () => {
+          expect(taskbar.close).toBeDefined();
+        });
+
+        and("a taskbar that is not in DOM", () => {
+          let detached: Taskbar;
+          beforeEach(() => {
+            detached = document.createElement(Taskbar.Tag) as Taskbar;
+          });
+
+          then("`detached.close` is `null`", () => {
+            expect(detached.close).toBeNull();
+          });
+        });
+      });
+    });
+  });
+});
+
 // Operation
 
 operation(Operation.HIDE, () => {

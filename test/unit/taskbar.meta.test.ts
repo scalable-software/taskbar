@@ -204,6 +204,14 @@ metadata(Metadata.CONTROL, () => {
         then("`Control.RESTORE` is `restore`", () => {
           expect(Control.RESTORE).toBe("restore");
         });
+
+        then("`Control.CLOSE` exists", () => {
+          expect(Control.CLOSE).toBeDefined();
+        });
+
+        then("`Control.CLOSE` is `close`", () => {
+          expect(Control.CLOSE).toBe("close");
+        });
       });
     });
   });
