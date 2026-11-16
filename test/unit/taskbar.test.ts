@@ -1646,6 +1646,17 @@ gesture(Gesture.ON_PIN, () => {
               then("`onpin` is called once", () => {
                 expect(onpin).toHaveBeenCalledTimes(1);
               });
+
+              then(
+                "`onpin` is called with `{ detail: { status: Status.PINNED } }`",
+                () => {
+                  expect(onpin).toHaveBeenCalledWith(
+                    jasmine.objectContaining({
+                      detail: { status: Status.PINNED }
+                    })
+                  );
+                }
+              );
             });
           });
         });
