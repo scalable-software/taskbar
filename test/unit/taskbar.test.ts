@@ -1847,6 +1847,10 @@ gesture(Gesture.ON_MAXIMIZE, () => {
               then("`onmaximize` is called once", () => {
                 expect(onmaximize).toHaveBeenCalledTimes(1);
               });
+
+              then("`onmaximize` is called with no detail", () => {
+                expect(onmaximize.calls.mostRecent().args[0].detail).toBeNull();
+              });
             });
           });
         });
