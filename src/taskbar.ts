@@ -9,6 +9,7 @@ import { type Configuration } from "@scalable.software/component";
 // The controls the taskbar holds in its template: the host defines them, and the
 // taskbar finds each by the tag its class gives
 import { Pin } from "@scalable.software/pin";
+import { Minimize } from "@scalable.software/minimize";
 
 // Taskbar Metadata
 import {
@@ -100,7 +101,10 @@ export class Taskbar extends Component implements Meta {
    * @category State
    * @hidden
    */
-  protected elements: { start: { pin: Pin | null } } = { start: { pin: null } };
+  protected elements: {
+    start: { pin: Pin | null };
+    end: { minimize: Minimize | null };
+  } = { start: { pin: null }, end: { minimize: null } };
 
   /**
    * @hidden
@@ -224,6 +228,9 @@ export class Taskbar extends Component implements Meta {
    */
   protected _cache = () => {
     this.elements.start.pin = this.root.querySelector<Pin>(Pin.Tag);
+    this.elements.end.minimize = this.root.querySelector<Minimize>(
+      Minimize.Tag
+    );
   };
 
   /**
