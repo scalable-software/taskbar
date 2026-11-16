@@ -11,16 +11,38 @@
       "contains": ["div.bar"]
     },
     "div.bar": {
-      "description": "The surface that lays out the controls in a row or in a column.",
+      "description": "The surface that lays out its three zones, the start, the centre and the end, in a row or in a column. A control placed inside the taskbar without one of the three slot names is not shown.",
       "type": "div",
       "class": "bar",
-      "contains": ["slot.controls"]
+      "cached": true,
+      "contains": ["slot.start", "slot.center", "slot.end"]
     },
-    "slot.controls": {
-      "description": "The place where the controls the host places inside the taskbar are shown, in the order they were placed. The controls are the host's own elements and are not parts of the taskbar; the taskbar reaches them through this slot.",
+    "slot.start": {
+      "description": "The place where the controls the host places inside the taskbar with `slot=\"start\"` are shown, at the start of the bar, in the order they were placed. The controls are the host's own elements and are not parts of the taskbar; the taskbar reaches them through this slot.",
       "type": "slot",
-      "class": "controls",
-      "cached": true
+      "class": "start",
+      "cached": true,
+      "attributes": {
+        "name": "start"
+      }
+    },
+    "slot.center": {
+      "description": "The place where the controls the host places inside the taskbar with `slot=\"center\"` are shown, in the centre of the bar, which takes the room the start and the end leave, in the order they were placed. The controls are the host's own elements and are not parts of the taskbar; the taskbar reaches them through this slot.",
+      "type": "slot",
+      "class": "center",
+      "cached": true,
+      "attributes": {
+        "name": "center"
+      }
+    },
+    "slot.end": {
+      "description": "The place where the controls the host places inside the taskbar with `slot=\"end\"` are shown, at the end of the bar, in the order they were placed. The controls are the host's own elements and are not parts of the taskbar; the taskbar reaches them through this slot.",
+      "type": "slot",
+      "class": "end",
+      "cached": true,
+      "attributes": {
+        "name": "end"
+      }
     }
   },
   "States": {
@@ -167,14 +189,14 @@
   },
   "Gestures": {
     "slotchange": {
-      "description": "The host places a control in the taskbar, or takes one out: the taskbar listens to every control it now holds, and no longer to one that was taken out, and makes every control it holds that has an 'appearance' flat. The triggers act in the order listed.",
+      "description": "The host places a control in one of the three slots of the taskbar, or takes one out; the gesture is heard on the bar, which every slot reports to: the taskbar listens to every control it now holds, and no longer to one that was taken out, and makes every control it holds that has an 'appearance' flat. The triggers act in the order listed.",
       "triggers": [
         {
-          "target": "slot.controls",
+          "target": "div.bar",
           "operation": "_listen"
         },
         {
-          "target": "slot.controls",
+          "target": "div.bar",
           "operation": "_flatten"
         }
       ]
@@ -183,7 +205,7 @@
       "description": "A pin placed in the taskbar reports that it was pinned: the taskbar dispatches its own `onpin` with the status the pin reported. Heard on each control through `addEventListener`, never through the control's `onpin` property.",
       "triggers": [
         {
-          "target": "slot.controls",
+          "target": "div.bar",
           "condition": "on each control placed in the taskbar",
           "operation": "_report"
         }
@@ -193,7 +215,7 @@
       "description": "A pin placed in the taskbar reports that it was unpinned: the taskbar dispatches its own `onunpin` with the status the pin reported. Heard on each control through `addEventListener`, never through the control's `onunpin` property.",
       "triggers": [
         {
-          "target": "slot.controls",
+          "target": "div.bar",
           "condition": "on each control placed in the taskbar",
           "operation": "_report"
         }
@@ -203,7 +225,7 @@
       "description": "A control placed in the taskbar reports that minimizing is requested: the taskbar dispatches its own `onminimize`. Heard on each control through `addEventListener`, never through the control's `onminimize` property.",
       "triggers": [
         {
-          "target": "slot.controls",
+          "target": "div.bar",
           "condition": "on each control placed in the taskbar",
           "operation": "_report"
         }
@@ -213,7 +235,7 @@
       "description": "A control placed in the taskbar reports that maximizing is requested: the taskbar dispatches its own `onmaximize`. Heard on each control through `addEventListener`, never through the control's `onmaximize` property.",
       "triggers": [
         {
-          "target": "slot.controls",
+          "target": "div.bar",
           "condition": "on each control placed in the taskbar",
           "operation": "_report"
         }
@@ -223,7 +245,7 @@
       "description": "A control placed in the taskbar reports that restoring is requested: the taskbar dispatches its own `onrestore`. Heard on each control through `addEventListener`, never through the control's `onrestore` property.",
       "triggers": [
         {
-          "target": "slot.controls",
+          "target": "div.bar",
           "condition": "on each control placed in the taskbar",
           "operation": "_report"
         }
@@ -233,7 +255,7 @@
       "description": "A control placed in the taskbar reports that closing is requested: the taskbar dispatches its own `onclose`. Heard on each control through `addEventListener`, never through the control's `onclose` property.",
       "triggers": [
         {
-          "target": "slot.controls",
+          "target": "div.bar",
           "condition": "on each control placed in the taskbar",
           "operation": "_report"
         }
