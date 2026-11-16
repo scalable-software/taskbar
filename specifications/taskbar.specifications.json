@@ -1,7 +1,7 @@
 {
   "Component": "Taskbar",
   "Package": "taskbar",
-  "Description": "A theme-aware web component that holds the controls of a window the host places in it, in one bar, and emits its own event for each pin, unpin and request of a control.",
+  "Description": "A theme-aware web component that holds the controls of a window the host places in it, in one bar, emits its own event for each pin, unpin and request of a control, and passes the host's own requests on to the controls.",
   "Tag": "task-bar",
   "Composition": {
     "template": {
@@ -53,6 +53,36 @@
     },
     "show": {
       "description": "Sets 'visibility' state to 'visible' and shows the taskbar.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "pin": {
+      "description": "Asks each control placed in the taskbar that offers 'pin' to pin. The taskbar dispatches 'onpin' when a pin reports that it became pinned. Changes no state of the taskbar, and does nothing when no control offers it.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "unpin": {
+      "description": "Asks each control placed in the taskbar that offers 'unpin' to unpin. The taskbar dispatches 'onunpin' when a pin reports that it became unpinned. Changes no state of the taskbar, and does nothing when no control offers it.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "minimize": {
+      "description": "Asks each control placed in the taskbar that offers 'minimize' to request minimizing. The taskbar dispatches 'onminimize' when the control reports the request. Changes no state of the taskbar, and does nothing when no control offers it.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "maximize": {
+      "description": "Asks each control placed in the taskbar that offers 'maximize' to request maximizing. The taskbar dispatches 'onmaximize' when the control reports the request. Changes no state of the taskbar, and does nothing when no control offers it.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "restore": {
+      "description": "Asks each control placed in the taskbar that offers 'restore' to request restoring. The taskbar dispatches 'onrestore' when the control reports the request. Changes no state of the taskbar, and does nothing when no control offers it.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "close": {
+      "description": "Asks each control placed in the taskbar that offers 'close' to request closing. The taskbar dispatches 'onclose' when the control reports the request. Changes no state of the taskbar, and does nothing when no control offers it.",
       "parameters": [],
       "returns": "void"
     }
