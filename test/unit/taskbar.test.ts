@@ -172,6 +172,17 @@ composition(Composition.TEMPLATE, () => {
               ]);
             }
           );
+
+          then("every control has `appearance` `Appearance.FLAT`", () => {
+            const controls = [
+              ...div.querySelectorAll("div.start > *, div.end > *")
+            ];
+            const flat = controls.every(
+              (control) =>
+                control.getAttribute("appearance") === Appearance.FLAT
+            );
+            expect(flat).toBeTrue();
+          });
         });
 
         and(
