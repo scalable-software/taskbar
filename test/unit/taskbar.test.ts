@@ -2439,6 +2439,53 @@ gesture(Gesture.SLOTCHANGE, () => {
             });
           });
         });
+
+        and("a pin is placed at the end of the taskbar", () => {
+          let pin: Pin;
+          let onpin: jasmine.Spy;
+          beforeEach(async () => {
+            define(Pin.Tag, Pin);
+            await Pin.Template.load("pin.template.html");
+            pin = taskbar.appendChild(create<Pin>(Pin.Tag, Zone.END));
+            await placed();
+            onpin = jasmine.createSpy("onpin");
+            taskbar.onpin = onpin;
+          });
+          afterEach(() => {
+            remove(Pin.Tag);
+          });
+
+          then("the pin is in `slot.end`", () => {
+            const slot = taskbar.root.querySelector(
+              "slot.end"
+            ) as HTMLSlotElement;
+            expect(slot.assignedElements()).toContain(pin);
+          });
+
+          then("`pin.appearance` is `Appearance.FLAT`", () => {
+            expect(pin.appearance).toBe(Appearance.FLAT);
+          });
+
+          when("the pin is pinned", () => {
+            beforeEach(() => {
+              pin.pin();
+            });
+
+            then("`onpin` is called once", () => {
+              expect(onpin).toHaveBeenCalledTimes(1);
+            });
+          });
+
+          when("invoking `taskbar.pin`", () => {
+            beforeEach(() => {
+              taskbar.pin();
+            });
+
+            then("`pin.status` is `Status.PINNED`", () => {
+              expect(pin.status).toBe(Status.PINNED);
+            });
+          });
+        });
       });
     });
   });
