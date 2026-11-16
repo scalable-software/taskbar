@@ -159,9 +159,11 @@ export class Taskbar extends Component implements Meta {
   protected elements: {
     controls: HTMLSlotElement | null;
     bar: HTMLDivElement | null;
+    start: HTMLSlotElement | null;
   } = {
     controls: null,
-    bar: null
+    bar: null,
+    start: null
   };
 
   /**
@@ -401,6 +403,7 @@ export class Taskbar extends Component implements Meta {
   protected _cache = () => {
     this.elements.controls = this.root.querySelector(".controls");
     this.elements.bar = this.root.querySelector(".bar");
+    this.elements.start = this.root.querySelector(".start");
   };
 
   /**
