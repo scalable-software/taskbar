@@ -15,30 +15,31 @@
 <hr>
 <h2 id="1-introduction" class="tsd-anchor-link">1. Introduction<a href="#1-introduction" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <p>The <strong>Taskbar</strong> component is a bridge between a host application and the controls of a window. The host works with one bar instead of with each control: it listens to the bar, and it asks the bar.</p>
-<pre><code class="html"><span class="hl-0">&lt;</span><span class="hl-1">task-bar</span><span class="hl-0">&gt;</span><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">pin-button</span><span class="hl-0">&gt;&lt;/</span><span class="hl-1">pin-button</span><span class="hl-0">&gt;</span><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">minimize-button</span><span class="hl-0">&gt;&lt;/</span><span class="hl-1">minimize-button</span><span class="hl-0">&gt;</span><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">maximize-button</span><span class="hl-0">&gt;&lt;/</span><span class="hl-1">maximize-button</span><span class="hl-0">&gt;</span><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">restore-button</span><span class="hl-0">&gt;&lt;/</span><span class="hl-1">restore-button</span><span class="hl-0">&gt;</span><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">close-button</span><span class="hl-0">&gt;&lt;/</span><span class="hl-1">close-button</span><span class="hl-0">&gt;</span><br/><span class="hl-0">&lt;/</span><span class="hl-1">task-bar</span><span class="hl-0">&gt;</span>
+<pre><code class="html"><span class="hl-0">&lt;</span><span class="hl-1">task-bar</span><span class="hl-0">&gt;</span><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">pin-button</span><span class="hl-2"> </span><span class="hl-3">slot</span><span class="hl-2">=</span><span class="hl-4">&quot;start&quot;</span><span class="hl-0">&gt;&lt;/</span><span class="hl-1">pin-button</span><span class="hl-0">&gt;</span><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">minimize-button</span><span class="hl-2"> </span><span class="hl-3">slot</span><span class="hl-2">=</span><span class="hl-4">&quot;end&quot;</span><span class="hl-0">&gt;&lt;/</span><span class="hl-1">minimize-button</span><span class="hl-0">&gt;</span><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">maximize-button</span><span class="hl-2"> </span><span class="hl-3">slot</span><span class="hl-2">=</span><span class="hl-4">&quot;end&quot;</span><span class="hl-0">&gt;&lt;/</span><span class="hl-1">maximize-button</span><span class="hl-0">&gt;</span><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">restore-button</span><span class="hl-2"> </span><span class="hl-3">slot</span><span class="hl-2">=</span><span class="hl-4">&quot;end&quot;</span><span class="hl-0">&gt;&lt;/</span><span class="hl-1">restore-button</span><span class="hl-0">&gt;</span><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">close-button</span><span class="hl-2"> </span><span class="hl-3">slot</span><span class="hl-2">=</span><span class="hl-4">&quot;end&quot;</span><span class="hl-0">&gt;&lt;/</span><span class="hl-1">close-button</span><span class="hl-0">&gt;</span><br/><span class="hl-0">&lt;/</span><span class="hl-1">task-bar</span><span class="hl-0">&gt;</span>
 </code><button type="button">Copy</button></pre>
 
-<pre><code class="js"><span class="hl-3">const</span><span class="hl-2"> </span><span class="hl-4">taskbar</span><span class="hl-2"> = </span><span class="hl-5">document</span><span class="hl-2">.</span><span class="hl-6">querySelector</span><span class="hl-2">(</span><span class="hl-7">&quot;task-bar&quot;</span><span class="hl-2">);</span><br/><br/><span class="hl-5">taskbar</span><span class="hl-2">.</span><span class="hl-6">onclose</span><span class="hl-2"> = () </span><span class="hl-3">=&gt;</span><span class="hl-2"> </span><span class="hl-5">console</span><span class="hl-2">.</span><span class="hl-6">log</span><span class="hl-2">(</span><span class="hl-7">&quot;Closing was requested&quot;</span><span class="hl-2">);</span><br/><span class="hl-5">taskbar</span><span class="hl-2">.</span><span class="hl-6">pin</span><span class="hl-2">();</span>
+<pre><code class="js"><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">taskbar</span><span class="hl-2"> = </span><span class="hl-7">document</span><span class="hl-2">.</span><span class="hl-8">querySelector</span><span class="hl-2">(</span><span class="hl-9">&quot;task-bar&quot;</span><span class="hl-2">);</span><br/><br/><span class="hl-7">taskbar</span><span class="hl-2">.</span><span class="hl-8">onclose</span><span class="hl-2"> = () </span><span class="hl-5">=&gt;</span><span class="hl-2"> </span><span class="hl-7">console</span><span class="hl-2">.</span><span class="hl-8">log</span><span class="hl-2">(</span><span class="hl-9">&quot;Closing was requested&quot;</span><span class="hl-2">);</span><br/><span class="hl-7">taskbar</span><span class="hl-2">.</span><span class="hl-8">pin</span><span class="hl-2">();</span>
 </code><button type="button">Copy</button></pre>
 
+<p>The bar has three zones, and the host says where each control sits with the <code>slot</code> attribute: <code>start</code>, <code>center</code> or <code>end</code>. The centre takes the room the other two leave, so in a wide bar the pin sits at one end and the window controls at the other, with open space, or a title, between them. A control placed without one of the three names is not shown.</p>
 <p>The bar brings no controls of its own. The host application installs, defines and places the ones its window offers: <code>@scalable.software/pin</code>, <code>@scalable.software/minimize</code>, <code>@scalable.software/maximize</code>, <code>@scalable.software/restore</code> and <code>@scalable.software/close</code>, or any other component.</p>
 <h3 id="11-installation-setup" class="tsd-anchor-link">1.1 Installation &amp; Setup<a href="#11-installation-setup" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ol>
 <li>
 <p><strong>Clone the Repository</strong></p>
-<pre><code class="bash"><span class="hl-6">git</span><span class="hl-2"> </span><span class="hl-7">clone</span><span class="hl-2"> </span><span class="hl-7">https://github.com/scalable-software/taskbar.git</span><br/><span class="hl-6">cd</span><span class="hl-2"> </span><span class="hl-7">taskbar</span>
+<pre><code class="bash"><span class="hl-8">git</span><span class="hl-2"> </span><span class="hl-9">clone</span><span class="hl-2"> </span><span class="hl-9">https://github.com/scalable-software/taskbar.git</span><br/><span class="hl-8">cd</span><span class="hl-2"> </span><span class="hl-9">taskbar</span>
 </code><button type="button">Copy</button></pre>
 
 </li>
 <li>
 <p><strong>Install Dependencies</strong></p>
-<pre><code class="bash"><span class="hl-6">npm</span><span class="hl-2"> </span><span class="hl-7">install</span>
+<pre><code class="bash"><span class="hl-8">npm</span><span class="hl-2"> </span><span class="hl-9">install</span>
 </code><button type="button">Copy</button></pre>
 
 </li>
 <li>
 <p><strong>Run Tests (Optional)</strong></p>
-<pre><code class="bash"><span class="hl-6">npm</span><span class="hl-2"> </span><span class="hl-7">test</span>
+<pre><code class="bash"><span class="hl-8">npm</span><span class="hl-2"> </span><span class="hl-9">test</span>
 </code><button type="button">Copy</button></pre>
 
 <ul>
@@ -47,7 +48,7 @@
 </li>
 <li>
 <p><strong>Start Local Server</strong></p>
-<pre><code class="bash"><span class="hl-6">npm</span><span class="hl-2"> </span><span class="hl-7">run</span><span class="hl-2"> </span><span class="hl-7">serve</span>
+<pre><code class="bash"><span class="hl-8">npm</span><span class="hl-2"> </span><span class="hl-9">run</span><span class="hl-2"> </span><span class="hl-9">serve</span>
 </code><button type="button">Copy</button></pre>
 
 <ul>
@@ -96,6 +97,7 @@
 <ul>
 <li>The controls sit one above the other, in the same order.</li>
 </ul>
+<p>The page shows two bars. The second is half as wide as the window: its pin stays at the start, its window controls at the end, and the centre between them is empty. Narrow the window: the bar stops shrinking once it is as wide as its controls.</p>
 </li>
 <li>
 <p><strong>Inspect</strong> the <code>&lt;task-bar&gt;</code> in the <strong>Elements</strong> tab.</p>
@@ -105,7 +107,7 @@
 </li>
 <li>
 <p><strong>Open the Developer Tools</strong>, select the <strong>Console</strong>, and take a control out:</p>
-<pre><code class="js"><span class="hl-3">const</span><span class="hl-2"> </span><span class="hl-4">taskbar</span><span class="hl-2"> = </span><span class="hl-5">document</span><span class="hl-2">.</span><span class="hl-6">querySelector</span><span class="hl-2">(</span><span class="hl-7">&quot;task-bar&quot;</span><span class="hl-2">);</span><br/><br/><span class="hl-5">taskbar</span><span class="hl-2">.</span><span class="hl-6">querySelector</span><span class="hl-2">(</span><span class="hl-7">&quot;restore-button&quot;</span><span class="hl-2">).</span><span class="hl-6">remove</span><span class="hl-2">();</span><br/><span class="hl-5">taskbar</span><span class="hl-2">.</span><span class="hl-6">restore</span><span class="hl-2">();</span>
+<pre><code class="js"><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">taskbar</span><span class="hl-2"> = </span><span class="hl-7">document</span><span class="hl-2">.</span><span class="hl-8">querySelector</span><span class="hl-2">(</span><span class="hl-9">&quot;task-bar&quot;</span><span class="hl-2">);</span><br/><br/><span class="hl-7">taskbar</span><span class="hl-2">.</span><span class="hl-8">querySelector</span><span class="hl-2">(</span><span class="hl-9">&quot;restore-button&quot;</span><span class="hl-2">).</span><span class="hl-8">remove</span><span class="hl-2">();</span><br/><span class="hl-7">taskbar</span><span class="hl-2">.</span><span class="hl-8">restore</span><span class="hl-2">();</span>
 </code><button type="button">Copy</button></pre>
 
 <ul>
@@ -118,8 +120,8 @@
 <h2 id="3-architectural-overview" class="tsd-anchor-link">3. Architectural Overview<a href="#3-architectural-overview" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <h3 id="31-composition" class="tsd-anchor-link">3.1 Composition<a href="#31-composition" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
-<li><strong>Template</strong> (<code>taskbar.template.html</code>): Defines DOM structure — a <code>.bar</code> surface holding one <code>slot</code>, where the controls the host places inside <code>&lt;task-bar&gt;</code> are shown.</li>
-<li><strong>Style</strong> (<code>taskbar.style.css</code>): Encapsulates the surface of the bar, the two orientations, and light/dark theme adaptation.</li>
+<li><strong>Template</strong> (<code>taskbar.template.html</code>): Defines DOM structure — a <code>.bar</code> surface holding three slots, <code>start</code>, <code>center</code> and <code>end</code>, where the controls the host places inside <code>&lt;task-bar&gt;</code> are shown.</li>
+<li><strong>Style</strong> (<code>taskbar.style.css</code>): Encapsulates the surface of the bar, its three zones, the two orientations, and light/dark theme adaptation. The bar is as high as its controls, leaves no space between them, and is never narrower than the controls it holds.</li>
 <li><strong>Class</strong> (<code>taskbar.ts</code>): Extends the base component class to handle lifecycle hooks, attribute reflection, listening to the controls, and event dispatch.</li>
 </ul>
 <p>The controls are the host's own elements. They are not part of the bar's template, and the host can still reach them: to hide the maximize control while the window is maximized, for instance, the host calls <code>hide()</code> on that control.</p>
@@ -128,15 +130,15 @@
 <li>
 <p><strong><code>connectedCallback()</code></strong></p>
 <ol>
-<li>Caches the slot.</li>
+<li>Caches the bar and its three slots.</li>
 <li>Makes every control already placed in the bar flat.</li>
-<li>Listens to the slot for controls being placed or taken out, and to every control already placed.</li>
+<li>Listens to the bar for controls being placed in a slot or taken out, and to every control already placed.</li>
 </ol>
 </li>
 <li>
 <p><strong><code>disconnectedCallback()</code></strong></p>
 <ul>
-<li>Stops listening to the slot and to every control.</li>
+<li>Stops listening to the bar and to every control.</li>
 </ul>
 </li>
 </ul>
@@ -266,27 +268,31 @@
 </ul>
 <h3 id="44-gestures" class="tsd-anchor-link">4.4 Gestures<a href="#44-gestures" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
-<li><strong><code>slotchange</code></strong>: when a control is placed in the bar or taken out, the bar listens to every control it now holds, stops listening to one that was taken out, and gives every control that has an <code>appearance</code> the value <code>flat</code>.</li>
+<li><strong><code>slotchange</code></strong>: when a control is placed in one of the three slots or taken out, the bar listens to every control it now holds, stops listening to one that was taken out, and gives every control that has an <code>appearance</code> the value <code>flat</code>.</li>
 <li><strong><code>onpin</code>, <code>onunpin</code>, <code>onminimize</code>, <code>onmaximize</code>, <code>onrestore</code>, <code>onclose</code></strong>: heard on each control through <code>addEventListener</code>, so the control's own <code>on…</code> properties stay free for the host. Each leads to the bar's event of the same name.</li>
 </ul>
 <hr>
 <h2 id="5-development-workflow" class="tsd-anchor-link">5. Development Workflow<a href="#5-development-workflow" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <h3 id="51-testing" class="tsd-anchor-link">5.1 Testing<a href="#51-testing" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <p>Unit tests run with Karma + Jasmine. The specification is checked first, then the suite covers composition, states, validation, operations, events, and gestures. The suite places the real controls in the bar, which is why they are development dependencies.</p>
-<pre><code class="bash"><span class="hl-6">npm</span><span class="hl-2"> </span><span class="hl-7">test</span>
+<pre><code class="bash"><span class="hl-8">npm</span><span class="hl-2"> </span><span class="hl-9">test</span>
 </code><button type="button">Copy</button></pre>
 
 <h3 id="52-documentation-typedoc" class="tsd-anchor-link">5.2 Documentation (Typedoc)<a href="#52-documentation-typedoc" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
-<pre><code class="bash"><span class="hl-6">npm</span><span class="hl-2"> </span><span class="hl-7">run</span><span class="hl-2"> </span><span class="hl-7">document</span>
+<pre><code class="bash"><span class="hl-8">npm</span><span class="hl-2"> </span><span class="hl-9">run</span><span class="hl-2"> </span><span class="hl-9">document</span>
 </code><button type="button">Copy</button></pre>
 
 <p>Auto-generates API docs from TypeScript annotations.</p>
 <h3 id="53-import-maps" class="tsd-anchor-link">5.3 Import Maps<a href="#53-import-maps" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <p>The host maps the bar, the base component, and each control it places:</p>
-<pre><code class="html"><span class="hl-0">&lt;</span><span class="hl-1">script</span><span class="hl-8"> </span><span class="hl-9">type</span><span class="hl-8">=</span><span class="hl-10">&quot;importmap&quot;</span><span class="hl-0">&gt;</span><br/><span class="hl-8">  {</span><br/><span class="hl-8">    &quot;imports&quot;: {</span><br/><span class="hl-8">      &quot;@scalable.software/taskbar&quot;: &quot;./node_modules/@scalable.software/taskbar/dist/index.js&quot;,</span><br/><span class="hl-8">      &quot;@scalable.software/component&quot;: &quot;./node_modules/@scalable.software/component/dist/index.js&quot;,</span><br/><span class="hl-8">      &quot;@scalable.software/pin&quot;: &quot;./node_modules/@scalable.software/pin/dist/index.js&quot;</span><br/><span class="hl-8">    }</span><br/><span class="hl-8">  }</span><br/><span class="hl-0">&lt;/</span><span class="hl-1">script</span><span class="hl-0">&gt;</span>
+<pre><code class="html"><span class="hl-0">&lt;</span><span class="hl-1">script</span><span class="hl-10"> </span><span class="hl-3">type</span><span class="hl-10">=</span><span class="hl-4">&quot;importmap&quot;</span><span class="hl-0">&gt;</span><br/><span class="hl-10">  {</span><br/><span class="hl-10">    &quot;imports&quot;: {</span><br/><span class="hl-10">      &quot;@scalable.software/taskbar&quot;: &quot;./node_modules/@scalable.software/taskbar/dist/index.js&quot;,</span><br/><span class="hl-10">      &quot;@scalable.software/component&quot;: &quot;./node_modules/@scalable.software/component/dist/index.js&quot;,</span><br/><span class="hl-10">      &quot;@scalable.software/pin&quot;: &quot;./node_modules/@scalable.software/pin/dist/index.js&quot;</span><br/><span class="hl-10">    }</span><br/><span class="hl-10">  }</span><br/><span class="hl-0">&lt;/</span><span class="hl-1">script</span><span class="hl-0">&gt;</span>
 </code><button type="button">Copy</button></pre>
 
-<pre><code class="js"><span class="hl-11">import</span><span class="hl-2"> { </span><span class="hl-5">Taskbar</span><span class="hl-2"> } </span><span class="hl-11">from</span><span class="hl-2"> </span><span class="hl-7">&quot;@scalable.software/taskbar&quot;</span><span class="hl-2">;</span><br/><span class="hl-11">import</span><span class="hl-2"> { </span><span class="hl-5">Pin</span><span class="hl-2"> } </span><span class="hl-11">from</span><span class="hl-2"> </span><span class="hl-7">&quot;@scalable.software/pin&quot;</span><span class="hl-2">;</span><br/><br/><span class="hl-11">await</span><span class="hl-2"> </span><span class="hl-5">Pin</span><span class="hl-2">.</span><span class="hl-5">Template</span><span class="hl-2">.</span><span class="hl-6">load</span><span class="hl-2">(</span><span class="hl-7">&quot;pin.template.html&quot;</span><span class="hl-2">);</span><br/><span class="hl-5">customElements</span><span class="hl-2">.</span><span class="hl-6">define</span><span class="hl-2">(</span><span class="hl-5">Pin</span><span class="hl-2">.</span><span class="hl-5">Tag</span><span class="hl-2">, </span><span class="hl-5">Pin</span><span class="hl-2">);</span><br/><br/><span class="hl-11">await</span><span class="hl-2"> </span><span class="hl-5">Taskbar</span><span class="hl-2">.</span><span class="hl-5">Template</span><span class="hl-2">.</span><span class="hl-6">load</span><span class="hl-2">(</span><span class="hl-7">&quot;taskbar.template.html&quot;</span><span class="hl-2">);</span><br/><span class="hl-5">customElements</span><span class="hl-2">.</span><span class="hl-6">define</span><span class="hl-2">(</span><span class="hl-5">Taskbar</span><span class="hl-2">.</span><span class="hl-5">Tag</span><span class="hl-2">, </span><span class="hl-5">Taskbar</span><span class="hl-2">);</span>
+<pre><code class="js"><span class="hl-11">import</span><span class="hl-2"> { </span><span class="hl-7">Taskbar</span><span class="hl-2">, </span><span class="hl-7">Zone</span><span class="hl-2"> } </span><span class="hl-11">from</span><span class="hl-2"> </span><span class="hl-9">&quot;@scalable.software/taskbar&quot;</span><span class="hl-2">;</span><br/><span class="hl-11">import</span><span class="hl-2"> { </span><span class="hl-7">Pin</span><span class="hl-2"> } </span><span class="hl-11">from</span><span class="hl-2"> </span><span class="hl-9">&quot;@scalable.software/pin&quot;</span><span class="hl-2">;</span><br/><br/><span class="hl-11">await</span><span class="hl-2"> </span><span class="hl-7">Pin</span><span class="hl-2">.</span><span class="hl-7">Template</span><span class="hl-2">.</span><span class="hl-8">load</span><span class="hl-2">(</span><span class="hl-9">&quot;pin.template.html&quot;</span><span class="hl-2">);</span><br/><span class="hl-7">customElements</span><span class="hl-2">.</span><span class="hl-8">define</span><span class="hl-2">(</span><span class="hl-7">Pin</span><span class="hl-2">.</span><span class="hl-7">Tag</span><span class="hl-2">, </span><span class="hl-7">Pin</span><span class="hl-2">);</span><br/><br/><span class="hl-11">await</span><span class="hl-2"> </span><span class="hl-7">Taskbar</span><span class="hl-2">.</span><span class="hl-7">Template</span><span class="hl-2">.</span><span class="hl-8">load</span><span class="hl-2">(</span><span class="hl-9">&quot;taskbar.template.html&quot;</span><span class="hl-2">);</span><br/><span class="hl-7">customElements</span><span class="hl-2">.</span><span class="hl-8">define</span><span class="hl-2">(</span><span class="hl-7">Taskbar</span><span class="hl-2">.</span><span class="hl-7">Tag</span><span class="hl-2">, </span><span class="hl-7">Taskbar</span><span class="hl-2">);</span>
+</code><button type="button">Copy</button></pre>
+
+<p>The names of the zones are exported as <code>Zone.START</code>, <code>Zone.CENTER</code> and <code>Zone.END</code>, for a host that places controls from code:</p>
+<pre><code class="js"><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">pin</span><span class="hl-2"> = </span><span class="hl-7">document</span><span class="hl-2">.</span><span class="hl-8">createElement</span><span class="hl-2">(</span><span class="hl-7">Pin</span><span class="hl-2">.</span><span class="hl-7">Tag</span><span class="hl-2">);</span><br/><span class="hl-7">pin</span><span class="hl-2">.</span><span class="hl-7">slot</span><span class="hl-2"> = </span><span class="hl-7">Zone</span><span class="hl-2">.</span><span class="hl-6">START</span><span class="hl-2">;</span><br/><span class="hl-7">document</span><span class="hl-2">.</span><span class="hl-8">querySelector</span><span class="hl-2">(</span><span class="hl-7">Taskbar</span><span class="hl-2">.</span><span class="hl-7">Tag</span><span class="hl-2">).</span><span class="hl-8">append</span><span class="hl-2">(</span><span class="hl-7">pin</span><span class="hl-2">);</span>
 </code><button type="button">Copy</button></pre>
 
 <p>Define the controls before the bar, so that a control already in the markup can be made flat the moment the bar is connected.</p>
