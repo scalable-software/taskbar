@@ -380,6 +380,14 @@ metadata(Metadata.GESTURE, () => {
         then("`Gesture.ON_MAXIMIZE` is `onmaximize`", () => {
           expect(Gesture.ON_MAXIMIZE).toBe("onmaximize");
         });
+
+        then("`Gesture.ON_RESTORE` exists", () => {
+          expect(Gesture.ON_RESTORE).toBeDefined();
+        });
+
+        then("`Gesture.ON_RESTORE` is `onrestore`", () => {
+          expect(Gesture.ON_RESTORE).toBe("onrestore");
+        });
       });
     });
   });
