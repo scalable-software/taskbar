@@ -1697,6 +1697,41 @@ events(Event.ON_MINIMIZE, () => {
                   });
                 });
               });
+
+              when("`taskbar.onminimize` is set to `invalid`", () => {
+                let error: Error;
+                beforeEach(() => {
+                  try {
+                    // @ts-expect-error
+                    taskbar.onminimize = "invalid";
+                  } catch (err) {
+                    error = err as Error;
+                  }
+                });
+
+                then("an error is thrown", () => {
+                  expect(error).toBeDefined();
+                });
+
+                then(
+                  "error message contains 'Invalid onminimize value: invalid'",
+                  () => {
+                    expect(error.message).toBe(
+                      "Invalid onminimize value: invalid"
+                    );
+                  }
+                );
+
+                when("the minimize control reports", () => {
+                  beforeEach(() => {
+                    control.minimize();
+                  });
+
+                  then("`taskbar.onminimize` listener is still called", () => {
+                    expect(first).toHaveBeenCalledTimes(1);
+                  });
+                });
+              });
             });
           });
         });
