@@ -595,6 +595,10 @@ operation(Operation.HIDE, () => {
             then("`taskbar.visibility` is `Visibility.HIDDEN`", () => {
               expect(taskbar.visibility).toBe(Visibility.HIDDEN);
             });
+
+            then("`taskbar.hide` returns nothing", () => {
+              expect(result).toBeUndefined();
+            });
           });
         });
       });
