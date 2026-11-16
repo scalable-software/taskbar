@@ -119,7 +119,8 @@ export const Gesture = {
   SLOTCHANGE: "slotchange",
   ON_PIN: "onpin",
   ON_UNPIN: "onunpin",
-  ON_MINIMIZE: "onminimize"
+  ON_MINIMIZE: "onminimize",
+  ON_MAXIMIZE: "onmaximize"
 } as const;
 /**
  * @category Metadata
