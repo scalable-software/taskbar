@@ -2026,7 +2026,34 @@ gesture(Gesture.ON_CLOSE, () => {
               then("`onclose` is called with no detail", () => {
                 expect(onclose.calls.mostRecent().args[0].detail).toBeNull();
               });
+
+              when("the close control requests closing again", () => {
+                beforeEach(() => {
+                  control.close();
+                });
+
+                then("`onclose` is called twice", () => {
+                  expect(onclose).toHaveBeenCalledTimes(2);
+                });
+              });
             });
+
+            when(
+              "the close control requests closing, and the taskbar has reported it",
+              () => {
+                beforeEach(() => {
+                  control.close();
+                });
+
+                then("the taskbar is still in the page", () => {
+                  expect(taskbar.isConnected).toBeTrue();
+                });
+
+                then("the close control is still in the taskbar", () => {
+                  expect(control.parentElement).toBe(taskbar);
+                });
+              }
+            );
           });
         });
       });
