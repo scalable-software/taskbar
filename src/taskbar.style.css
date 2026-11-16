@@ -3,6 +3,8 @@
 ======================= */
 :host {
   display: inline-block;
+  min-width: min-content;
+  min-height: min-content;
 
   --bar-background-color: #ffffff;
   --bar-border-color: #d1d1d1;
