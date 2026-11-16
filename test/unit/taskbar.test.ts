@@ -936,6 +936,11 @@ control(Control.RESTORE, () => {
           expect(taskbar.restore).toBeDefined();
         });
 
+        then("`taskbar.restore` is the `restore-button` of the taskbar", () => {
+          const part = taskbar.root.querySelector(Restore.Tag) as Restore;
+          expect(taskbar.restore).toBe(part);
+        });
+
         and("a taskbar that is not in DOM", () => {
           let detached: Taskbar;
           beforeEach(() => {
