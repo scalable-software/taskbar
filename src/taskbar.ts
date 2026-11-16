@@ -135,6 +135,13 @@ export class Taskbar extends Component implements Meta {
 
     // Mutate
     this._orientation = orientation;
+
+    // Reflect
+    this._reflect(
+      Attributes.ORIENTATION,
+      this._orientation,
+      Orientation.LANDSCAPE
+    );
   }
 
   /**
