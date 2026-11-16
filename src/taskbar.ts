@@ -106,6 +106,13 @@ export class Taskbar extends Component implements Meta {
   private _onunpin: EventListener | null = null;
 
   /**
+   * onminimize triggered when a control placed in the taskbar requests minimizing
+   * @category Events
+   * @hidden
+   */
+  private _onminimize: EventListener | null = null;
+
+  /**
    * Cache element references to improve performance
    * @category State
    * @hidden
@@ -217,6 +224,19 @@ export class Taskbar extends Component implements Meta {
    */
   public set onunpin(handler: EventListener | null) {
     this._onunpin = this._subscribe(Event.ON_UNPIN, this._onunpin, handler);
+  }
+
+  /**
+   * Triggered when a control placed in the taskbar requests minimizing
+   * @event
+   * @category Events
+   */
+  public set onminimize(handler: EventListener | null) {
+    this._onminimize = this._subscribe(
+      Event.ON_MINIMIZE,
+      this._onminimize,
+      handler
+    );
   }
 
   /**

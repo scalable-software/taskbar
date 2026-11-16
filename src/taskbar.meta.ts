@@ -100,7 +100,8 @@ export const Event = {
   ON_HIDE: "onhide",
   ON_SHOW: "onshow",
   ON_PIN: "onpin",
-  ON_UNPIN: "onunpin"
+  ON_UNPIN: "onunpin",
+  ON_MINIMIZE: "onminimize"
 } as const;
 /**
  * @category Metadata
