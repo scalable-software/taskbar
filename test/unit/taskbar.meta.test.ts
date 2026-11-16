@@ -211,11 +211,15 @@ metadata(Metadata.EVENT, () => {
       });
 
       when("Event is an object", () => {
-        then("only `onclose` overrides an event name of the platform", () => {
+        then("`Event` holds `onhide` and `onshow` only", () => {
+          expect(Object.values(Event)).toEqual(["onhide", "onshow"]);
+        });
+
+        then("no event name is taken by the platform", () => {
           const taken = Object.values(Event).filter(
             (name) => name in HTMLElement.prototype
           );
-          expect(taken).toEqual(["onclose"]);
+          expect(taken).toEqual([]);
         });
 
         then("`Event.ON_HIDE` exists", () => {
@@ -232,54 +236,6 @@ metadata(Metadata.EVENT, () => {
 
         then("`Event.ON_SHOW` is `onshow`", () => {
           expect(Event.ON_SHOW).toBe("onshow");
-        });
-
-        then("`Event.ON_PIN` exists", () => {
-          expect(Event.ON_PIN).toBeDefined();
-        });
-
-        then("`Event.ON_PIN` is `onpin`", () => {
-          expect(Event.ON_PIN).toBe("onpin");
-        });
-
-        then("`Event.ON_UNPIN` exists", () => {
-          expect(Event.ON_UNPIN).toBeDefined();
-        });
-
-        then("`Event.ON_UNPIN` is `onunpin`", () => {
-          expect(Event.ON_UNPIN).toBe("onunpin");
-        });
-
-        then("`Event.ON_MINIMIZE` exists", () => {
-          expect(Event.ON_MINIMIZE).toBeDefined();
-        });
-
-        then("`Event.ON_MINIMIZE` is `onminimize`", () => {
-          expect(Event.ON_MINIMIZE).toBe("onminimize");
-        });
-
-        then("`Event.ON_MAXIMIZE` exists", () => {
-          expect(Event.ON_MAXIMIZE).toBeDefined();
-        });
-
-        then("`Event.ON_MAXIMIZE` is `onmaximize`", () => {
-          expect(Event.ON_MAXIMIZE).toBe("onmaximize");
-        });
-
-        then("`Event.ON_RESTORE` exists", () => {
-          expect(Event.ON_RESTORE).toBeDefined();
-        });
-
-        then("`Event.ON_RESTORE` is `onrestore`", () => {
-          expect(Event.ON_RESTORE).toBe("onrestore");
-        });
-
-        then("`Event.ON_CLOSE` exists", () => {
-          expect(Event.ON_CLOSE).toBeDefined();
-        });
-
-        then("`Event.ON_CLOSE` is `onclose`", () => {
-          expect(Event.ON_CLOSE).toBe("onclose");
         });
       });
     });
