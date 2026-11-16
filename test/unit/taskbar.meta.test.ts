@@ -212,6 +212,14 @@ metadata(Metadata.OPERATION, () => {
         then("`Operation.MAXIMIZE` is `maximize`", () => {
           expect(Operation.MAXIMIZE).toBe("maximize");
         });
+
+        then("`Operation.RESTORE` exists", () => {
+          expect(Operation.RESTORE).toBeDefined();
+        });
+
+        then("`Operation.RESTORE` is `restore`", () => {
+          expect(Operation.RESTORE).toBe("restore");
+        });
       });
     });
   });
