@@ -1434,6 +1434,51 @@ events(Event.ON_PIN, () => {
         then("`taskbar.onpin` setter exists", () => {
           expect(hasSetter(taskbar, Event.ON_PIN)).toBeTrue();
         });
+
+        and("`taskbar.onpin` setter exists", () => {
+          and("a pin is placed in the taskbar", () => {
+            let pin: Pin;
+            beforeEach(async () => {
+              define(Pin.Tag, Pin);
+              await Pin.Template.load("pin.template.html");
+              pin = taskbar.appendChild(create<Pin>(Pin.Tag));
+              await placed();
+            });
+            afterEach(() => {
+              remove(Pin.Tag);
+            });
+
+            and("`taskbar.onpin` is set to a listener", () => {
+              let first: jasmine.Spy;
+              beforeEach(() => {
+                first = jasmine.createSpy("first");
+                taskbar.onpin = first;
+              });
+
+              and("`taskbar.onpin` is set to a new listener", () => {
+                let second: jasmine.Spy;
+                beforeEach(() => {
+                  second = jasmine.createSpy("second");
+                  taskbar.onpin = second;
+                });
+
+                when("the pin reports", () => {
+                  beforeEach(() => {
+                    pin.pin();
+                  });
+
+                  then("old `taskbar.onpin` is not called", () => {
+                    expect(first).not.toHaveBeenCalled();
+                  });
+
+                  then("new `taskbar.onpin` is called", () => {
+                    expect(second).toHaveBeenCalledTimes(1);
+                  });
+                });
+              });
+            });
+          });
+        });
       });
     });
   });
