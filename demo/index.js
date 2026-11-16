@@ -30,7 +30,10 @@ await Taskbar.Template.load("taskbar.template.html");
 
 customElements.define(Taskbar.Tag, Taskbar);
 
-const taskbar = document.querySelector(Taskbar.Tag);
+// Two taskbars: one as wide as its controls, one as wide as half the window.
+// The page drives both, and follows the first.
+const taskbars = [...document.querySelectorAll(Taskbar.Tag)];
+const [taskbar] = taskbars;
 
 /* ───────────────────────────── States ───────────────────────────── */
 
@@ -46,7 +49,9 @@ const addChoice = (state, values) => {
   const select = document.createElement("select");
   select.id = state;
   Object.values(values).forEach((value) => select.add(new Option(value)));
-  select.addEventListener("change", () => (taskbar[state] = select.value));
+  select.addEventListener("change", () =>
+    taskbars.forEach((each) => (each[state] = select.value))
+  );
   return select;
 };
 
@@ -89,7 +94,9 @@ Object.values(Operation).forEach((operation) => {
   const button = document.createElement("button");
   button.type = "button";
   button.textContent = operation;
-  button.addEventListener("click", () => taskbar[operation]());
+  button.addEventListener("click", () =>
+    taskbars.forEach((each) => each[operation]())
+  );
   operations.append(button);
 });
 
@@ -97,7 +104,7 @@ Object.values(Operation).forEach((operation) => {
 
 const events = document.querySelector("#events");
 
-const log = (event) => {
+const log = (event, source) => {
   const entry = document.createElement("li");
 
   const time = document.createElement("time");
@@ -106,7 +113,10 @@ const log = (event) => {
   const type = document.createElement("strong");
   type.textContent = event.type;
 
-  entry.append(time, type);
+  const from = document.createElement("span");
+  from.textContent = source;
+
+  entry.append(time, from, type);
 
   if (event.detail !== null) {
     const detail = document.createElement("code");
@@ -118,7 +128,10 @@ const log = (event) => {
 };
 
 // `onevent` receives every event, and leaves the `on…` properties free.
-taskbar.onevent = log;
+taskbars.forEach(
+  (each, index) =>
+    (each.onevent = (event) => log(event, index === 0 ? "first" : "wide"))
+);
 
 document
   .querySelector("#clear")
