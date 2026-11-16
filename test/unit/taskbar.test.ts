@@ -1716,6 +1716,17 @@ gesture(Gesture.ON_UNPIN, () => {
               then("`onunpin` is called once", () => {
                 expect(onunpin).toHaveBeenCalledTimes(1);
               });
+
+              then(
+                "`onunpin` is called with `{ detail: { status: Status.UNPINNED } }`",
+                () => {
+                  expect(onunpin).toHaveBeenCalledWith(
+                    jasmine.objectContaining({
+                      detail: { status: Status.UNPINNED }
+                    })
+                  );
+                }
+              );
             });
           });
         });
