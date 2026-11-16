@@ -130,6 +130,22 @@ export const Gesture = {
 export type Gesture = (typeof Gesture)[keyof typeof Gesture];
 
 /**
+ * The zones of the taskbar: the name of the slot a control is placed in
+ * @category Metadata
+ * @enum
+ */
+export const Zone = {
+  START: "start",
+  CENTER: "center",
+  END: "end"
+} as const;
+/**
+ * The zones of the taskbar: the name of the slot a control is placed in
+ * @category Metadata
+ */
+export type Zone = (typeof Zone)[keyof typeof Zone];
+
+/**
  * The appearance the taskbar gives each control placed in it that has one
  * @category Metadata
  * @enum
