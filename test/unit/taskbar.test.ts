@@ -2147,6 +2147,21 @@ gesture(Gesture.SLOTCHANGE, () => {
                   expect(onpin).not.toHaveBeenCalled();
                 });
               });
+              and("the taskbar is added to DOM again", () => {
+                beforeEach(() => {
+                  document.body.appendChild(taskbar);
+                });
+
+                when("the pin is pinned", () => {
+                  beforeEach(() => {
+                    pin.pin();
+                  });
+
+                  then("`onpin` is called once", () => {
+                    expect(onpin).toHaveBeenCalledTimes(1);
+                  });
+                });
+              });
             });
           });
         });
