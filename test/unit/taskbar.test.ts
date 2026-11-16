@@ -1128,4 +1128,35 @@ events(Event.ON_SHOW, () => {
   });
 });
 
+events(Event.ON_PIN, () => {
+  and("Taskbar is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Taskbar.Tag, Taskbar);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Taskbar.Template.load("taskbar.template.html");
+      });
+      afterEach(() => {
+        remove(Taskbar.Tag);
+      });
+
+      and("a new taskbar is added to DOM", () => {
+        let taskbar: Taskbar;
+        beforeEach(() => {
+          taskbar = add<Taskbar>(Taskbar.Tag);
+        });
+        afterEach(() => {
+          taskbar.remove();
+        });
+
+        then("`taskbar.onpin` setter exists", () => {
+          expect(hasSetter(taskbar, Event.ON_PIN)).toBeTrue();
+        });
+      });
+    });
+  });
+});
+
 // Gesture

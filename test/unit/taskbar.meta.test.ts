@@ -268,6 +268,14 @@ metadata(Metadata.EVENT, () => {
         then("`Event.ON_SHOW` is `onshow`", () => {
           expect(Event.ON_SHOW).toBe("onshow");
         });
+
+        then("`Event.ON_PIN` exists", () => {
+          expect(Event.ON_PIN).toBeDefined();
+        });
+
+        then("`Event.ON_PIN` is `onpin`", () => {
+          expect(Event.ON_PIN).toBe("onpin");
+        });
       });
     });
   });
