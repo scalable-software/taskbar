@@ -821,6 +821,35 @@ events(Event.ON_SHOW, () => {
         then("`taskbar.onshow` setter exists", () => {
           expect(hasSetter(taskbar, Event.ON_SHOW)).toBeTrue();
         });
+
+        and("`taskbar.onshow` setter exists", () => {
+          and("`taskbar.visibility` is set to `Visibility.HIDDEN`", () => {
+            beforeEach(() => {
+              taskbar.visibility = Visibility.HIDDEN;
+            });
+
+            and("`taskbar.onshow` is set to a listener", () => {
+              let onshow: jasmine.Spy;
+              beforeEach(() => {
+                onshow = jasmine.createSpy("onshow");
+                taskbar.onshow = onshow;
+              });
+
+              when(
+                "`taskbar.visibility` is set to `Visibility.VISIBLE`",
+                () => {
+                  beforeEach(() => {
+                    taskbar.visibility = Visibility.VISIBLE;
+                  });
+
+                  then("`taskbar.onshow` is called", () => {
+                    expect(onshow).toHaveBeenCalled();
+                  });
+                }
+              );
+            });
+          });
+        });
       });
     });
   });
