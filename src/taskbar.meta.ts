@@ -17,7 +17,9 @@ export const CSS = "taskbar.style.css" as const;
  * @category Metadata
  * @enum
  */
-export const Attributes = {} as const;
+export const Attributes = {
+  VISIBILITY: "visibility"
+} as const;
 /**
  * HTML Attributes available to set
  * @category Metadata
@@ -38,6 +40,21 @@ export const State = {
  * @category Metadata
  */
 export type State = (typeof State)[keyof typeof State];
+
+/**
+ * Indicates whether the component is visible or hidden
+ * @category Metadata
+ * @enum
+ */
+export const Visibility = {
+  VISIBLE: "visible",
+  HIDDEN: "hidden"
+} as const;
+/**
+ * Indicates whether the component is visible or hidden
+ * @category Metadata
+ */
+export type Visibility = (typeof Visibility)[keyof typeof Visibility];
 
 /**
  * @category Metadata
@@ -69,3 +86,15 @@ export const Gesture = {} as const;
  * @category Metadata
  */
 export type Gesture = (typeof Gesture)[keyof typeof Gesture];
+
+/**
+ * Every state the component must have
+ * @category Metadata
+ */
+export type States = Record<State, unknown>;
+
+/**
+ * Everything the metadata says the component has: implemented by the component
+ * @category Metadata
+ */
+export type Meta = States;
