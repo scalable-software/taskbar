@@ -753,6 +753,18 @@ control(Control.PIN, () => {
           expect(taskbar.pin).toBeDefined();
         });
 
+        then("`taskbar.pin` has no setter", () => {
+          expect(hasSetter(taskbar, Control.PIN)).toBeFalse();
+        });
+
+        then("assigning `taskbar.pin` does not compile", () => {
+          const assign = () => {
+            // @ts-expect-error: `pin` is read-only
+            taskbar.pin = null;
+          };
+          expect(assign).toEqual(jasmine.any(Function));
+        });
+
         then("`taskbar.pin` is the `pin-button` of the taskbar", () => {
           const part = taskbar.root.querySelector(Pin.Tag) as Pin;
           expect(taskbar.pin).toBe(part);
