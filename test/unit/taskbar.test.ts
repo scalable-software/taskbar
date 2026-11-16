@@ -444,6 +444,16 @@ state(State.ORIENTATION, () => {
             });
           });
 
+          when("`orientation` attribute is set to `Orientation.PORTRAIT`", () => {
+            beforeEach(() => {
+              taskbar.setAttribute(Attributes.ORIENTATION, Orientation.PORTRAIT);
+            });
+
+            then("`taskbar.orientation` is `Orientation.PORTRAIT`", () => {
+              expect(taskbar.orientation).toBe(Orientation.PORTRAIT);
+            });
+          });
+
           when("`taskbar.orientation` is set to `invalid`", () => {
             let error: Error;
             beforeEach(() => {
