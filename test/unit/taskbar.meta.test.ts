@@ -188,6 +188,14 @@ metadata(Metadata.CONTROL, () => {
         then("`Control.MINIMIZE` is `minimize`", () => {
           expect(Control.MINIMIZE).toBe("minimize");
         });
+
+        then("`Control.MAXIMIZE` exists", () => {
+          expect(Control.MAXIMIZE).toBeDefined();
+        });
+
+        then("`Control.MAXIMIZE` is `maximize`", () => {
+          expect(Control.MAXIMIZE).toBe("maximize");
+        });
       });
     });
   });
