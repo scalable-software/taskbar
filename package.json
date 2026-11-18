@@ -13,6 +13,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./meta": {
+      "types": "./dist/taskbar.meta.d.ts",
+      "default": "./dist/taskbar.meta.js"
     }
   },
   "types": "dist/index.d.ts",
