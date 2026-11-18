@@ -251,6 +251,12 @@ customElements.define(Taskbar.Tag, Taskbar);
 
 Define the controls and load their templates before the bar, so that each control in the bar is complete the moment the bar is connected.
 
+The metadata (the tag, the attributes, the states, the events and the other names) is also importable on its own, as `@scalable.software/taskbar/meta`. It loads without the element, so a consumer outside the browser, such as Node, can `import` or `require()` it without a DOM:
+
+```js
+import { Tag, Attributes } from "@scalable.software/taskbar/meta";
+```
+
 ## License
 
 > This software and its documentation are released under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License (CC BY-NC-SA 4.0). This means you are free to share, copy, distribute, and transmit the work, and to adapt it, but only under the following conditions:
