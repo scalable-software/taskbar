@@ -117,8 +117,8 @@ For more details on **States**, **Controls**, **Operations**, and **Events**, co
 
 ### 3.1 Composition
 
-- **Template** (`taskbar.template.html`): Defines DOM structure — a `.bar` surface holding three zones: `.start` with the pin, `.center` with a slot for the host's own content, and `.end` with the minimize, maximize, restore and close controls. Every control carries `appearance="flat"`.
-- **Style** (`taskbar.style.css`): Encapsulates the surface of the bar, its three zones, the two orientations, and light/dark theme adaptation. The bar is as high as its controls, leaves no space between them, and is never narrower than its controls.
+- **Template** (`taskbar.template.html`): Defines DOM structure — a `.bar` surface holding three zones: `.start` with the pin, `.center` with a slot for the host's own content, and `.end` with the minimize, maximize, restore and close controls. Every control carries `appearance="flat"`. Its one style rule, `:host { display: none; }`, keeps the taskbar hidden until its stylesheet applies, so it is never seen unstyled.
+- **Style** (`taskbar.style.css`): Encapsulates the surface of the bar, its three zones, the two orientations, and light/dark theme adaptation. The bar is as high as its controls, leaves no space between them, and is never narrower than its controls. Its rule `:host(:defined) { display: inline-block; }` reveals the taskbar; a stylesheet that replaces this one must carry that rule, or the taskbar stays hidden.
 - **Class** (`taskbar.ts`): Extends the base component class to handle lifecycle hooks, attribute reflection, the five control members, and the dispatch of its own two events.
 
 ### 3.2 Class Lifecycle
