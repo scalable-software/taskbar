@@ -25,6 +25,7 @@ with it, and to work with it when its own code needs to.
 - Showing or hiding the bar depending on context.
 - Laying the controls out in landscape or in portrait.
 - Consistency with the device colour theme.
+- Appearing in its finished look from the moment it is first seen, in any host.
 
 **Out of scope**
 
@@ -77,3 +78,11 @@ top, I want to lay its controls out in portrait, so that the bar fits the edge i
 
 As an **end user**, I want the bar to match my device's light or dark colour scheme, so that
 it looks consistent with the rest of my interface.
+
+### STORY: Clean First Appearance
+
+As an **end user**, when a page with the bar opens, I want the bar to appear in its finished
+look at once, so that the interface looks steady instead of flickering into place.
+
+As a **host application**, I want the bar to appear finished without my adding anything for
+it, so that I can place it on any page and the page does not jump while it loads.
